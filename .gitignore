@@ -1,0 +1,8 @@
+.DS_Store
+.idea/
+
+bin/
+obj/
+*.user
+
+[Aa]ppsettings.[Dd]evelopment.json
