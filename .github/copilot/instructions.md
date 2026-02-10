@@ -10,12 +10,14 @@ This file contains instructions for AI agents (e.g., Copilot, GitHub Copilot) on
 - All generated files, unless otherwise specified, must be in English. This includes comments and commit messages.
 - Implement new modules using Onion Architecture (Domain, Application, Infrastructure, Presentation layers).
 - Integrate Keycloak for identity and access management in authentication-related code.
+- Use Minimal API for defining endpoints instead of controllers.
 
 ## Example Task
 1. Analyze [ProdSight.sln](ProdSight.sln) and suggest project structure (.csproj, code) following modular Onion Architecture.
 2. Generate a new module for production data visualization, including Domain, Application, Infrastructure, and Presentation layers.
 3. Integrate Keycloak authentication in the module.
-4. Update this file with new instructions after adding files.
+4. Define Minimal API endpoints for the module instead of controllers.
+5. Update this file with new instructions after adding files.
 
 ## Security
 - Do not store keys in the repo; use `.env` in the future.
