@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using ProdSight.Api.Shared;
 
-namespace ProdSight.Api.IdentityModule;
+namespace ProdSight.Api.Modules.IdentityModule.Presentation;
 
 public class IdentityModule : IModule
 {

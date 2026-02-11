@@ -7,8 +7,8 @@ public static class ModuleExtensions
     public static IServiceCollection AddModules(this IServiceCollection services, IConfiguration config)
     {
         // Register modules explicitly
-        services.AddSingleton<IModule, ProdSight.Api.IdentityModule.IdentityModule>();
-        services.AddSingleton<IModule, ProdSight.Api.MeasurementModule.MeasurementModule>();
+        services.AddSingleton<IModule, ProdSight.Api.Modules.IdentityModule.Presentation.IdentityModule>();
+        services.AddSingleton<IModule, ProdSight.Api.Modules.MeasurementModule.Presentation.MeasurementModule>();
         
         var logger = services.BuildServiceProvider().GetRequiredService<ILogger<ModuleRegistry>>();
         var registry = new ModuleRegistry(logger, services.BuildServiceProvider().GetServices<IModule>());

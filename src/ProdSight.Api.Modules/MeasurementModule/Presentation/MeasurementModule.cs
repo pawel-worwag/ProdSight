@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using ProdSight.Api.Shared;
 
-namespace ProdSight.Api.MeasurementModule;
+namespace ProdSight.Api.Modules.MeasurementModule.Presentation;
 
 public class MeasurementModule : IModule
 {
