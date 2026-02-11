@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System.Reflection;
 
 namespace ProdSight.Api.Shared;
 
@@ -17,7 +16,7 @@ public class ModuleRegistry
         
         foreach (var module in modules)
         {
-            _moduleStates[module] = false;  // Domyślnie niezaładowany
+            _moduleStates[module] = false;
         }
         
         _logger.LogInformation("Discovered {Count} modules: {Modules}", _moduleStates.Count, string.Join(", ", _moduleStates.Keys.Select(m => m.Name)));
@@ -25,22 +24,22 @@ public class ModuleRegistry
     
     public void LoadModules(IServiceCollection services, IConfiguration config)
     {
-        foreach (var kvp in _moduleStates.ToList())  // Kopia do modyfikacji
+        foreach (var kvp in _moduleStates.ToList())
         {
             var module = kvp.Key;
-            var enabled = config.GetValue<bool>($"Modules:{module.Name}:Enabled", false);
+            var enabled = config.GetValue($"Modules:{module.Name}:Enabled", false);
             if (enabled)
             {
                 _logger.LogInformation("Loading module: {ModuleName}", module.Name);
                 module.RegisterServices(services);
-                _moduleStates[module] = true;  // Oznacz jako załadowany
+                _moduleStates[module] = true;
             }
         }
     }
     
     public void ConfigureModules(IEndpointRouteBuilder endpoints, IConfiguration config)
     {
-        foreach (var kvp in _moduleStates.Where(kvp => kvp.Value))  // Tylko załadowane
+        foreach (var kvp in _moduleStates.Where(kvp => kvp.Value))
         {
             kvp.Key.ConfigureEndpoints(endpoints);
         }
@@ -48,6 +47,6 @@ public class ModuleRegistry
     
     public IEnumerable<object> GetModulesStatus()
     {
-        return _moduleStates.Select(kvp => new { Name = kvp.Key.Name, RequiredScope = kvp.Key.RequiredScope, Loaded = kvp.Value });
+        return _moduleStates.Select(kvp => new { kvp.Key.Name, kvp.Key.RequiredScope, Loaded = kvp.Value });
     }
 }
