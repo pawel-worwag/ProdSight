@@ -7,6 +7,7 @@ public class HealthCheckCacheService(IServiceProvider serviceProvider) : Backgro
 {
     private readonly ConcurrentDictionary<string, HealthReportEntry> _cachedResults = new();
     private readonly TimeSpan _checkInterval = TimeSpan.FromSeconds(30);
+    private DateTime _lastChecked = DateTime.MinValue;
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -28,10 +29,14 @@ public class HealthCheckCacheService(IServiceProvider serviceProvider) : Backgro
         {
             _cachedResults[entry.Key] = entry.Value;
         }
+
+        _lastChecked = DateTime.UtcNow;
     }
 
     public IEnumerable<KeyValuePair<string, HealthReportEntry>> GetCachedResults()
     {
         return _cachedResults.ToArray();
     }
+
+    public DateTime GetLastChecked() => _lastChecked;
 }

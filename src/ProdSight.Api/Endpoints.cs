@@ -25,7 +25,8 @@ public static class Endpoints
             var cache = sp.GetRequiredService<HealthCheckCacheService>();
             var results = cache.GetCachedResults();
             var overallStatus = results.All(r => r.Value.Status == HealthStatus.Healthy) ? "Healthy" : "Unhealthy";
-            return Results.Json(new { Status = overallStatus, Checks = results.ToDictionary(r => r.Key, r => r.Value) });
+            var lastChecked = cache.GetLastChecked();
+            return Results.Json(new { Status = overallStatus, LastChecked = lastChecked, Checks = results.ToDictionary(r => r.Key, r => r.Value) });
         });
     }
 }
