@@ -16,21 +16,8 @@ var app = builder.Build();
 
 
 app.UseModules(builder.Configuration);
+app.MapStatusEndpoint();
+app.MapHealthEndpoint();
 
-app.MapGet("/status", (IServiceProvider services) =>
-{
-    var registry = services.GetRequiredService<ProdSight.Api.Shared.ModuleRegistry>();
-    var version = Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "Unknown";
-    var modules = registry.GetModulesStatus();
-    return new { Version = version, Modules = modules };
-});
-
-app.MapGet("/health", (IServiceProvider sp) => {
-    var cache = sp.GetRequiredService<HealthCheckCacheService>();
-    var results = cache.GetCachedResults();
-    var keyValuePairs = results as KeyValuePair<string, HealthReportEntry>[] ?? results.ToArray();
-    var overallStatus = keyValuePairs.All(r => r.Value.Status == HealthStatus.Healthy) ? "Healthy" : "Unhealthy";
-    return Results.Json(new { Status = overallStatus, Checks = keyValuePairs.ToDictionary(r => r.Key, r => r.Value) });
-});
 
 app.Run();
