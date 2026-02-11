@@ -8,21 +8,27 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdSight.Frontend", "src\P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdSight.Api.Shared", "src\ProdSight.Api.Shared\ProdSight.Api.Shared.csproj", "{5493B4C7-F50E-4F97-9AB7-C53AF485DD3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdSight.Api.Modules.MeasurementModule.Domain", "src\ProdSight.Api.Modules\MeasurementModule\Domain\ProdSight.Api.Modules.MeasurementModule.Domain.csproj", "{F1F2G3H4-I5J6-7890-KLMN-OP123456789A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdSight.Api.Modules.MeasurementModule.Domain", "src\ProdSight.Api.Modules\MeasurementModule\Domain\ProdSight.Api.Modules.MeasurementModule.Domain.csproj", "{00000000-0000-0000-0000-000000000000}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdSight.Api.Modules.MeasurementModule.Application", "src\ProdSight.Api.Modules\MeasurementModule\Application\ProdSight.Api.Modules.MeasurementModule.Application.csproj", "{G2G3H4I5-J6K7-8901-LMNO-PQ234567890B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdSight.Api.Modules.MeasurementModule.Application", "src\ProdSight.Api.Modules\MeasurementModule\Application\ProdSight.Api.Modules.MeasurementModule.Application.csproj", "{00000000-0000-0000-0000-000000000000}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdSight.Api.Modules.MeasurementModule.Infrastructure", "src\ProdSight.Api.Modules\MeasurementModule\Infrastructure\ProdSight.Api.Modules.MeasurementModule.Infrastructure.csproj", "{H3H4I5J6-K7L8-9012-MNOP-QR345678901C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdSight.Api.Modules.MeasurementModule.Infrastructure", "src\ProdSight.Api.Modules\MeasurementModule\Infrastructure\ProdSight.Api.Modules.MeasurementModule.Infrastructure.csproj", "{00000000-0000-0000-0000-000000000000}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdSight.Api.Modules.MeasurementModule.Presentation", "src\ProdSight.Api.Modules\MeasurementModule\Presentation\ProdSight.Api.Modules.MeasurementModule.Presentation.csproj", "{I4I5J6K7-L8M9-0123-NOPQ-RS456789012D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdSight.Api.Modules.MeasurementModule.Presentation", "src\ProdSight.Api.Modules\MeasurementModule\Presentation\ProdSight.Api.Modules.MeasurementModule.Presentation.csproj", "{00000000-0000-0000-0000-000000000000}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdSight.Api.Modules.IdentityModule.Domain", "src\ProdSight.Api.Modules\IdentityModule\Domain\ProdSight.Api.Modules.IdentityModule.Domain.csproj", "{B1B2C3D4-E5F6-7890-ABCD-EF1234567891}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdSight.Api.Modules.IdentityModule.Application", "src\ProdSight.Api.Modules\IdentityModule\Application\ProdSight.Api.Modules.IdentityModule.Application.csproj", "{C2C3D4E5-F6G7-8901-BCDE-F23456789012}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdSight.Api.Modules.IdentityModule.Application", "src\ProdSight.Api.Modules\IdentityModule\Application\ProdSight.Api.Modules.IdentityModule.Application.csproj", "{00000000-0000-0000-0000-000000000000}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdSight.Api.Modules.IdentityModule.Infrastructure", "src\ProdSight.Api.Modules\IdentityModule\Infrastructure\ProdSight.Api.Modules.IdentityModule.Infrastructure.csproj", "{D3D4E5F6-G7H8-9012-CDEF-G34567890123}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdSight.Api.Modules.IdentityModule.Infrastructure", "src\ProdSight.Api.Modules\IdentityModule\Infrastructure\ProdSight.Api.Modules.IdentityModule.Infrastructure.csproj", "{00000000-0000-0000-0000-000000000000}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdSight.Api.Modules.IdentityModule.Presentation", "src\ProdSight.Api.Modules\IdentityModule\Presentation\ProdSight.Api.Modules.IdentityModule.Presentation.csproj", "{E4E5F6G7-H8I9-0123-DEF0-H45678901234}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdSight.Api.Modules.IdentityModule.Presentation", "src\ProdSight.Api.Modules\IdentityModule\Presentation\ProdSight.Api.Modules.IdentityModule.Presentation.csproj", "{00000000-0000-0000-0000-000000000000}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProdSight.Api.Modules", "ProdSight.Api.Modules", "{8C0F9154-B847-4FC2-9FE7-EA650460F34D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IdentityModule", "IdentityModule", "{7C83B322-C3A1-4320-A8EE-6FFFD998ECAA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MeasurementModule", "MeasurementModule", "{2D026F92-D9F9-4DD9-8458-DB7D5BB1ED1F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -174,7 +180,6 @@ Global
 		{E6E59394-6330-463B-A5B7-AB5E764E7F28} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{24B9AA95-1CC3-4C48-BF2A-3869306099BD} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{5493B4C7-F50E-4F97-9AB7-C53AF485DD3A} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
-		{B1B2C3D4-E5F6-7890-ABCD-EF1234567891} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{C2C3D4E5-F6G7-8901-BCDE-F23456789012} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{D3D4E5F6-G7H8-9012-CDEF-G34567890123} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{E4E5F6G7-H8I9-0123-DEF0-H45678901234} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
@@ -182,5 +187,10 @@ Global
 		{G2G3H4I5-J6K7-8901-LMNO-PQ234567890B} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{H3H4I5J6-K7L8-9012-MNOP-QR345678901C} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{I4I5J6K7-L8M9-0123-NOPQ-RS456789012D} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+		{8C0F9154-B847-4FC2-9FE7-EA650460F34D} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+		{7C83B322-C3A1-4320-A8EE-6FFFD998ECAA} = {8C0F9154-B847-4FC2-9FE7-EA650460F34D}
+		{B1B2C3D4-E5F6-7890-ABCD-EF1234567891} = {7C83B322-C3A1-4320-A8EE-6FFFD998ECAA}
+		{2D026F92-D9F9-4DD9-8458-DB7D5BB1ED1F} = {8C0F9154-B847-4FC2-9FE7-EA650460F34D}
+		{00000000-0000-0000-0000-000000000000} = {2D026F92-D9F9-4DD9-8458-DB7D5BB1ED1F}
 	EndGlobalSection
 EndGlobal
