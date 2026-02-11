@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using ProdSight.Api.Shared;
 
 namespace ProdSight.Api.Modules.IdentityModule.Presentation;
@@ -12,6 +13,7 @@ public class IdentityModule : IModule
 
     public void RegisterServices(IServiceCollection services)
     {
+        services.AddHealthChecks().AddCheck("identity-module-dummy-check", () => HealthCheckResult.Healthy("Identity module is healthy"));
         // Register Keycloak or identity services here
     }
 
