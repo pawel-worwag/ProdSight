@@ -1,6 +1,5 @@
 using ProdSight.Api;
 using System.Reflection;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using ProdSight.Api.Services;
 
@@ -29,8 +28,9 @@ app.MapGet("/status", (IServiceProvider services) =>
 app.MapGet("/health", (IServiceProvider sp) => {
     var cache = sp.GetRequiredService<HealthCheckCacheService>();
     var results = cache.GetCachedResults();
-    var overallStatus = results.All(r => r.Value.Status == HealthStatus.Healthy) ? "Healthy" : "Unhealthy";
-    return Results.Json(new { Status = overallStatus, Checks = results.ToDictionary(r => r.Key, r => r.Value) });
+    var keyValuePairs = results as KeyValuePair<string, HealthReportEntry>[] ?? results.ToArray();
+    var overallStatus = keyValuePairs.All(r => r.Value.Status == HealthStatus.Healthy) ? "Healthy" : "Unhealthy";
+    return Results.Json(new { Status = overallStatus, Checks = keyValuePairs.ToDictionary(r => r.Key, r => r.Value) });
 });
 
 app.Run();
