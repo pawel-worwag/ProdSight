@@ -45,4 +45,9 @@ public class ModuleRegistry
             kvp.Key.ConfigureEndpoints(endpoints);
         }
     }
+    
+    public IEnumerable<object> GetModulesStatus()
+    {
+        return _moduleStates.Select(kvp => new { Name = kvp.Key.Name, RequiredScope = kvp.Key.RequiredScope, Loaded = kvp.Value });
+    }
 }
