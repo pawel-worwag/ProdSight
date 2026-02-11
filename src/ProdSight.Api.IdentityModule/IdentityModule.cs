@@ -8,7 +8,7 @@ namespace ProdSight.Api.IdentityModule;
 public class IdentityModule : IModule
 {
     public string Name => "IdentityModule";
-    public string RequiredScope => "identity";
+    public string RequiredScope => "identity-module";
 
     public void RegisterServices(IServiceCollection services)
     {

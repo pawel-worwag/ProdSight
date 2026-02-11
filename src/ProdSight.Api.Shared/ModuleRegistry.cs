@@ -24,9 +24,8 @@ public class ModuleRegistry
     
     public void LoadModules(IServiceCollection services, IConfiguration config)
     {
-        foreach (var kvp in _moduleStates.ToList())
+        foreach (var module in _moduleStates.Keys)
         {
-            var module = kvp.Key;
             var enabled = config.GetValue($"Modules:{module.Name}:Enabled", false);
             if (enabled)
             {
@@ -45,8 +44,8 @@ public class ModuleRegistry
         }
     }
     
-    public IEnumerable<object> GetModulesStatus()
+    public IEnumerable<ModuleDescription> GetModulesStatus()
     {
-        return _moduleStates.Select(kvp => new { kvp.Key.Name, kvp.Key.RequiredScope, Loaded = kvp.Value });
+        return _moduleStates.Select(kvp => new  ModuleDescription(kvp.Key.Name, kvp.Key.RequiredScope,kvp.Value));
     }
 }
