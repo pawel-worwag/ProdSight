@@ -1,6 +1,4 @@
 using ProdSight.Api;
-using System.Reflection;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 using ProdSight.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
