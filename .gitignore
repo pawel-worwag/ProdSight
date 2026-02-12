@@ -6,3 +6,5 @@ obj/
 *.user
 
 [Aa]ppsettings.[Dd]evelopment.json
+
+**/Properties/launchSettings.json
