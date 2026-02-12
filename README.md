@@ -15,8 +15,13 @@ ProdSight is a modular application for visualizing production data related to fa
 
 ## Project Structure
 
-- `src/`: Source code for modules and main application.
-- `tests/`: Unit and integration tests.
+- `src/ProdSight.Api/`: Main API application with endpoints, middleware, and module registration.
+- `src/ProdSight.Api.Modules/`: Modular components.
+  - `IdentityModule/`: Handles identity and authentication (Domain, Application, Infrastructure, Presentation layers).
+  - `MeasurementModule/`: Manages production data and measurements (Domain, Application, Infrastructure, Presentation layers).
+- `src/ProdSight.Api.Shared/`: Shared utilities, exceptions, and module interfaces.
+- `src/ProdSight.Api.Shared.DTOs/`: Data Transfer Objects for API responses.
+- `src/ProdSight.Frontend/`: Frontend application (Blazor WebAssembly).
 - `.github/`: CI/CD and AI instructions.
 - `ProdSight.sln`: Solution file.
 
@@ -25,7 +30,3 @@ ProdSight is a modular application for visualizing production data related to fa
 - Follow the guidelines in [.github/copilot/instructions.md](.github/copilot/instructions.md).
 - Use English for all code, comments, and commits.
 - Implement new modules using Onion Architecture.
-
-## License
-
-[Specify license if applicable]
