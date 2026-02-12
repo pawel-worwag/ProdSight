@@ -1,4 +1,5 @@
 using ProdSight.Api;
+using ProdSight.Api.Extensions;
 using ProdSight.Api.Services;
 using ProdSight.Api.Middleware;
 

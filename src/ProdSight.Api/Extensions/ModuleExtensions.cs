@@ -1,6 +1,6 @@
 using ProdSight.Api.Shared.Modules;
 
-namespace ProdSight.Api;
+namespace ProdSight.Api.Extensions;
 
 public static class ModuleExtensions
 {
