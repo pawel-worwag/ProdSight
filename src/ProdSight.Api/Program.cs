@@ -9,6 +9,7 @@ builder.Services.AddModules(builder.Configuration);
 builder.Services.AddSingleton<HealthCheckCacheService>();
 builder.Services.AddHostedService(sp => sp.GetRequiredService<HealthCheckCacheService>());
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();
+builder.AddScalar();
 
 var app = builder.Build();
 
@@ -16,5 +17,6 @@ app.UseModules(builder.Configuration);
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.MapStatusEndpoint();
 app.MapHealthEndpoint();
+app.UseScalar();
 
 app.Run();

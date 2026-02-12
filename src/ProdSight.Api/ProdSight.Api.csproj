@@ -5,6 +5,10 @@
     <ProjectReference Include="..\ProdSight.Api.Shared\ProdSight.Api.Shared.csproj" />
     <ProjectReference Include="..\ProdSight.Api.Shared.DTOs\ProdSight.Api.Shared.DTOs.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.3" />
+    <PackageReference Include="Scalar.AspNetCore" Version="2.12.38" />
+  </ItemGroup>
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
