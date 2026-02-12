@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace ProdSight.Api.Shared;
+namespace ProdSight.Api.Shared.Modules;
 
 public class ModuleDescription(string name, string requiredScope, bool loaded = false)
 {

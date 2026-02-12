@@ -1,4 +1,4 @@
-using ProdSight.Api.Shared;
+using ProdSight.Api.Shared.Modules;
 
 namespace ProdSight.Api;
 

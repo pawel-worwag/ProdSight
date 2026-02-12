@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ProdSight.Api.Shared;
+namespace ProdSight.Api.Shared.Modules;
 
 public interface IModule
 {

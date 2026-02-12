@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace ProdSight.Api.Shared;
+namespace ProdSight.Api.Shared.Modules;
 
 public class ModuleRegistry
 {

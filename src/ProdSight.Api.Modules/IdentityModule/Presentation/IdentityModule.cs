@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using ProdSight.Api.Shared;
+using ProdSight.Api.Shared.Modules;
 
 namespace ProdSight.Api.Modules.IdentityModule.Presentation;
 

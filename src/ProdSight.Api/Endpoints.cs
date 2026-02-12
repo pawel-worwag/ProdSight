@@ -1,7 +1,7 @@
 using System.Reflection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using ProdSight.Api.Services;
-using ProdSight.Api.Shared;
+using ProdSight.Api.Shared.Modules;
 
 namespace ProdSight.Api;
 
