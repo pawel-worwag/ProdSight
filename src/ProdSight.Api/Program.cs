@@ -2,6 +2,7 @@ using ProdSight.Api;
 using ProdSight.Api.Extensions;
 using ProdSight.Api.Services;
 using ProdSight.Api.Middleware;
+using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,5 +20,6 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.MapStatusEndpoint();
 app.MapHealthEndpoint();
 app.UseScalar();
+app.UseMetricServer();
 
 app.Run();
