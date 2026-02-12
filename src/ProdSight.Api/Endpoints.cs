@@ -3,6 +3,8 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using ProdSight.Api.Services;
 using ProdSight.Api.Shared.Modules;
 using ProdSight.Api.Shared.DTOs.Health;
+using ProdSight.Api.Shared.DTOs.Status;
+using HealthCheckResult = ProdSight.Api.Shared.DTOs.Health.HealthCheckResult;
 
 namespace ProdSight.Api;
 
@@ -14,8 +16,8 @@ public static class Endpoints
         {
             var registry = services.GetRequiredService<ModuleRegistry>();
             var version = Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "Unknown";
-            var modules = registry.GetModulesStatus();
-            return new { Version = version, Modules = modules };
+            var modules = registry.GetModulesStatus().Select(m => new ModuleStatus(m.Name, m.RequiredScope, m.Loaded));
+            return new StatusResponse(version, modules);
         });
     }
 
@@ -29,7 +31,7 @@ public static class Endpoints
             var lastChecked = cache.GetLastChecked();
             var checks = results.ToDictionary(
                 r => r.Key,
-                r => new HealthCheckResultDto(
+                r => new HealthCheckResult(
                     r.Value.Status.ToString(),
                     r.Value.Description,
                     r.Value.Duration,

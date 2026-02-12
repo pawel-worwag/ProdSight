@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace ProdSight.Api.Shared.DTOs.Health;
 
-public record HealthCheckResultDto(
+public record HealthCheckResult(
     [property: JsonPropertyName("status")] string Status,
     [property: JsonPropertyName("description")] string? Description,
     [property: JsonPropertyName("duration")] TimeSpan Duration,
