@@ -3,6 +3,7 @@
     <ProjectReference Include="..\ProdSight.Api.Modules\IdentityModule\Presentation\ProdSight.Api.Modules.IdentityModule.Presentation.csproj" />
     <ProjectReference Include="..\ProdSight.Api.Modules\MeasurementModule\Presentation\ProdSight.Api.Modules.MeasurementModule.Presentation.csproj" />
     <ProjectReference Include="..\ProdSight.Api.Shared\ProdSight.Api.Shared.csproj" />
+    <ProjectReference Include="..\ProdSight.Api.Shared.DTOs\ProdSight.Api.Shared.DTOs.csproj" />
   </ItemGroup>
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
