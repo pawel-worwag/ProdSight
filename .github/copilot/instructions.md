@@ -23,5 +23,16 @@ This file contains instructions for AI agents (e.g., Copilot, GitHub Copilot) on
 - Do not store keys in the repo; use `.env` in the future.
 - If output contains errors, report in comments.
 
-## Contact
-For questions, consult the repo owner.
+## API and Endpoints
+- Responses in endpoints must be strongly typed.
+- Use custom exceptions inheriting from AppException for error handling.
+- Implement middleware for exception handling with appropriate HTTP status codes.
+
+## DTOs
+- DTOs must be placed in the ProdSight.Api.Shared.DTOs project.
+- DTO classes and records should not have the "Dto" prefix in their names.
+- Use JsonPropertyName attributes for consistent JSON property names in kebab-case (e.g., "display-name", "required-scope").
+
+## Classes and Records
+- Prefer primary constructors for classes and records instead of traditional constructors.
+- Use records for immutable data structures like DTOs.
