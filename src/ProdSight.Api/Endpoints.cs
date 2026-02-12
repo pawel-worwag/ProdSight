@@ -2,6 +2,7 @@ using System.Reflection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using ProdSight.Api.Services;
 using ProdSight.Api.Shared.Modules;
+using ProdSight.Api.Shared.DTOs.Health;
 
 namespace ProdSight.Api;
 
@@ -26,7 +27,17 @@ public static class Endpoints
             var results = cache.GetCachedResults();
             var overallStatus = results.All(r => r.Value.Status == HealthStatus.Healthy) ? "Healthy" : "Unhealthy";
             var lastChecked = cache.GetLastChecked();
-            return Results.Json(new { Status = overallStatus, LastChecked = lastChecked, Checks = results.ToDictionary(r => r.Key, r => r.Value) });
+            var checks = results.ToDictionary(
+                r => r.Key,
+                r => new HealthCheckResultDto(
+                    r.Value.Status.ToString(),
+                    r.Value.Description,
+                    r.Value.Duration,
+                    r.Value.Exception?.Message,
+                    r.Value.Data?.ToDictionary(kvp => kvp.Key, kvp => kvp.Value)
+                )
+            );
+            return Results.Json(new HealthResponse(overallStatus, lastChecked, checks));
         });
     }
 }
