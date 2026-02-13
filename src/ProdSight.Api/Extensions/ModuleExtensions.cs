@@ -31,21 +31,40 @@ public static class ModuleExtensions
                             AssemblyLoadContext.Default.LoadFromAssemblyPath(dll);
                         }
                     }
-                    catch
+                    catch (Exception ex)
                     {
-                        // ignore individual assembly load errors
+                        Console.Error.WriteLine($"Failed to load assembly from '{dll}': {ex.Message}");
                     }
                 }
             }
         }
-        catch
+        catch (Exception ex)
         {
-            // ignore module loading errors; registration below will fail fast if types missing
+            Console.Error.WriteLine($"Module loader error: {ex.Message}");
         }
 
-        // Register modules explicitly
-        services.AddSingleton<IModule, Modules.IdentityModule.Presentation.IdentityModule>();
-        services.AddSingleton<IModule, Modules.MeasurementModule.Presentation.MeasurementModule>();
+        // Register discovered modules by scanning loaded assemblies instead of
+        // referencing module types directly (avoids FileNotFound when assemblies
+        // are loaded dynamically into subfolders).
+        var moduleTypes = AppDomain.CurrentDomain.GetAssemblies()
+            .SelectMany(a =>
+            {
+                try { return a.GetTypes(); } catch { return Array.Empty<Type>(); }
+            })
+            .Where(t => typeof(IModule).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
+            .ToList();
+
+        foreach (var mt in moduleTypes)
+        {
+            try
+            {
+                services.AddSingleton(typeof(IModule), mt);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Failed to register module type {mt.FullName}: {ex.Message}");
+            }
+        }
 
         var logger = services.BuildServiceProvider().GetRequiredService<ILogger<ModuleRegistry>>();
         var registry = new ModuleRegistry(logger, services.BuildServiceProvider().GetServices<IModule>());
