@@ -1,0 +1,8 @@
+<Project>
+  <!-- Ensure NuGetVersion is defined for projects that expect it (MinVer/SDK tasks).
+       If NuGetVersion is not set by MinVer, fall back to Version (possibly passed via -p:Version).
+  -->
+  <PropertyGroup>
+    <NuGetVersion Condition="'$(NuGetVersion)' == ''">$(Version)</NuGetVersion>
+  </PropertyGroup>
+</Project>
