@@ -18,9 +18,14 @@ WORKDIR /src/src/ProdSight.Api
 RUN dotnet restore ProdSight.Api.csproj
 
 # publish according to existing project rules (MSBuild target will run)
-# Do NOT force-set MSBuild `Version` here — MinVer (from Directory.Build.props)
-# must run during restore/build to populate required properties (NuGetVersion).
-RUN dotnet publish -c Release -o /app/publish
+# Pass explicit version properties derived from build args so assembly attributes
+# are set deterministically even if MinVer/tag discovery behaves differently
+# in the build environment.
+RUN dotnet publish -c Release -o /app/publish \
+	-p:Version=$VERSION \
+	-p:AssemblyInformationalVersion=$VERSION \
+	-p:AssemblyFileVersion=$VERSION \
+	-p:AssemblyVersion=${VERSION}.0
 
 # Runtime stage
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
