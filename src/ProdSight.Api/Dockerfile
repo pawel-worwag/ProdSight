@@ -8,6 +8,7 @@ WORKDIR /src
 # copy solution and project files for restore (paths are relative to build context root)
 # use repository-root paths so Docker can find them when context is the repo root
 COPY ProdSight.sln ./
+COPY Directory.Build.props ./
 COPY src/ProdSight.Api/ ./src/ProdSight.Api/
 COPY src/ProdSight.Api.Shared/ ./src/ProdSight.Api.Shared/
 COPY src/ProdSight.Api.Shared.DTOs/ ./src/ProdSight.Api.Shared.DTOs/
