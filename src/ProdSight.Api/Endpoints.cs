@@ -15,7 +15,26 @@ public static class Endpoints
         endpoints.MapGet("/status", (IServiceProvider services) =>
         {
             var registry = services.GetRequiredService<ModuleRegistry>();
-            var version = Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "Unknown";
+            // Prefer AssemblyInformationalVersion (set by MinVer/CI), fallback to FileVersion or AssemblyVersion
+            string version;
+            try
+            {
+                var asm = Assembly.GetExecutingAssembly();
+                var info = asm.GetCustomAttribute<System.Reflection.AssemblyInformationalVersionAttribute>()?.InformationalVersion;
+                if (!string.IsNullOrWhiteSpace(info))
+                {
+                    version = info;
+                }
+                else
+                {
+                    var fileVer = asm.GetCustomAttribute<System.Reflection.AssemblyFileVersionAttribute>()?.Version;
+                    version = fileVer ?? asm.GetName().Version?.ToString() ?? "Unknown";
+                }
+            }
+            catch
+            {
+                version = "Unknown";
+            }
             var modules = registry.GetModulesStatus().Select(m => new ModuleStatus(m.Name, m.RequiredScope, m.Loaded));
             return new StatusResponse(version, modules);
         });
