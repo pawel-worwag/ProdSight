@@ -1,0 +1,36 @@
+# Ignore build outputs
+bin/
+obj/
+**/bin/
+**/obj/
+
+# Ignore publish outputs
+publish/
+**/publish/
+
+# Ignore user and IDE files
+.DS_Store
+.vscode/
+.vs/
+.idea/
+*.suo
+*.user
+*.sln.docstates
+*.iml
+
+# Git
+.git/
+
+# Logs and temp
+*.log
+tmp/
+temp/
+
+# NuGet packages
+*.nupkg
+
+# Runtime artifacts (optional to keep out of build context)
+*.deps.json
+*.runtimeconfig.json
+web.config
+appsettings*.json

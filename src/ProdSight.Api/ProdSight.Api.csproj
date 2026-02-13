@@ -10,6 +10,13 @@
     <PackageReference Include="prometheus-net.AspNetCore" Version="8.2.1" />
     <PackageReference Include="Scalar.AspNetCore" Version="2.12.38" />
   </ItemGroup>
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="publish\web.config" />
+    <_ContentIncludedByDefault Remove="publish\appsettings.json" />
+    <_ContentIncludedByDefault Remove="publish\ProdSight.Api.deps.json" />
+    <_ContentIncludedByDefault Remove="publish\ProdSight.Api.runtimeconfig.json" />
+    <_ContentIncludedByDefault Remove="publish\ProdSight.Api.staticwebassets.endpoints.json" />
+  </ItemGroup>
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
