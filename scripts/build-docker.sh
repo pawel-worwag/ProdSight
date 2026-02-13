@@ -6,18 +6,23 @@ REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 API_DIR="src/ProdSight.Api"
 DOCKERFILE="$REPO_ROOT/$API_DIR/Dockerfile"
 
-# derive image tag from git when no explicit image name was provided
-# priority: exact tag on HEAD -> nearest tag -> short commit SHA
+# derive version and default image tag from git
 DEFAULT_IMAGE_TAG="local"
+VERSION="unspecified"
+GIT_SHA="$(git rev-parse --short HEAD 2>/dev/null || echo unknown)"
 if [ -d "$REPO_ROOT/.git" ]; then
   pushd "$REPO_ROOT" >/dev/null
   if TAG=$(git describe --tags --exact-match 2>/dev/null); then
-    DEFAULT_IMAGE_TAG="$TAG"
+    VERSION="$TAG"
   elif TAG=$(git describe --tags --abbrev=0 2>/dev/null); then
-    DEFAULT_IMAGE_TAG="$TAG"
+    VERSION="$TAG"
   else
-    DEFAULT_IMAGE_TAG="sha-$(git rev-parse --short HEAD)"
+    VERSION="0.0.0-$(git rev-parse --short HEAD)"
   fi
+  # strip leading 'v' if present
+  VERSION="${VERSION#v}"
+  DEFAULT_IMAGE_TAG="$VERSION"
+  GIT_SHA="$(git rev-parse --short HEAD)"
   popd >/dev/null
 fi
 
@@ -47,15 +52,20 @@ if [ ! -f "$DOCKERFILE" ]; then
 fi
 
 echo "Building Docker image '$IMAGE_NAME' using Dockerfile: $DOCKERFILE"
-echo "docker build $DOCKER_BUILD_OPTS -t \"$IMAGE_NAME\" -f \"$DOCKERFILE\" \"$REPO_ROOT\""
-docker build $DOCKER_BUILD_OPTS -t "$IMAGE_NAME" -f "$DOCKERFILE" "$REPO_ROOT"
+echo "docker build $DOCKER_BUILD_OPTS --build-arg VERSION=\"$VERSION\" --build-arg GIT_SHA=\"$GIT_SHA\" -t \"$IMAGE_NAME\" -f \"$DOCKERFILE\" \"$REPO_ROOT\""
+docker build $DOCKER_BUILD_OPTS \
+  --build-arg VERSION="$VERSION" \
+  --build-arg GIT_SHA="$GIT_SHA" \
+  -t "$IMAGE_NAME" -f "$DOCKERFILE" "$REPO_ROOT"
 
 # Also tag the built image as :latest for the same repository (if applicable)
 # e.g. myrepo/myimage:1.2.3 -> myrepo/myimage:latest
 IMAGE_REPO="${IMAGE_NAME%%:*}"
 if [ -n "$IMAGE_REPO" ]; then
+  SHA_TAG="$IMAGE_REPO:sha-$GIT_SHA"
   LATEST_TAG="$IMAGE_REPO:latest"
-  echo "Tagging image $IMAGE_NAME as $LATEST_TAG"
+  echo "Tagging image $IMAGE_NAME as $SHA_TAG and $LATEST_TAG"
+  docker tag "$IMAGE_NAME" "$SHA_TAG"
   docker tag "$IMAGE_NAME" "$LATEST_TAG"
 fi
 

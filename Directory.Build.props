@@ -1,0 +1,6 @@
+<Project>
+  <ItemGroup>
+    <!-- MinVer provides automatic Version based on git tags -->
+    <PackageReference Include="MinVer" Version="2.1.0" PrivateAssets="All" />
+  </ItemGroup>
+</Project>
