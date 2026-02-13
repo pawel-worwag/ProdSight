@@ -18,8 +18,9 @@ WORKDIR /src/src/ProdSight.Api
 RUN dotnet restore ProdSight.Api.csproj
 
 # publish according to existing project rules (MSBuild target will run)
-# pass Version from build arg so assembly version matches git tag/derived version
-RUN dotnet publish -c Release -o /app/publish -p:Version=$VERSION
+# Do NOT force-set MSBuild `Version` here — MinVer (from Directory.Build.props)
+# must run during restore/build to populate required properties (NuGetVersion).
+RUN dotnet publish -c Release -o /app/publish
 
 # Runtime stage
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
