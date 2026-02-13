@@ -1,4 +1,8 @@
 <Project>
+  <PropertyGroup>
+    <!-- If MinVer does not run in this environment, fall back NuGetVersion to Version -->
+    <NuGetVersion Condition="'$(NuGetVersion)' == ''">$(Version)</NuGetVersion>
+  </PropertyGroup>
   <ItemGroup>
     <!-- MinVer provides automatic Version based on git tags -->
     <PackageReference Include="MinVer" Version="2.1.0" PrivateAssets="All" />
