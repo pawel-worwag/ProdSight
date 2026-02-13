@@ -7,6 +7,7 @@ WORKDIR /src
 COPY ProdSight.sln ./
 COPY src/ProdSight.Api/ ./src/ProdSight.Api/
 COPY src/ProdSight.Api.Shared/ ./src/ProdSight.Api.Shared/
+COPY src/ProdSight.Api.Shared.DTOs/ ./src/ProdSight.Api.Shared.DTOs/
 COPY src/ProdSight.Api.Modules/ ./src/ProdSight.Api.Modules/
 
 WORKDIR /src/src/ProdSight.Api
