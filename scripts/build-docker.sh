@@ -26,6 +26,18 @@ if [ -d "$REPO_ROOT/.git" ]; then
   popd >/dev/null
 fi
 
+# Normalize VERSION to a 4-part numeric AssemblyVersion (major.minor.build.revision)
+# Strip pre-release/metadata and non-numeric suffixes
+BASE_VERSION="$(echo "$VERSION" | sed -E 's/[-+].*$//')"
+IFS='.' read -r -a _parts <<< "$BASE_VERSION"
+for i in 0 1 2 3; do
+  part="${_parts[i]:-0}"
+  # keep only leading digits
+  part="$(echo "$part" | sed -E 's/^([0-9]+).*/\1/; t; s/.*/0/')"
+  eval "v$i=\$part"
+done
+ASSEMBLY_VERSION="$v0.$v1.$v2.$v3"
+
 DOCKER_BUILD_OPTS=""
 # Filter arguments: remove --no-cache from positional args and set DOCKER_BUILD_OPTS when present
 ARGS=()
@@ -52,10 +64,11 @@ if [ ! -f "$DOCKERFILE" ]; then
 fi
 
 echo "Building Docker image '$IMAGE_NAME' using Dockerfile: $DOCKERFILE"
-echo "docker build $DOCKER_BUILD_OPTS --build-arg VERSION=\"$VERSION\" --build-arg GIT_SHA=\"$GIT_SHA\" -t \"$IMAGE_NAME\" -f \"$DOCKERFILE\" \"$REPO_ROOT\""
+echo "docker build $DOCKER_BUILD_OPTS --build-arg VERSION=\"$VERSION\" --build-arg GIT_SHA=\"$GIT_SHA\" --build-arg ASSEMBLY_VERSION=\"$ASSEMBLY_VERSION\" -t \"$IMAGE_NAME\" -f \"$DOCKERFILE\" \"$REPO_ROOT\""
 docker build $DOCKER_BUILD_OPTS \
   --build-arg VERSION="$VERSION" \
   --build-arg GIT_SHA="$GIT_SHA" \
+  --build-arg ASSEMBLY_VERSION="$ASSEMBLY_VERSION" \
   -t "$IMAGE_NAME" -f "$DOCKERFILE" "$REPO_ROOT"
 
 # Also tag the built image as :latest for the same repository (if applicable)

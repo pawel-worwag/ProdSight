@@ -1,5 +1,6 @@
 ARG VERSION=unspecified
 ARG GIT_SHA=unspecified
+ARG ASSEMBLY_VERSION=0.0.0.0
 
 # Build stage
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
@@ -25,7 +26,7 @@ RUN dotnet publish -c Release -o /app/publish \
 	-p:Version=$VERSION \
 	-p:AssemblyInformationalVersion=$VERSION \
 	-p:AssemblyFileVersion=$VERSION \
-	-p:AssemblyVersion=${VERSION}.0
+	-p:AssemblyVersion=$ASSEMBLY_VERSION
 
 # Runtime stage
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
