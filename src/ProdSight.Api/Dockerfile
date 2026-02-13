@@ -2,11 +2,12 @@
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
-# copy solution and project files for restore (adjust paths if necessary)
-COPY ../../ProdSight.sln ./
-COPY . ./src/ProdSight.Api/
-COPY ../ProdSight.Api.Shared* ./src/
-COPY ../ProdSight.Api.Modules ./src/ProdSight.Api.Modules/
+# copy solution and project files for restore (paths are relative to build context root)
+# use repository-root paths so Docker can find them when context is the repo root
+COPY ProdSight.sln ./
+COPY src/ProdSight.Api/ ./src/ProdSight.Api/
+COPY src/ProdSight.Api.Shared/ ./src/ProdSight.Api.Shared/
+COPY src/ProdSight.Api.Modules/ ./src/ProdSight.Api.Modules/
 
 WORKDIR /src/src/ProdSight.Api
 RUN dotnet restore ProdSight.Api.csproj
