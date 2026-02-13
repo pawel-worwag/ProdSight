@@ -21,6 +21,22 @@ if [ -d "$REPO_ROOT/.git" ]; then
   popd >/dev/null
 fi
 
+DOCKER_BUILD_OPTS=""
+# Filter arguments: remove --no-cache from positional args and set DOCKER_BUILD_OPTS when present
+ARGS=()
+for a in "$@"; do
+  if [ "$a" = "--no-cache" ]; then
+    DOCKER_BUILD_OPTS="--no-cache"
+  else
+    ARGS+=("$a")
+  fi
+done
+# If NO_CACHE env var set, enable no-cache
+if [ "${NO_CACHE:-}" = "1" ] || [ "${NO_CACHE:-}" = "true" ]; then
+  DOCKER_BUILD_OPTS="--no-cache"
+fi
+set -- "${ARGS[@]}"
+
 IMAGE_NAME="${1:-prodsight-api:$DEFAULT_IMAGE_TAG}"
 HOST_PORT="${2:-8080}"
 CONTAINER_NAME="${3:-prodsight-api-local}"
@@ -31,7 +47,8 @@ if [ ! -f "$DOCKERFILE" ]; then
 fi
 
 echo "Building Docker image '$IMAGE_NAME' using Dockerfile: $DOCKERFILE"
-docker build -t "$IMAGE_NAME" -f "$DOCKERFILE" "$REPO_ROOT"
+echo "docker build $DOCKER_BUILD_OPTS -t \"$IMAGE_NAME\" -f \"$DOCKERFILE\" \"$REPO_ROOT\""
+docker build $DOCKER_BUILD_OPTS -t "$IMAGE_NAME" -f "$DOCKERFILE" "$REPO_ROOT"
 
 # Also tag the built image as :latest for the same repository (if applicable)
 # e.g. myrepo/myimage:1.2.3 -> myrepo/myimage:latest
