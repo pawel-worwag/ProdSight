@@ -8,3 +8,6 @@ obj/
 [Aa]ppsettings.[Dd]evelopment.json
 
 **/Properties/launchSettings.json
+
+# Ignore publish output folders
+publish/
