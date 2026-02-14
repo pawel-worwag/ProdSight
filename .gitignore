@@ -11,3 +11,6 @@ obj/
 
 # Ignore publish output folders
 publish/
+
+# Ignore libraries restored to wwwroot by LibMan
+src/ProdSight.Frontend/wwwroot/lib/
