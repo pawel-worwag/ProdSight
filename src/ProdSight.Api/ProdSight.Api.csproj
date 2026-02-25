@@ -6,9 +6,9 @@
     <ProjectReference Include="..\ProdSight.Api.Shared.DTOs\ProdSight.Api.Shared.DTOs.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.3" />
-    <PackageReference Include="prometheus-net.AspNetCore" Version="8.2.1" />
-    <PackageReference Include="Scalar.AspNetCore" Version="2.12.38" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <PackageReference Include="prometheus-net.AspNetCore" />
+    <PackageReference Include="Scalar.AspNetCore" />
   </ItemGroup>
   <ItemGroup>
     <_ContentIncludedByDefault Remove="publish\publish\publish\publish\publish\publish\web.config" />
