@@ -2,6 +2,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\ProdSight.Api.Shared\ProdSight.Api.Shared.csproj" />
     <ProjectReference Include="..\Application\ProdSight.Api.Modules.IdentityModule.Application.csproj" />
+    <ProjectReference Include="..\Infrastructure\ProdSight.Api.Modules.IdentityModule.Infrastructure.csproj" />
   </ItemGroup>
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
