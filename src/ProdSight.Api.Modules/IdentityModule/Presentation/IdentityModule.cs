@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using ProdSight.Api.Shared.Modules;
+using System.Linq;
+using Microsoft.AspNetCore.Http;
+using ProdSight.Api.Shared.DTOs.IdentityModule.GetUsersList;
 using Microsoft.Extensions.Configuration;
 using ProdSight.Api.Modules.IdentityModule.Infrastructure.Extensions;
 using ProdSight.Api.Modules.IdentityModule.Application.Keycloak;
@@ -29,7 +32,24 @@ public class IdentityModule : IModule
 
         // Endpoint to get users from Keycloak
         endpoints.MapGet("/identity/users", async (IKeycloakApiBroker broker, CancellationToken ct) =>
-            await broker.GetUsersAsync(ct).ConfigureAwait(false)
-        );
+        {
+            var reps = await broker.GetUsersAsync(ct).ConfigureAwait(false);
+            var list = reps.Select(r => new User
+            {
+                Id = r.Id ?? string.Empty,
+                Username = r.Username,
+                FirstName = r.FirstName,
+                LastName = r.LastName,
+                Email = r.Email,
+                EmailVerified = r.EmailVerified,
+                Enabled = r.Enabled ?? false,
+                Totp = r.Totp ?? false,
+                CreatedTimestamp = r.CreatedTimestamp.HasValue
+                    ? DateTimeOffset.FromUnixTimeMilliseconds(r.CreatedTimestamp.Value).UtcDateTime
+                    : DateTime.UnixEpoch
+            }).ToList();
+
+            return Results.Ok(list);
+        });
     }
 }
