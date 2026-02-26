@@ -15,4 +15,8 @@
     <PackageReference Include="Microsoft.Web.LibraryManager.Build" PrivateAssets="all" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ProdSight.Api.Shared.DTOs\ProdSight.Api.Shared.DTOs.csproj" />
+  </ItemGroup>
+
 </Project>
