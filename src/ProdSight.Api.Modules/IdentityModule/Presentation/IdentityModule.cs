@@ -8,6 +8,7 @@ using ProdSight.Api.Shared.DTOs.IdentityModule.GetUsersList;
 using Microsoft.Extensions.Configuration;
 using ProdSight.Api.Modules.IdentityModule.Infrastructure.Extensions;
 using ProdSight.Api.Modules.IdentityModule.Application.Keycloak;
+using ProdSight.Api.Modules.IdentityModule.Presentation.Keycloak;
 using ProdSight.Api.Shared.DTOs.Errors;
 
 namespace ProdSight.Api.Modules.IdentityModule.Presentation;
@@ -19,10 +20,14 @@ public class IdentityModule : IModule
 
     public void RegisterServices(IServiceCollection services)
     {
-        services.AddHealthChecks().AddCheck("identity-module-dummy-check", () => HealthCheckResult.Healthy("Identity module is healthy"));
         // Register Keycloak broker (preserve configuration from appsettings)
         var config = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
         services.AddKeycloakBroker(config);
+
+        // Health checks: keep a dummy check and add Keycloak discovery check
+        services.AddHealthChecks()
+            .AddCheck("identity-module-dummy-check", () => HealthCheckResult.Healthy("Identity module is healthy"))
+            .AddCheck<KeycloakHealthCheck>("identity-module-keycloak-integration-check");
     }
 
     public void ConfigureEndpoints(IEndpointRouteBuilder endpoints)

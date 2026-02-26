@@ -6,5 +6,6 @@ namespace ProdSight.Api.Modules.IdentityModule.Application.Keycloak
     {
         Task<string> GetClientTokenAsync(CancellationToken cancellationToken = default);
         Task<IEnumerable<UserRepresentation>> GetUsersAsync(CancellationToken cancellationToken = default);
+        Task<bool> IsHealthyAsync(CancellationToken cancellationToken = default);
     }
 }

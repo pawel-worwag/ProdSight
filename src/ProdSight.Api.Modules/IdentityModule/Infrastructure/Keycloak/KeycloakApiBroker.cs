@@ -89,5 +89,21 @@ namespace ProdSight.Api.Modules.IdentityModule.Infrastructure.Keycloak
 
             return users ?? [];
         }
+
+        public async Task<bool> IsHealthyAsync(CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var discoveryUrl = $"realms/{options.Value.Realm}/.well-known/openid-configuration";
+                var res = await httpClient.GetAsync(discoveryUrl, cancellationToken).ConfigureAwait(false);
+                return res.IsSuccessStatusCode;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        
     }
 }
