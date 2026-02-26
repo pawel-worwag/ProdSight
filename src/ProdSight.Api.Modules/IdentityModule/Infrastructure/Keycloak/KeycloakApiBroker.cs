@@ -72,7 +72,7 @@ namespace ProdSight.Api.Modules.IdentityModule.Infrastructure.Keycloak
             }
         }
 
-        public async Task<IEnumerable<UserDto>> GetUsersAsync(
+        public async Task<IEnumerable<UserRepresentation>> GetUsersAsync(
             CancellationToken cancellationToken = default)
         {
             var token = await GetClientTokenAsync(cancellationToken).ConfigureAwait(false);
@@ -84,7 +84,7 @@ namespace ProdSight.Api.Modules.IdentityModule.Infrastructure.Keycloak
             var res = await httpClient.GetAsync(usersUrl, cancellationToken).ConfigureAwait(false);
             res.EnsureSuccessStatusCode();
 
-            var users = await res.Content.ReadFromJsonAsync<List<UserDto>>(JsonOptions, cancellationToken)
+            var users = await res.Content.ReadFromJsonAsync<List<UserRepresentation>>(JsonOptions, cancellationToken)
                 .ConfigureAwait(false);
 
             return users ?? [];
