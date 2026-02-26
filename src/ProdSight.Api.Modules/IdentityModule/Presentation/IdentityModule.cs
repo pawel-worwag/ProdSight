@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using ProdSight.Api.Shared.Modules;
-using System.Linq;
 using Microsoft.AspNetCore.Http;
 using ProdSight.Api.Shared.DTOs.IdentityModule.GetUsersList;
 using Microsoft.Extensions.Configuration;
 using ProdSight.Api.Modules.IdentityModule.Infrastructure.Extensions;
 using ProdSight.Api.Modules.IdentityModule.Application.Keycloak;
+using ProdSight.Api.Shared.DTOs.Errors;
 
 namespace ProdSight.Api.Modules.IdentityModule.Presentation;
 
@@ -28,7 +28,8 @@ public class IdentityModule : IModule
     public void ConfigureEndpoints(IEndpointRouteBuilder endpoints)
     {
         // Configure identity endpoints here
-        endpoints.MapGet("/identity", () => "Identity module endpoint");
+        endpoints.MapGet("/identity", () => "Identity module endpoint")
+            .WithTags("Identity Module");
 
         // Endpoint to get users from Keycloak
         endpoints.MapGet("/identity/users", async (IKeycloakApiBroker broker, CancellationToken ct) =>
@@ -50,6 +51,9 @@ public class IdentityModule : IModule
             }).ToList();
 
             return Results.Ok(list);
-        });
+        })
+        .WithTags("Identity Module")
+        .Produces<List<User>>(StatusCodes.Status200OK,"application/json")
+        .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
     }
 }
