@@ -96,7 +96,17 @@ namespace ProdSight.Api.Modules.IdentityModule.Infrastructure.Keycloak
             {
                 var discoveryUrl = $"realms/{options.Value.Realm}/.well-known/openid-configuration";
                 var res = await httpClient.GetAsync(discoveryUrl, cancellationToken).ConfigureAwait(false);
-                return res.IsSuccessStatusCode;
+                if (!res.IsSuccessStatusCode)
+                {
+                    return false;
+                }
+                var discovery = await res.Content.ReadFromJsonAsync<DiscoveryResponseDto>(JsonOptions, cancellationToken)
+                    .ConfigureAwait(false);
+                if (discovery is null)
+                {
+                    return false;
+                }
+                return (!string.IsNullOrWhiteSpace(discovery.TokenEndpoint) && !string.IsNullOrWhiteSpace(discovery.JwksUri));
             }
             catch
             {
