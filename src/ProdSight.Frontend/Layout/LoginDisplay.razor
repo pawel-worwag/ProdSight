@@ -1,5 +1,7 @@
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using ProdSight.Frontend.Services
 @inject NavigationManager Navigation
+@inject SafeTokenMonitor Monitor
 
 <AuthorizeView>
     <Authorized>
@@ -12,10 +14,36 @@
 </AuthorizeView>
 
 @code{
+    private bool _loggedOut;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        Monitor.OnTick += HandleTick;
+    }
+    public void Dispose()
+    {
+        Monitor.OnTick -= HandleTick;
+    }
 
     public void BeginLogOut()
     {
         Navigation.NavigateToLogout("authentication/logout");
+    }
+    
+    private void HandleTick()
+    {
+        _ = InvokeAsync(() =>
+        {
+            var left = Monitor.TimeLeft;
+            
+            Console.WriteLine($"Left {left}");
+            if (Monitor.HasToken && left.HasValue && left.Value <= TimeSpan.Zero && !_loggedOut)
+            {
+                _loggedOut = true;
+                BeginLogOut();
+            }
+        });
     }
 
 }

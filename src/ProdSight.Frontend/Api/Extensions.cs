@@ -7,6 +7,8 @@ public static class Extensions
         var section = configuration.GetSection("Backend");
         services.Configure<ApiOptions>(section);
 
+        services.AddTransient<ApiAuthorizationMessageHandler>();
+        
         services.AddHttpClient<IApiBroker, ApiBroker>((sp, client) =>
         {
             var opts = sp.GetRequiredService<Microsoft.Extensions.Options.IOptions<ApiOptions>>().Value;
@@ -16,7 +18,7 @@ public static class Extensions
                 throw new InvalidOperationException("Configuration 'Backend:BaseUrl' is required for ApiBroker but was not found.");
             }
             client.BaseAddress = new Uri(opts.BaseUrl);
-        });
+        }).AddHttpMessageHandler<ApiAuthorizationMessageHandler>();
         return services;
     }
     

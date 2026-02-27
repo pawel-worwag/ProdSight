@@ -5,6 +5,9 @@
 
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IAccessTokenProvider TokenProvider
+@using ProdSight.Frontend.Api
+@using Microsoft.Extensions.Options
+@inject IOptions<ApiOptions> ApiOptions
 
 <PageTitle>Home</PageTitle>
 
@@ -56,7 +59,11 @@
 
 	private async Task GetAccessToken()
 	{
-		var result = await TokenProvider.RequestAccessToken();
+		var scopes = ApiOptions?.Value?.Scopes ?? Array.Empty<string>();
+		var result = scopes.Length > 0
+			? await TokenProvider.RequestAccessToken(new AccessTokenRequestOptions { Scopes = scopes })
+			: await TokenProvider.RequestAccessToken();
+
 		if (result.TryGetToken(out var token))
 		{
 			accessToken = token;
