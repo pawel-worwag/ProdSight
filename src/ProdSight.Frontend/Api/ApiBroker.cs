@@ -14,19 +14,19 @@ public class ApiBroker(IHttpClientFactory httpFactory) : IApiBroker
     
     public async Task<HealthResponse> GetHealthStatusAsync(CancellationToken cancellationToken = default)
     {
-        var url = $"health";
+        const string url = $"health";
         var res = await GetClient(false).GetAsync(url, cancellationToken);
         res.EnsureSuccessStatusCode();
         return await res.Content.ReadFromJsonAsync<HealthResponse>(JsonOptions, cancellationToken)
-            ?? throw new InvalidOperationException("Empty or invalid health response.");
+            ?? throw new InvalidOperationException("Empty or invalid response.");
     }
 
     public async Task<User> GetAllUsersAsync(CancellationToken cancellationToken = default)
     {
-        var url = $"identity/users";
+        const string url = $"identity/users";
         var res = await GetClient(true).GetAsync(url, cancellationToken);
         res.EnsureSuccessStatusCode();
         return await res.Content.ReadFromJsonAsync<User>(JsonOptions, cancellationToken)
-               ?? throw new InvalidOperationException("Empty or invalid health response.");
+               ?? throw new InvalidOperationException("Empty or invalid response.");
     }
 }
