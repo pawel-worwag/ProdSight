@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using ProdSight.Frontend;
 using ProdSight.Frontend.Api;
-using ProdSight.Frontend.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -20,7 +19,6 @@ builder.Services.AddOidcAuthentication(options =>
     builder.Configuration.Bind("Local", options.ProviderOptions);
 });
 
-// Token monitor: register as scoped because it depends on scoped services (IAccessTokenProvider)
-builder.Services.AddScoped<SafeTokenMonitor>();
+builder.Services.AddSingleton<TokenMonitor>();
 
 await builder.Build().RunAsync();

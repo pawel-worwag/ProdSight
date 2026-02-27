@@ -1,7 +1,8 @@
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-@using ProdSight.Frontend.Services
+@using ProdSight.Frontend.Api
 @inject NavigationManager Navigation
-@inject SafeTokenMonitor Monitor
+@inject TokenMonitor Monitor
+@inject AuthenticationStateProvider AuthProvider
 
 <AuthorizeView>
     <Authorized>
@@ -19,31 +20,29 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        Monitor.OnTick += HandleTick;
+        Monitor.OnTick +=MonitorOnOnTick;
     }
-    public void Dispose()
+
+    private async void MonitorOnOnTick()
     {
-        Monitor.OnTick -= HandleTick;
+
+            var state = await AuthProvider.GetAuthenticationStateAsync();
+            if (state.User?.Identity?.IsAuthenticated==true)
+            {
+                if(Monitor.Left.HasValue && Monitor.Left.Value <= TimeSpan.Zero && !_loggedOut)
+                {
+                    _loggedOut = true;
+                    BeginLogOut();
+                }
+            }
+
     }
+
 
     public void BeginLogOut()
     {
         Navigation.NavigateToLogout("authentication/logout");
     }
-    
-    private void HandleTick()
-    {
-        _ = InvokeAsync(() =>
-        {
-            var left = Monitor.TimeLeft;
-            
-            Console.WriteLine($"Left {left}");
-            if (Monitor.HasToken && left.HasValue && left.Value <= TimeSpan.Zero && !_loggedOut)
-            {
-                _loggedOut = true;
-                BeginLogOut();
-            }
-        });
-    }
+
 
 }
