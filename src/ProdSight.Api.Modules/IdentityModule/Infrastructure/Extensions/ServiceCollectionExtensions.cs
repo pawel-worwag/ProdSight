@@ -25,15 +25,20 @@ namespace ProdSight.Api.Modules.IdentityModule.Infrastructure.Extensions
             return services;
         }
 
-        public static IServiceCollection AddIdentityDatabase(this IServiceCollection services, IConfiguration configuration, string connectionStringName = "Identity")
+        public static IServiceCollection AddIdentityDatabase(this IServiceCollection services, IConfiguration configuration, string connectionStringName = "IdentityModule")
         {
             var connectionString = configuration.GetConnectionString(connectionStringName);
             if (string.IsNullOrWhiteSpace(connectionString))
-                throw new InvalidOperationException($"Connection string '{connectionStringName}' is not configured.");
+            throw new InvalidOperationException($"Connection string '{connectionStringName}' is not configured.");
 
-            services.AddDbContext<IdentityDbContext>(options =>
+            // Use pooled DbContext for better throughput and configure retry on failure for transient PostgreSQL errors
+            services.AddDbContextPool<IdentityDbContext>(options =>
             {
-                options.UseNpgsql(connectionString);
+                options.UseNpgsql(connectionString, npgsqlOptions =>
+                {
+                    // Retry up to 5 times with max delay 30s for transient failures
+                    npgsqlOptions.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(30), errorCodesToAdd: null);
+                });
             });
 
             return services;
