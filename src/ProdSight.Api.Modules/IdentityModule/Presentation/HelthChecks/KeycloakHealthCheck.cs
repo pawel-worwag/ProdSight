@@ -13,11 +13,11 @@ public class KeycloakHealthCheck (IKeycloakApiBroker apiBroker)
         try
         {
             var ok = await apiBroker.IsHealthyAsync(cancellationToken).ConfigureAwait(false);
-            return ok ? HealthCheckResult.Healthy("Keycloak discovery endpoint OK") : HealthCheckResult.Unhealthy("Keycloak discovery endpoint failed");
+            return ok ? HealthCheckResult.Healthy("Keycloak discovery endpoint is reachable and responds") : HealthCheckResult.Unhealthy("Keycloak discovery endpoint is unreachable");
         }
         catch (Exception ex)
         {
-            return HealthCheckResult.Unhealthy(ex.Message, ex);
+            return HealthCheckResult.Unhealthy("Keycloak discovery endpoint is unreachable", ex);
         }
     }
 }
