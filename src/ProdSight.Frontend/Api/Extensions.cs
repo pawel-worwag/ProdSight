@@ -30,6 +30,7 @@ public static class Extensions
         }).AddHttpMessageHandler<ApiAuthorizationMessageHandler>();
 
         services.AddScoped<IApiBroker, ApiBroker>();
+        services.AddScoped<UserProfileService>();
         
         return services;
     }
