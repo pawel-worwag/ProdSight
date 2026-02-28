@@ -13,7 +13,7 @@ namespace ProdSight.Api.Modules.IdentityModule.Infrastructure.Extensions
     {
         public static IServiceCollection AddKeycloakBroker(this IServiceCollection services, IConfiguration configuration)
         {
-            var section = configuration.GetSection("Keycloak");
+            var section = configuration.GetSection("IdentityModule:Keycloak");
             services.Configure<KeycloakOptions>(section);
 
             services.AddHttpClient<IKeycloakApiBroker, KeycloakApiBroker>((sp, client) =>
@@ -26,9 +26,8 @@ namespace ProdSight.Api.Modules.IdentityModule.Infrastructure.Extensions
             return services;
         }
 
-        public static IServiceCollection AddIdentityDatabase(this IServiceCollection services, IConfiguration configuration, string connectionStringName = "IdentityModule")
+        public static IServiceCollection AddIdentityDatabase(this IServiceCollection services, IConfiguration configuration)
         {
-            // Bind DatabaseOptions to the nested `IdentityModule:Database` section (matches appsettings.json)
             services.Configure<DatabaseOptions>(configuration.GetSection("IdentityModule:Database"));
 
             services.AddDbContextPool<IdentityDbContext>((sp, options) =>
