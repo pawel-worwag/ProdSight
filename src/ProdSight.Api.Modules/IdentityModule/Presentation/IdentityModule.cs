@@ -8,7 +8,7 @@ using ProdSight.Api.Shared.DTOs.IdentityModule.GetUsersList;
 using Microsoft.Extensions.Configuration;
 using ProdSight.Api.Modules.IdentityModule.Infrastructure.Extensions;
 using ProdSight.Api.Modules.IdentityModule.Application.Keycloak;
-using ProdSight.Api.Modules.IdentityModule.Presentation.Keycloak;
+using ProdSight.Api.Modules.IdentityModule.Presentation.HelthChecks;
 using ProdSight.Api.Shared.DTOs.Errors;
 
 namespace ProdSight.Api.Modules.IdentityModule.Presentation;
