@@ -28,7 +28,8 @@ namespace ProdSight.Api.Modules.IdentityModule.Infrastructure.Extensions
 
         public static IServiceCollection AddIdentityDatabase(this IServiceCollection services, IConfiguration configuration, string connectionStringName = "IdentityModule")
         {
-            services.Configure<DatabaseOptions>(configuration.GetSection("IdentityModule"));
+            // Bind DatabaseOptions to the nested `IdentityModule:Database` section (matches appsettings.json)
+            services.Configure<DatabaseOptions>(configuration.GetSection("IdentityModule:Database"));
 
             services.AddDbContextPool<IdentityDbContext>((sp, options) =>
             {
