@@ -28,7 +28,8 @@ public class IdentityModule : IModule
         // Health checks: keep a dummy check and add Keycloak discovery check
         services.AddHealthChecks()
             .AddCheck("identity-module-dummy-check", () => HealthCheckResult.Healthy("Identity module is healthy"))
-            .AddCheck<KeycloakHealthCheck>("identity-module-keycloak-integration-check");
+            .AddCheck<KeycloakHealthCheck>("identity-module-keycloak-integration-check")
+            .AddCheck<DatabaseHealthCheck>("identity-module-database-check");
     }
 
     public void ConfigureEndpoints(IEndpointRouteBuilder endpoints)
