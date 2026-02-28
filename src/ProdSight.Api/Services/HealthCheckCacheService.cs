@@ -25,6 +25,7 @@ public class HealthCheckCacheService(IServiceProvider serviceProvider) : Backgro
         
         var report = await healthCheckService.CheckHealthAsync(cancellationToken);
 
+
         foreach (var entry in report.Entries)
         {
             _cachedResults[entry.Key] = entry.Value;

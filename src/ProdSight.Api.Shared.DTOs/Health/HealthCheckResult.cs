@@ -6,6 +6,7 @@ public record HealthCheckResult(
     [property: JsonPropertyName("status")] string Status,
     [property: JsonPropertyName("description")] string? Description,
     [property: JsonPropertyName("duration")] TimeSpan Duration,
+    [property: JsonPropertyName("tags")] IEnumerable<string>? Tags,
     [property: JsonPropertyName("exception")] string? Exception,
     [property: JsonPropertyName("data")] Dictionary<string, object>? Data
 );

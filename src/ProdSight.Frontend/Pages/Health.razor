@@ -20,21 +20,41 @@
     <table class="table table-hover mt-5">
         <thead>
         <tr>
-            <th>Check</th>
+            <th>Module/Check</th>
             <th>Status</th>
             <th>Description</th>
             <th>Duration</th>
         </tr>
         </thead>
         <tbody>
-        @foreach (var c in HealthStatus.Checks)
+        @foreach (var g in HealthStatus.Checks.OrderBy(p=>p.Key))
         {
             <tr>
-                <td>@c.Key</td>
-                <td><span class="badge @(c.Value.Status=="Healthy"?"bg-success":"bg-danger")">@c.Value.Status</span></td>
-                <td>@c.Value.Description</td>
-                <td>@c.Value.Duration</td>
+                <td>@g.Key</td>
+                @*
+                <td>
+                    @if (g.Value.Values.All(p => p.Status == "Healthy"))
+                    {
+                        <span class="badge bg-success">Healthy</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">Unhealthy</span>
+                    }
+                </td>
+                *@
+                <td colspan="3"></td>
             </tr>
+            
+            @foreach (var c in g.Value.OrderBy(p=>p.Key))
+            {
+                <tr>
+                    <td class="ps-5">@c.Key</td>
+                    <td><span class="badge @(c.Value.Status == "Healthy" ? "bg-success" : "bg-danger")">@c.Value.Status</span></td>
+                    <td>@c.Value.Description</td>
+                    <td>@c.Value.Duration</td>
+                </tr>
+            }
         }
         </tbody>
     </table>

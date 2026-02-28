@@ -29,16 +29,27 @@ public static class Endpoints
             var results = cache.GetCachedResults();
             var overallStatus = results.All(r => r.Value.Status == HealthStatus.Healthy) ? "Healthy" : "Unhealthy";
             var lastChecked = cache.GetLastChecked();
-            var checks = results.ToDictionary(
-                r => r.Key,
-                r => new HealthCheckResult(
-                    r.Value.Status.ToString(),
-                    r.Value.Description,
-                    r.Value.Duration,
-                    r.Value.Exception?.Message,
-                    r.Value.Data?.ToDictionary(kvp => kvp.Key, kvp => kvp.Value)
-                )
-            );
+            
+            var checks = new Dictionary<string, IDictionary<string, HealthCheckResult>>();
+            foreach (var (key, value) in results)
+            {
+                var cResult = new HealthCheckResult(
+                    value.Status.ToString(),
+                    value.Description,
+                    value.Duration,
+                    value.Tags,
+                    value.Exception?.Message,
+                    value.Data?.ToDictionary(kvp => kvp.Key, kvp => kvp.Value)
+                );
+                foreach (var tag in value.Tags)
+                {
+                    if (!checks.ContainsKey(tag))
+                    {
+                        checks.Add(tag,new Dictionary<string, HealthCheckResult>());
+                    }
+                    checks[tag].Add(key,cResult);
+                }
+            }
             return Results.Json(new HealthResponse(overallStatus, lastChecked, checks));
         });
     }

@@ -13,7 +13,7 @@ public class MeasurementModule : IModule
 
     public void RegisterServices(IServiceCollection services)
     {
-        services.AddHealthChecks().AddCheck("measurement-module-dummy-check", () => HealthCheckResult.Healthy("Measurement module is healthy"));
+        services.AddHealthChecks().AddCheck("measurement-module-dummy-check", () => HealthCheckResult.Healthy("Measurement module is healthy"), tags: ["measurement-module"]);
         // Register measurement services here
     }
 
