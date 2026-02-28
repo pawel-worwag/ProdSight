@@ -40,14 +40,4 @@
     </table>
 }
 
-@code {
-    [Inject] IApiBroker Api { get; set; }
-    private HealthResponse? HealthStatus { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-        HealthStatus = await Api.GetHealthStatusAsync();
-    }
-
-}
+ 
