@@ -1,13 +1,13 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using ProdSight.Api.Shared.Modules;
-using Microsoft.AspNetCore.Http;
 using ProdSight.Api.Shared.DTOs.IdentityModule.GetUsersList;
-using Microsoft.Extensions.Configuration;
-using ProdSight.Api.Modules.IdentityModule.Infrastructure.Extensions;
 using ProdSight.Api.Modules.IdentityModule.Application.Keycloak;
+using ProdSight.Api.Modules.IdentityModule.Infrastructure.Extensions;
 using ProdSight.Api.Modules.IdentityModule.Presentation.HelthChecks;
 using ProdSight.Api.Shared.DTOs.Errors;
 
@@ -27,7 +27,8 @@ public class IdentityModule : IModule
 
         // Health checks: keep a dummy check and add Keycloak discovery check
         services.AddHealthChecks()
-            .AddCheck("identity-module-dummy-check", () => HealthCheckResult.Healthy("Identity module is healthy"), tags:
+            .AddCheck("identity-module-dummy-check", () => HealthCheckResult.Healthy("Identity module is healthy"),
+                tags:
                 ["identity-module"])
             .AddCheck<KeycloakHealthCheck>("identity-module-keycloak-integration-check", tags: ["identity-module"])
             .AddCheck<DatabaseHealthCheck>("identity-module-database-check", tags: ["identity-module"]);

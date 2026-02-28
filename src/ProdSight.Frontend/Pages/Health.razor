@@ -54,6 +54,15 @@
                     <td>@c.Value.Description</td>
                     <td>@c.Value.Duration</td>
                 </tr>
+                @if (c.Value.Exception is not null)
+                {
+                    <tr>
+                        <td colspan="2"></td>
+                        <td colspan="2">
+                            @c.Value.Exception
+                        </td>
+                    </tr>
+                }
             }
         }
         </tbody>

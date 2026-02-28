@@ -1,21 +1,24 @@
 namespace ProdSight.Api.Modules.IdentityModule.Infrastructure.Database;
 
+using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
-using ProdSight.Api.Modules.IdentityModule.Domain;
-using ProdSight.Api.Modules.IdentityModule.Infrastructure.Database.Configurations;
+using Domain;
+using Configurations;
 
-public class IdentityDbContext : DbContext
+
+public class IdentityDbContext(
+    DbContextOptions<IdentityDbContext> options,
+    IOptions<DatabaseOptions> dbOptions
+    ): DbContext(options)
 {
-    public IdentityDbContext(DbContextOptions<IdentityDbContext> options) : base(options)
-    {
-    }
+    private readonly DatabaseOptions _dbOptions = dbOptions.Value;
 
     public DbSet<UserSettings> UserSettings { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
+        modelBuilder.HasDefaultSchema(_dbOptions.DatabaseSchema ?? "public");
         modelBuilder.ApplyConfiguration(new UserSettingsConfiguration());
     }
 }
