@@ -23,6 +23,7 @@ public class IdentityModule : IModule
         // Register Keycloak broker (preserve configuration from appsettings)
         var config = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
         services.AddKeycloakBroker(config);
+        services.AddIdentityDatabase(config);
 
         // Health checks: keep a dummy check and add Keycloak discovery check
         services.AddHealthChecks()
