@@ -1,6 +1,8 @@
 using System;
+using System.Data.Common;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using ProdSight.Api.Modules.IdentityModule.Infrastructure.Database;
 
@@ -12,15 +14,30 @@ public class DatabaseHealthCheck(IdentityDbContext db) : IHealthCheck
     {
         try
         {
-            var canConnect = await db.Database.CanConnectAsync(cancellationToken).ConfigureAwait(false);
-            if (canConnect)
-                return HealthCheckResult.Healthy("Identity database is reachable");
+            var conn = db.Database.GetDbConnection();
+            using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+            cts.CancelAfter(TimeSpan.FromSeconds(15));
 
-            return HealthCheckResult.Unhealthy("Identity database is not reachable");
+            try
+            {
+                await conn.OpenAsync(cts.Token).ConfigureAwait(false);
+
+                using var cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT 1";
+                cmd.CommandTimeout = 5;
+                await cmd.ExecuteScalarAsync(cts.Token).ConfigureAwait(false);
+                await conn.CloseAsync();
+
+                return HealthCheckResult.Healthy("Identity database is reachable and responds to queries");
+            }
+            catch (Exception ex)
+            {
+                return HealthCheckResult.Unhealthy("Identity database is unreachable", ex);
+            }
         }
         catch (Exception ex)
         {
-            return HealthCheckResult.Unhealthy("Identity database health check failed", ex);
+            return HealthCheckResult.Unhealthy("Identity database is unreachable", ex);
         }
     }
 }
