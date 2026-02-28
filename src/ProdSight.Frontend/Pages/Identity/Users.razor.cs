@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using ProdSight.Api.Shared.DTOs.IdentityModule.GetUsersList;
+using ProdSight.Frontend.Api;
 
 namespace ProdSight.Frontend.Pages.Identity;
 
@@ -8,6 +10,11 @@ public partial class Users : ComponentBase
     [Inject]
     private IJSRuntime? Js { get; set; }
     private IJSObjectReference? _module;
+    
+    [Inject]
+    private IApiBroker? Api { get; set; }
+    
+    private ICollection<User>? Data { get; set; }
     
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -20,9 +27,20 @@ public partial class Users : ComponentBase
                     "./js/Identity/Users.js"
                 );
             }
+            
+            await LoadData();
         }
     }
 
+    private async Task LoadData()
+    {
+        if (Api is not null)
+        {
+            Data = await Api.GetAllUsersAsync();
+            StateHasChanged();
+        }
+    }
+    
     public async ValueTask DisposeAsync()
     {
         if (_module is not null)

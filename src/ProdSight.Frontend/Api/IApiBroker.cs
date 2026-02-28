@@ -6,5 +6,5 @@ namespace ProdSight.Frontend.Api;
 public interface IApiBroker
 {
     Task<HealthResponse> GetHealthStatusAsync(CancellationToken cancellationToken = default);
-    Task<User> GetAllUsersAsync(CancellationToken cancellationToken = default);
+    Task<ICollection<User>> GetAllUsersAsync(CancellationToken cancellationToken = default);
 }

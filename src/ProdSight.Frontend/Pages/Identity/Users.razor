@@ -1,2 +1,37 @@
 @page "/identity/users"
 <h3>Users</h3>
+
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>Username</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Email</th>
+        <th>Enabled</th>
+        <th>Created</th>
+        <th>Totp</th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (Data is null || Data.Count == 0)
+    {
+        <tr><td colspan="7">No data</td></tr>
+    }
+    else
+    {
+        @foreach (var u in Data)
+        {
+            <tr>
+                <td>@u.Username</td>
+                <td>@u.FirstName</td>
+                <td>@u.LastName</td>
+                <td>@u.Email</td>
+                <td>@u.Enabled</td>
+                <td>@u.CreatedTimestamp</td>
+                <td>@u.Totp</td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>

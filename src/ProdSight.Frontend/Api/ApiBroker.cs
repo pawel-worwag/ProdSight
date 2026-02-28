@@ -21,12 +21,12 @@ public class ApiBroker(IHttpClientFactory httpFactory) : IApiBroker
             ?? throw new InvalidOperationException("Empty or invalid response.");
     }
 
-    public async Task<User> GetAllUsersAsync(CancellationToken cancellationToken = default)
+    public async Task<ICollection<User>> GetAllUsersAsync(CancellationToken cancellationToken = default)
     {
         const string url = $"identity/users";
         var res = await GetClient(true).GetAsync(url, cancellationToken);
         res.EnsureSuccessStatusCode();
-        return await res.Content.ReadFromJsonAsync<User>(JsonOptions, cancellationToken)
+        return await res.Content.ReadFromJsonAsync<IList<User>>(JsonOptions, cancellationToken)
                ?? throw new InvalidOperationException("Empty or invalid response.");
     }
 }
