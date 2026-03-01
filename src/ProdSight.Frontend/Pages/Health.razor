@@ -3,20 +3,33 @@
 @using ProdSight.Frontend.Api
 
 
-@if (HealthStatus != null)
-{
-    <table class="table table-hover table-borderless my-3">
-        <tbody>
-        <tr>
-            <td class="text-end">Status:</td>
-            <td colspan="3"><span class="badge @(HealthStatus.Status=="Healthy"?"bg-success":"bg-danger")">@HealthStatus.Status</span></td>
-        </tr>
+
+<table class="table table-hover table-borderless my-3">
+    <tbody>
+    <tr>
+        <td class="text-end">Status:</td>
+        <td colspan="3"><span
+                class="badge @(HealthStatus?.Status == "Healthy" ? "bg-success" : "bg-danger")">@(HealthStatus?.Status ?? "Unhealthy")</span>
+        </td>
+    </tr>
+    @if (HealthStatus is not null)
+    {
         <tr>
             <td class="text-end">Last check:</td>
-            <td colspan="3">@HealthStatus.LastChecked (UTC)</td>
+            <td colspan="3">@HealthStatus?.LastChecked (UTC)</td>
         </tr>
-        </tbody>
-    </table>
+    }
+    else
+    {
+        <tr>
+            <td class="text-end">Error:</td>
+            <td colspan="3">@Error</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+
     <table class="table table-hover mt-5">
         <thead>
         <tr>
@@ -27,11 +40,13 @@
         </tr>
         </thead>
         <tbody>
-        @foreach (var g in HealthStatus.Checks.OrderBy(p=>p.Key))
+        @if (HealthStatus is not null)
         {
-            <tr>
-                <td>@g.Key</td>
-                @*
+            @foreach (var g in HealthStatus.Checks.OrderBy(p => p.Key))
+            {
+                <tr>
+                    <td>@g.Key</td>
+                    @*
                 <td>
                     @if (g.Value.Values.All(p => p.Status == "Healthy"))
                     {
@@ -43,28 +58,37 @@
                     }
                 </td>
                 *@
-                <td colspan="3"></td>
-            </tr>
-            
-            @foreach (var c in g.Value.OrderBy(p=>p.Key))
-            {
-                <tr>
-                    <td class="ps-5">@c.Key</td>
-                    <td><span class="badge @(c.Value.Status == "Healthy" ? "bg-success" : "bg-danger")">@c.Value.Status</span></td>
-                    <td>@c.Value.Description</td>
-                    <td>@c.Value.Duration</td>
+                    <td colspan="3"></td>
                 </tr>
-                @if (c.Value.Exception is not null)
+
+                @foreach (var c in g.Value.OrderBy(p => p.Key))
                 {
                     <tr>
-                        <td colspan="2"></td>
-                        <td colspan="2">
-                            @c.Value.Exception
+                        <td class="ps-5">@c.Key</td>
+                        <td>
+                            <span
+                                class="badge @(c.Value.Status == "Healthy" ? "bg-success" : "bg-danger")">@c.Value.Status</span>
                         </td>
+                        <td>@c.Value.Description</td>
+                        <td>@c.Value.Duration</td>
                     </tr>
+                    @if (c.Value.Exception is not null)
+                    {
+                        <tr>
+                            <td colspan="2"></td>
+                            <td colspan="2">
+                                @c.Value.Exception
+                            </td>
+                        </tr>
+                    }
                 }
             }
         }
+        else
+        {
+            <tr>
+                <td colspan="4" class="text-center">No data</td>
+            </tr>
+        }
         </tbody>
     </table>
-}

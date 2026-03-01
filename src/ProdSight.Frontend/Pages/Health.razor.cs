@@ -14,6 +14,8 @@ public partial class Health(IApiBroker api) : ComponentBase, IAsyncDisposable
     private CancellationTokenSource? _cts;
     private Task? _pollingTask;
     private readonly TimeSpan _pollInterval = TimeSpan.FromSeconds(5);
+    
+    private string Error { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -30,7 +32,7 @@ public partial class Health(IApiBroker api) : ComponentBase, IAsyncDisposable
             {
                 try
                 {
-                    var status = await api.GetHealthStatusAsync();
+                    var status = await api.GetHealthStatusAsync(token);
                     HealthStatus = status;
                     await InvokeAsync(StateHasChanged);
                 }
@@ -38,9 +40,10 @@ public partial class Health(IApiBroker api) : ComponentBase, IAsyncDisposable
                 {
                     break;
                 }
-                catch
+                catch (Exception ex)
                 {
-                    // swallow individual fetch errors (optionally log)
+                    Error = ex.InnerException?.Message ?? ex.Message;
+                    StateHasChanged();
                 }
 
                 await Task.Delay(_pollInterval, token);
