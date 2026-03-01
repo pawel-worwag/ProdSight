@@ -27,10 +27,13 @@ public static class Extensions
                 throw new InvalidOperationException("Configuration 'Backend:BaseUrl' is required for ApiBroker but was not found.");
             }
             client.BaseAddress = new Uri(opts.BaseUrl);
-        }).AddHttpMessageHandler<ApiAuthorizationMessageHandler>();
+        })
+        .AddHttpMessageHandler<AccessTokenNotAvailableHandler>()
+        .AddHttpMessageHandler<ApiAuthorizationMessageHandler>();
 
         services.AddScoped<IApiBroker, ApiBroker>();
         services.AddScoped<UserProfileService>();
+        services.AddTransient<AccessTokenNotAvailableHandler>();
         
         return services;
     }
