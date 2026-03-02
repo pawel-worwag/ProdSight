@@ -1,5 +1,7 @@
 @page "/identity/users"
+@using Microsoft.AspNetCore.Authorization
 @using ProdSight.Frontend.Components.Identity
+@attribute [Authorize]
 <h3>Users</h3>
 
 <table class="table table-hover">
