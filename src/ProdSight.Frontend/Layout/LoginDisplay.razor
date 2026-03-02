@@ -7,7 +7,7 @@
 <AuthorizeView>
     <Authorized>
         <div class="d-flex">
-            <span class="px-3">@context.User.Identity?.Name!</span>
+            <span class="px-3">@context.User.Identity?.Name</span>
             <button class="nav-link btn btn-outline-danger px-2" @onclick="BeginLogOut">Log out</button>
         </div>
     </Authorized>
