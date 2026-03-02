@@ -19,4 +19,7 @@ builder.Services.AddOidcAuthentication(options =>
 
 builder.Services.AddSingleton<TokenMonitor>();
 
+
+
+
 await builder.Build().RunAsync();

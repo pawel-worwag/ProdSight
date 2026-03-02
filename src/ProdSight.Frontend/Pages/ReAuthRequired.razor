@@ -1,0 +1,28 @@
+@page "/reauthrequired"
+@inject NavigationManager Nav
+@inject ILogger<Authentication> Logger
+
+<h3>Token expired</h3>
+
+<p>Your AccessToken is expired.</p>
+
+<button @onclick="StartLogin">Sign in</button>
+
+@code {
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "returnUrl")]
+    public string? returnUrl { get; set; }
+
+    public string? url { get; set; }
+    
+    protected override void OnInitialized()
+    {
+        url = Uri.EscapeDataString(returnUrl);
+    }
+    
+    void StartLogin()
+    {
+        Nav.NavigateTo($"authentication/login?returnUrl={url}", true);
+    }
+
+}

@@ -1,4 +1,5 @@
 @page "/identity/users"
+@using ProdSight.Frontend.Components.Identity
 <h3>Users</h3>
 
 <table class="table table-hover">
@@ -22,6 +23,7 @@
     {
         @foreach (var u in Data)
         {
+            <UserRow />
             <tr>
                 <td>@u.Username</td>
                 <td>@u.FirstName</td>

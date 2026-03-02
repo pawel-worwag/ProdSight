@@ -36,8 +36,15 @@ public partial class Users : ComponentBase
     {
         if (Api is not null)
         {
-            Data = await Api.GetAllUsersAsync();
-            StateHasChanged();
+            try
+            {
+                Data = await Api.GetAllUsersAsync();
+                StateHasChanged();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
     }
     

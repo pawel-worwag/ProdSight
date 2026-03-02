@@ -1,7 +1,15 @@
 @page "/authentication/{action}"
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@inject NavigationManager Nav
+@inject ILogger<Authentication> Logger
+
 <RemoteAuthenticatorView Action="@Action"/>
 
 @code{
     [Parameter] public string? Action { get; set; }
+    
+    protected override void OnParametersSet()
+    {
+        Logger.LogInformation("Authentication page loaded. Action={Action} Uri={Uri}", Action, Nav.Uri);
+    }
 }
