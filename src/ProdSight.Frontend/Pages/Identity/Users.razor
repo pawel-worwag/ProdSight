@@ -26,16 +26,7 @@
     {
         @foreach (var u in Data)
         {
-            <UserRow />
-            <tr>
-                <td>@u.Username</td>
-                <td>@u.FirstName</td>
-                <td>@u.LastName</td>
-                <td>@u.Email</td>
-                <td>@u.Enabled</td>
-                <td>@u.CreatedTimestamp</td>
-                <td>@u.Totp</td>
-            </tr>
+            <UserRow User="@u"/>
         }
     }
     </tbody>
