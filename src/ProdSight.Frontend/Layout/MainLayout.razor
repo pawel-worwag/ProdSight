@@ -1,8 +1,38 @@
 @inherits LayoutComponentBase
 @inject Api.UserProfileService UserProfileService
 
-<div class="layout-header">
-	<LoginDisplay />
+
+
+<nav class="navbar sticky-top bg-body-tertiary border-bottom">
+	<div class="container">
+		<div>
+			<button class="navbar-toggler" type="button"
+			        data-bs-toggle="offcanvas"
+			        data-bs-target="#offcanvasMainMenu"
+			        aria-controls="offcanvasMainMenu"
+			        aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<span class="navbar-brand ms-4 mb-0 h1">{{ <span style="color: #da27da;">Prod</span>Sight }}</span>
+		</div>
+		<div>
+			<LoginDisplay />
+		</div>
+	</div>
+</nav>
+
+<div class="offcanvas offcanvas-start"
+     tabindex="-1" id="offcanvasMainMenu"
+     aria-labelledby="offcanvasMainMenuLabel" >
+	<div class="offcanvas-header">
+		<h5 class="offcanvas-title" id="offcanvasMainMenuLabel">{{ <span style="color: #da27da;">Health</span> Report }}</h5>
+		<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+	</div>
+	<div class="offcanvas-body d-flex flex-column">
+		<PrimaryMenu/>
+	</div>
 </div>
 
-@Body
+<div class="container-fluid mt-3">
+	@Body
+</div>

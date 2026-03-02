@@ -1,0 +1,22 @@
+.menuButton{
+
+}
+.menuButton:hover{
+    color: #000 !important;
+    background-color: #f8f9fa !important;
+}
+.loginButton{
+
+}
+.loginButton:hover{
+    color: #000 !important;
+    background-color: #198754 !important;
+}
+.logoutButton{
+
+}
+.logoutButton:hover{
+    color: #000 !important;
+    background-color: #dc3545 !important;
+
+}

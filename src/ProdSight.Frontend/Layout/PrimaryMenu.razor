@@ -1,0 +1,56 @@
+@using System.Security.Claims
+@using ProdSight.Frontend.Helpers
+<div class="flex-grow-1 d-flex flex-column align-items-space-between gap-3">
+    <AuthorizeView Context="auth">
+        <Authorized>
+            @if (ClaimChecker.HasClaimValues(User, "identity-module-role", ["user", "admin"]))
+            {
+                <div class="btn menuButton text-start" role="button"
+                     data-bs-dismiss="offcanvas"
+                     aria-label="Close"
+                     @onclick="@(async () => { await NavigateToElement("/identity/users"); })">
+                    <span class="bi bi-speedometer2 me-2"></span> Users
+                </div>
+            }
+
+            <div class="btn logoutButton text-start" role="button"
+                 data-bs-dismiss="offcanvas"
+                 aria-label="Close"
+                 @onclick="@(async () => { await NavigateToElement("/authentication/logout"); })">
+                <span class="bi bi-box-arrow-right me-2"></span> LogOut
+            </div>
+        </Authorized>
+        <NotAuthorized>
+            <div class="btn text-start loginButton text-start" role="button"
+                 data-bs-dismiss="offcanvas" 
+                 aria-label="Close"
+                 @onclick="@(async () => { await NavigateToElement("/authentication/login"); })">
+                <span class="bi bi-box-arrow-in-right"></span> LogIn
+            </div>
+        </NotAuthorized>
+    </AuthorizeView>
+</div>
+
+@inject AuthenticationStateProvider authStateProvider
+
+@code {
+    [Inject]
+    public required NavigationManager Nav { get; set; }
+
+    private  ClaimsPrincipal User { get; set; }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        var state = await authStateProvider.GetAuthenticationStateAsync();
+        User = state.User;
+    }
+
+    private async Task NavigateToElement(string path)
+    {
+        if (!string.IsNullOrWhiteSpace(path))
+        {
+            await Task.CompletedTask;
+            Nav.NavigateTo(path, true);
+        }
+    }
+}
