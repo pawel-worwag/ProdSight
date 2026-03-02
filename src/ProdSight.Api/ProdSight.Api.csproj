@@ -12,62 +12,9 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" />
   </ItemGroup>
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="publish\publish\publish\publish\publish\publish\web.config" />
-    <_ContentIncludedByDefault Remove="publish\publish\publish\publish\publish\web.config" />
-    <_ContentIncludedByDefault Remove="publish\publish\publish\publish\web.config" />
-    <_ContentIncludedByDefault Remove="publish\publish\publish\web.config" />
-    <_ContentIncludedByDefault Remove="publish\publish\web.config" />
-    <_ContentIncludedByDefault Remove="publish\web.config" />
-    <_ContentIncludedByDefault Remove="publish\appsettings.json" />
-    <_ContentIncludedByDefault Remove="publish\ProdSight.Api.deps.json" />
-    <_ContentIncludedByDefault Remove="publish\ProdSight.Api.runtimeconfig.json" />
-    <_ContentIncludedByDefault Remove="publish\ProdSight.Api.staticwebassets.endpoints.json" />
-    <_ContentIncludedByDefault Remove="publish\publish\appsettings.json" />
-    <_ContentIncludedByDefault Remove="publish\publish\ProdSight.Api.deps.json" />
-    <_ContentIncludedByDefault Remove="publish\publish\ProdSight.Api.runtimeconfig.json" />
-    <_ContentIncludedByDefault Remove="publish\publish\ProdSight.Api.staticwebassets.endpoints.json" />
-    <_ContentIncludedByDefault Remove="publish\publish\publish\appsettings.json" />
-    <_ContentIncludedByDefault Remove="publish\publish\publish\ProdSight.Api.deps.json" />
-    <_ContentIncludedByDefault Remove="publish\publish\publish\ProdSight.Api.runtimeconfig.json" />
-    <_ContentIncludedByDefault Remove="publish\publish\publish\ProdSight.Api.staticwebassets.endpoints.json" />
-    <_ContentIncludedByDefault Remove="publish\publish\publish\publish\appsettings.json" />
-    <_ContentIncludedByDefault Remove="publish\publish\publish\publish\ProdSight.Api.deps.json" />
-    <_ContentIncludedByDefault Remove="publish\publish\publish\publish\ProdSight.Api.runtimeconfig.json" />
-    <_ContentIncludedByDefault Remove="publish\publish\publish\publish\ProdSight.Api.staticwebassets.endpoints.json" />
-    <_ContentIncludedByDefault Remove="publish\publish\publish\publish\publish\appsettings.json" />
-    <_ContentIncludedByDefault Remove="publish\publish\publish\publish\publish\ProdSight.Api.deps.json" />
-    <_ContentIncludedByDefault Remove="publish\publish\publish\publish\publish\ProdSight.Api.runtimeconfig.json" />
-    <_ContentIncludedByDefault Remove="publish\publish\publish\publish\publish\ProdSight.Api.staticwebassets.endpoints.json" />
-    <_ContentIncludedByDefault Remove="publish\publish\publish\publish\publish\publish\appsettings.json" />
-    <_ContentIncludedByDefault Remove="publish\publish\publish\publish\publish\publish\ProdSight.Api.deps.json" />
-    <_ContentIncludedByDefault Remove="publish\publish\publish\publish\publish\publish\ProdSight.Api.runtimeconfig.json" />
-    <_ContentIncludedByDefault Remove="publish\publish\publish\publish\publish\publish\ProdSight.Api.staticwebassets.endpoints.json" />
-  </ItemGroup>
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-  <Target Name="MoveModuleAssembliesToSubfolder" AfterTargets="Publish">
-    <PropertyGroup>
-      <_ModulesPublishSubfolder>modules</_ModulesPublishSubfolder>
-      <_PublishDir>$(PublishDir)</_PublishDir>
-    </PropertyGroup>
-    <ItemGroup>
-      <_ModuleFiles Include="$(_PublishDir)ProdSight.Api.Modules.*.*" />
-    </ItemGroup>
-    <!-- Create per-module folders under publish/modules -->
-    <ItemGroup>
-      <_ModuleFolders Include="@(_ModuleFiles->'$(_PublishDir)$(_ModulesPublishSubfolder)/$([System.Text.RegularExpressions.Regex]::Replace('%(Filename)', '^ProdSight\.Api\.Modules\.([^\.]+)\..*$', '$1'))')" />
-    </ItemGroup>
-    <!-- Remove previous modules folder to avoid leftover files from earlier publishes -->
-    <RemoveDir Directories="$(_PublishDir)$(_ModulesPublishSubfolder)" Condition="Exists('$(_PublishDir)$(_ModulesPublishSubfolder)')" />
-    <MakeDir Directories="@(_ModuleFolders)" Condition="@(_ModuleFiles) != ''" />
-    <!-- Move files into their module folder preserving filename+extension -->
-    <Move
-      SourceFiles="@(_ModuleFiles)"
-      DestinationFiles="@(_ModuleFiles->'$(_PublishDir)$(_ModulesPublishSubfolder)/$([System.Text.RegularExpressions.Regex]::Replace('%(Filename)', '^ProdSight\.Api\.Modules\.([^\.]+)\..*$', '$1'))/%(Filename)%(Extension)')"
-      Condition="@(_ModuleFiles) != ''" />
-  </Target>
 </Project>
