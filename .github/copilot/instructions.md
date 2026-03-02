@@ -1,14 +1,20 @@
 # AI Collaboration Instructions for ProdSight Project
 
 ## Introduction
-This file contains instructions for AI agents (e.g., Copilot, GitHub Copilot) on collaborating with the ProdSight (.NET) project. ProdSight is a modular application for visualizing production data related to factory floors and the operation of machines/production lines. Modules are typically implemented using Onion Architecture. Identity provider is Keycloak.
+This file contains instructions for AI agents (e.g., Copilot, GitHub Copilot)
+on collaborating with the ProdSight (.NET) project. ProdSight is a modular
+application for visualizing production data related to factory floors and
+the operation of machines and production lines. Modules are typically
+implemented using Onion Architecture. Identity provider is Keycloak.
+The frontend is implemented with Blazor WebAssembly (Blazor WASM).
 
 ## General Rules
 - Analyze only existing code in the repo (e.g., [ProdSight.sln](ProdSight.sln), IDE configuration files in `.idea/`).
 - Do not modify IDE configuration files (e.g., [workspace.xml](.idea/.idea.ProdSight/.idea/workspace.xml)) without permission.
 - When renaming or moving files, preserve Git history: use `git mv` instead of creating a new file and deleting the old one.
  - When renaming or moving files, preserve Git history: use `git mv` instead of creating a new file and deleting the old one.
- - When moving or removing code, do not leave placeholder comments in the original file. Either move the code (preserving history) or remove it entirely so the file remains clean. If you introduce new project-specific conventions, update this instructions file accordingly.
+ - When moving or removing code, do not leave placeholder comments in the original file. Either move the code (preserving history) 
+ or remove it entirely so the file remains clean. If you introduce new project-specific conventions, update this instructions file accordingly.
  - If the project expands, follow security guidelines: do not generate code with sensitive data, use only approved models.
 - All generated files, unless otherwise specified, must be in English. This includes comments and commit messages.
 - Implement new modules using Onion Architecture (Domain, Application, Infrastructure, Presentation layers).
