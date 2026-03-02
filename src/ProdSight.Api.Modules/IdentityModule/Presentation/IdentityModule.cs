@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -60,6 +61,9 @@ public class IdentityModule : IModule
         })
         .WithTags("Identity Module")
         .Produces<List<User>>(StatusCodes.Status200OK,"application/json")
-        .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
+        .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json")
+        .RequireAuthorization(new AuthorizationPolicyBuilder()
+            .RequireClaim("identity-module-role", ["user", "admin"])
+            .Build());;
     }
 }

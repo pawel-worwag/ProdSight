@@ -9,6 +9,8 @@
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
     <PackageReference Include="prometheus-net.AspNetCore" />
     <PackageReference Include="Scalar.AspNetCore" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" />
   </ItemGroup>
   <ItemGroup>
     <_ContentIncludedByDefault Remove="publish\publish\publish\publish\publish\publish\web.config" />
