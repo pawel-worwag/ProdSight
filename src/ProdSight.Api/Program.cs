@@ -3,8 +3,6 @@ using ProdSight.Api.Extensions;
 using ProdSight.Api.Services;
 using ProdSight.Api.Middleware;
 using Prometheus;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -28,31 +26,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.MetadataAddress = builder.Configuration["Oidc:MetadataAddress"]; 
-        options.RequireHttpsMetadata = true;
-        options.MapInboundClaims = true;
-        options.Authority = builder.Configuration["Oidc:Authority"];
-        options.Audience = builder.Configuration["Oidc:Audience"];
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateIssuerSigningKey = true,
-            ValidateLifetime = true
-        };
-        options.Events = new JwtBearerEvents
-        {
-            OnAuthenticationFailed = ctx =>
-            {
-                Console.Error.WriteLine($"Auth failed: {ctx.Exception?.Message}");
-                return Task.CompletedTask;
-            }
-        };
-    });
-builder.Services.AddAuthorization();
+builder.Services.AddJWTAuth(builder.Configuration);
 
 
 var app = builder.Build();
