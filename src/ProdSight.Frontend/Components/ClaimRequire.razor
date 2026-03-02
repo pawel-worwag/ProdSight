@@ -1,0 +1,17 @@
+@using ProdSight.Frontend.Helpers
+@inject AuthenticationStateProvider authStateProvider
+@inject NavigationManager Nav
+
+@code {
+    [Parameter] public required string ClaimType { get; set; } = default!;
+    [Parameter] public required string[] AllowedValues { get; set; } = Array.Empty<string>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var state = await authStateProvider.GetAuthenticationStateAsync();
+        if (!ClaimChecker.HasClaimValues(state.User, ClaimType, AllowedValues))
+        {
+            Nav.NavigateTo("/no-access", replace: true); 
+        }
+    }
+}

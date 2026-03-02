@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Authorization
 @using ProdSight.Frontend.Components.Identity
 @attribute [Authorize]
+<ClaimRequire ClaimType="identity-module-role" AllowedValues="@(["user", "admin"])" />
 <h3>Users</h3>
 
 <table class="table table-hover">

@@ -10,7 +10,7 @@ public partial class Users : ComponentBase
     [Inject]
     private IJSRuntime? Js { get; set; }
     private IJSObjectReference? _module;
-    
+
     [Inject]
     private IApiBroker? Api { get; set; }
     
