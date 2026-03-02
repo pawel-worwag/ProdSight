@@ -32,6 +32,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         options.MetadataAddress = builder.Configuration["Oidc:MetadataAddress"]; 
+        options.RequireHttpsMetadata = true;
+        options.MapInboundClaims = true;
         options.Authority = builder.Configuration["Oidc:Authority"];
         options.Audience = builder.Configuration["Oidc:Audience"];
         options.TokenValidationParameters = new TokenValidationParameters
@@ -41,8 +43,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
             ValidateLifetime = true
         };
-        options.MapInboundClaims = false;
-
         options.Events = new JwtBearerEvents
         {
             OnAuthenticationFailed = ctx =>
