@@ -30,7 +30,7 @@ public class ModuleRegistry
             if (enabled)
             {
                 _logger.LogInformation("Loading module: {ModuleName}", module.Name);
-                module.RegisterServices(services);
+                module.RegisterServices(services, config);
                 _moduleStates[module] = true;
             }
         }

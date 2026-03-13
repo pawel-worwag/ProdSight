@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using ProdSight.Api.Shared.Modules;
@@ -11,7 +12,7 @@ public class MeasurementModule : IModule
     public string Name => "MeasurementModule";
     public string RequiredScope => "measurement-module";
 
-    public void RegisterServices(IServiceCollection services)
+    public void RegisterServices(IServiceCollection services,IConfiguration config)
     {
         services.AddHealthChecks().AddCheck("measurement-module-dummy-check", () => HealthCheckResult.Healthy("Measurement module is healthy"), tags: ["measurement-module"]);
         // Register measurement services here

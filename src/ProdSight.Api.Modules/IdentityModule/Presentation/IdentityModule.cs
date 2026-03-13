@@ -19,10 +19,9 @@ public class IdentityModule : IModule
     public string Name => "IdentityModule";
     public string RequiredScope => "identity-module";
 
-    public void RegisterServices(IServiceCollection services)
+    public void RegisterServices(IServiceCollection services,IConfiguration config)
     {
         // Register Keycloak broker (preserve configuration from appsettings)
-        var config = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
         services.AddKeycloakBroker(config);
         services.AddIdentityDatabase(config);
 
