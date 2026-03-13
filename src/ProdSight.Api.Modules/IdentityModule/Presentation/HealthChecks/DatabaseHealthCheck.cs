@@ -1,12 +1,8 @@
-using System;
-using System.Data.Common;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using ProdSight.Api.Modules.IdentityModule.Infrastructure.Database;
 
-namespace ProdSight.Api.Modules.IdentityModule.Presentation.HelthChecks;
+namespace ProdSight.Api.Modules.IdentityModule.Presentation.HealthChecks;
 
 public class DatabaseHealthCheck(IdentityDbContext db) : IHealthCheck
 {
