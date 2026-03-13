@@ -9,11 +9,12 @@ public class DatabaseHealthCheck(IdentityDbContext db) : IHealthCheck
     public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context,
         CancellationToken cancellationToken = default)
     {
+        using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        cts.CancelAfter(TimeSpan.FromSeconds(15));
+        
         try
         {
             var conn = db.Database.GetDbConnection();
-            using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-            cts.CancelAfter(TimeSpan.FromSeconds(15));
 
             await conn.OpenAsync(cts.Token).ConfigureAwait(false);
 

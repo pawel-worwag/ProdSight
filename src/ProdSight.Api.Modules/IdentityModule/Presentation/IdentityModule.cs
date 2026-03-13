@@ -62,6 +62,6 @@ public class IdentityModule : IModule
         .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json")
         .RequireAuthorization(new AuthorizationPolicyBuilder()
             .RequireClaim("identity-module-role", ["user", "admin"])
-            .Build());;
+            .Build());
     }
 }
