@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace ProdSight.Api.Modules.IdentityModule.Application.Keycloak.DTOs;
 
-public record DiscoveryResponseDto(
+public record DiscoveryResponse(
     [property: JsonPropertyName("issuer")] string? Issuer,
     [property: JsonPropertyName("authorization_endpoint")] string? AuthorizationEndpoint,
     [property: JsonPropertyName("token_endpoint")] string? TokenEndpoint,

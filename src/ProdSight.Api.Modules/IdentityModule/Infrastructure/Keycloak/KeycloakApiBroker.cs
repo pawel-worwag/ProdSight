@@ -55,7 +55,7 @@ namespace ProdSight.Api.Modules.IdentityModule.Infrastructure.Keycloak
                 var res = await httpClient.SendAsync(req, cancellationToken).ConfigureAwait(false);
                 res.EnsureSuccessStatusCode();
 
-                var tokenResp = await res.Content.ReadFromJsonAsync<TokenResponseDto>(JsonOptions, cancellationToken)
+                var tokenResp = await res.Content.ReadFromJsonAsync<TokenResponse>(JsonOptions, cancellationToken)
                     .ConfigureAwait(false);
 
                 if (tokenResp?.AccessToken is null)
@@ -99,7 +99,7 @@ namespace ProdSight.Api.Modules.IdentityModule.Infrastructure.Keycloak
                 {
                     throw new InvalidOperationException($"Response is {res.StatusCode}");
                 }
-                var discovery = await res.Content.ReadFromJsonAsync<DiscoveryResponseDto>(JsonOptions, cancellationToken)
+                var discovery = await res.Content.ReadFromJsonAsync<DiscoveryResponse>(JsonOptions, cancellationToken)
                     .ConfigureAwait(false);
                 if (discovery is null)
                 {
