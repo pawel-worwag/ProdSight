@@ -6,7 +6,8 @@ namespace ProdSight.Api.Modules.IdentityModule.Presentation.HealthChecks;
 
 public class DatabaseHealthCheck(IdentityDbContext db) : IHealthCheck
 {
-    public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
+    public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context,
+        CancellationToken cancellationToken = default)
     {
         try
         {
@@ -14,22 +15,15 @@ public class DatabaseHealthCheck(IdentityDbContext db) : IHealthCheck
             using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
             cts.CancelAfter(TimeSpan.FromSeconds(15));
 
-            try
-            {
-                await conn.OpenAsync(cts.Token).ConfigureAwait(false);
+            await conn.OpenAsync(cts.Token).ConfigureAwait(false);
 
-                using var cmd = conn.CreateCommand();
-                cmd.CommandText = "SELECT 1";
-                cmd.CommandTimeout = 5;
-                await cmd.ExecuteScalarAsync(cts.Token).ConfigureAwait(false);
-                await conn.CloseAsync();
+            await using var cmd = conn.CreateCommand();
+            cmd.CommandText = "SELECT 1";
+            cmd.CommandTimeout = 5;
+            await cmd.ExecuteScalarAsync(cts.Token).ConfigureAwait(false);
+            await conn.CloseAsync();
 
-                return HealthCheckResult.Healthy("Identity database is reachable and responds to queries");
-            }
-            catch (Exception ex)
-            {
-                return HealthCheckResult.Unhealthy("Identity database is unreachable", ex);
-            }
+            return HealthCheckResult.Healthy("Identity database is reachable and responds to queries");
         }
         catch (Exception ex)
         {
