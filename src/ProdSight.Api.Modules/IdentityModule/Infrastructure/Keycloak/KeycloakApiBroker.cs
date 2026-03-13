@@ -40,7 +40,10 @@ namespace ProdSight.Api.Modules.IdentityModule.Infrastructure.Keycloak
                     return _accessToken;
                 }
 
-                var tokenUrl = $"realms/{options.Value.Realm}/protocol/openid-connect/token";
+                var relative = $"realms/{options.Value.Realm}/protocol/openid-connect/token";
+                var requestUri = httpClient.BaseAddress is not null
+                    ? new Uri(httpClient.BaseAddress, relative)
+                    : new Uri(relative, UriKind.Relative);
 
                 var form = new Dictionary<string, string>
                 {
@@ -49,7 +52,7 @@ namespace ProdSight.Api.Modules.IdentityModule.Infrastructure.Keycloak
                     ["client_secret"] = options.Value.ClientSecret
                 };
 
-                using var req = new HttpRequestMessage(HttpMethod.Post, tokenUrl);
+                using var req = new HttpRequestMessage(HttpMethod.Post, requestUri);
                 req.Content = new FormUrlEncodedContent(form);
 
                 var res = await httpClient.SendAsync(req, cancellationToken).ConfigureAwait(false);
@@ -76,12 +79,15 @@ namespace ProdSight.Api.Modules.IdentityModule.Infrastructure.Keycloak
             CancellationToken cancellationToken = default)
         {
             var token = await GetClientTokenAsync(cancellationToken).ConfigureAwait(false);
+            var relative = $"admin/realms/{options.Value.Realm}/users";
+            var requestUri = httpClient.BaseAddress is not null
+                ? new Uri(httpClient.BaseAddress, relative)
+                : new Uri(relative, UriKind.Relative);
 
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-            var usersUrl = $"admin/realms/{options.Value.Realm}/users";
-
-            var res = await httpClient.GetAsync(usersUrl, cancellationToken).ConfigureAwait(false);
+            using var req = new HttpRequestMessage(HttpMethod.Get, requestUri);
+            req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            
+            var res = await httpClient.SendAsync(req, cancellationToken).ConfigureAwait(false);
             res.EnsureSuccessStatusCode();
 
             var users = await res.Content.ReadFromJsonAsync<List<UserRepresentation>>(JsonOptions, cancellationToken)
@@ -93,8 +99,12 @@ namespace ProdSight.Api.Modules.IdentityModule.Infrastructure.Keycloak
         public async Task<bool> IsHealthyAsync(CancellationToken cancellationToken = default)
         {
 
-                var discoveryUrl = $"realms/{options.Value.Realm}/.well-known/openid-configuration";
-                var res = await httpClient.GetAsync(discoveryUrl, cancellationToken).ConfigureAwait(false);
+            var relative = $"realms/{options.Value.Realm}/.well-known/openid-configuration";
+            var requestUri = httpClient.BaseAddress is not null
+                ? new Uri(httpClient.BaseAddress, relative)
+                : new Uri(relative, UriKind.Relative);
+
+            var res = await httpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(false);
                 if (!res.IsSuccessStatusCode)
                 {
                     throw new InvalidOperationException($"Response is {res.StatusCode}");

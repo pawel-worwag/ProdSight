@@ -20,7 +20,10 @@ namespace ProdSight.Api.Modules.IdentityModule.Infrastructure.Extensions
             {
                 var opts = sp.GetRequiredService<Microsoft.Extensions.Options.IOptions<KeycloakOptions>>().Value;
                 if (!string.IsNullOrEmpty(opts.BaseUrl))
-                    client.BaseAddress = new Uri(opts.BaseUrl);
+                {
+                    var baseUrl = opts.BaseUrl.TrimEnd('/') + "/";
+                    client.BaseAddress = new Uri(baseUrl);
+                }
             });
 
             return services;
