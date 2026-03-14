@@ -74,7 +74,8 @@ public static class ModuleExtensions
     public static IEndpointRouteBuilder UseModules(this IEndpointRouteBuilder endpoints, IConfiguration config)
     {
         var registry = endpoints.ServiceProvider.GetRequiredService<ModuleRegistry>();  // DI
-        registry.ConfigureModules(endpoints, config);
+        var api = endpoints.MapGroup("api");
+        registry.ConfigureModules(api, config);
         return endpoints;
     }
 }

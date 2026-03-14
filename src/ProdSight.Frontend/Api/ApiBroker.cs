@@ -14,7 +14,7 @@ public class ApiBroker(IHttpClientFactory httpFactory) : IApiBroker
     
     public async Task<HealthResponse> GetHealthStatusAsync(CancellationToken cancellationToken = default)
     {
-        const string url = $"health";
+        const string url = $"api/v1/health";
         var res = await GetClient(false).GetAsync(url, cancellationToken);
         res.EnsureSuccessStatusCode();
         return await res.Content.ReadFromJsonAsync<HealthResponse>(JsonOptions, cancellationToken)
@@ -23,7 +23,7 @@ public class ApiBroker(IHttpClientFactory httpFactory) : IApiBroker
 
     public async Task<ICollection<User>> GetAllUsersAsync(CancellationToken cancellationToken = default)
     {
-        const string url = $"identity/users";
+        const string url = $"api/v1/identity/users";
         var res = await GetClient(true).GetAsync(url, cancellationToken);
         res.EnsureSuccessStatusCode();
         return await res.Content.ReadFromJsonAsync<IList<User>>(JsonOptions, cancellationToken)

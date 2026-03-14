@@ -32,12 +32,14 @@ public class IdentityModule : IModule
 
     public void ConfigureEndpoints(IEndpointRouteBuilder endpoints)
     {
+        var v1 = endpoints.MapGroup("v1");
+        
         // Configure identity endpoints here
-        endpoints.MapGet("/identity", () => "Identity module endpoint")
+        v1.MapGet("/identity", () => "Identity module endpoint")
             .WithTags("Identity Module");
 
         // Endpoint to get users from Keycloak
-        endpoints.MapGet("/identity/users", async (IKeycloakApiBroker broker, CancellationToken ct) =>
+        v1.MapGet("/identity/users", async (IKeycloakApiBroker broker, CancellationToken ct) =>
         {
             var reps = await broker.GetUsersAsync(ct).ConfigureAwait(false);
             var list = reps.Select(r => new User

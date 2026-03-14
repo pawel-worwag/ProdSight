@@ -21,8 +21,9 @@ public class MeasurementModule : IModule
 
     public void ConfigureEndpoints(IEndpointRouteBuilder endpoints)
     {
+        var v1 = endpoints.MapGroup("v1");
         // Configure measurement endpoints here
-        endpoints.MapGet("/measurement", () => "Measurement module endpoint")
+        v1.MapGet("/measurement", () => "Measurement module endpoint")
             .WithTags("Measurement Module");
     }
 }

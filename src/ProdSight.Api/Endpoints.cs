@@ -12,7 +12,10 @@ public static class Endpoints
 {
     public static void MapStatusEndpoint(this IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapGet("/status", (IServiceProvider services) =>
+        var api = endpoints.MapGroup("api");
+        var v1= api.MapGroup("v1");
+        
+        v1.MapGet("/status", (IServiceProvider services) =>
         {
             var registry = services.GetRequiredService<ModuleRegistry>();
             var version = Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "Unknown";
@@ -23,7 +26,10 @@ public static class Endpoints
 
     public static void MapHealthEndpoint(this IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapGet("/health", (IServiceProvider sp) =>
+        var api = endpoints.MapGroup("api");
+        var v1= api.MapGroup("v1");
+        
+        v1.MapGet("/health", (IServiceProvider sp) =>
         {
             var cache = sp.GetRequiredService<HealthCheckCacheService>();
             var results = cache.GetCachedResults();

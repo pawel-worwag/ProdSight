@@ -19,7 +19,9 @@ public class DocumentsModule : IModule
 
     public void ConfigureEndpoints(IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapGet("/documents", () => "Documents module endpoint")
+        var v1 = endpoints.MapGroup("v1");
+        
+        v1.MapGet("/documents", () => "Documents module endpoint")
             .WithTags("Documents Module");
     }
 }
