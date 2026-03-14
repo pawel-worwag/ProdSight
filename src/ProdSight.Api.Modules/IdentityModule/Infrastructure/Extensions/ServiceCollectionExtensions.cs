@@ -15,8 +15,11 @@ namespace ProdSight.Api.Modules.IdentityModule.Infrastructure.Extensions
         {
             var section = configuration.GetSection("IdentityModule:Keycloak");
             services.Configure<KeycloakOptions>(section);
-
-            services.AddHttpClient<IKeycloakApiBroker, KeycloakApiBroker>((sp, client) =>
+            services.AddSingleton<IKeycloakTokenProvider, KeycloakTokenProvider>();
+            services.AddScoped<IKeycloakApiBroker, KeycloakApiBroker>();
+            
+            
+            services.AddHttpClient("keycloak").ConfigureHttpClient((sp, client) =>
             {
                 var opts = sp.GetRequiredService<Microsoft.Extensions.Options.IOptions<KeycloakOptions>>().Value;
                 if (!string.IsNullOrEmpty(opts.BaseUrl))
