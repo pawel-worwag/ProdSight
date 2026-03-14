@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using ProdSight.Api.Modules.IdentityModule.Infrastructure.Database;
 
-namespace ProdSight.Api.Modules.IdentityModule.Presentation.HealthChecks;
+namespace ProdSight.Api.Modules.IdentityModule.Composition.HealthChecks;
 
 public class DatabaseHealthCheck(IdentityDbContext db) : IHealthCheck
 {

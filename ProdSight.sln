@@ -20,7 +20,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdSight.Api.Modules.Ident
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdSight.Api.Modules.IdentityModule.Infrastructure", "src\ProdSight.Api.Modules\IdentityModule\Infrastructure\ProdSight.Api.Modules.IdentityModule.Infrastructure.csproj", "{C12A834A-2DE5-4623-AE59-C821E7E0670C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdSight.Api.Modules.IdentityModule.Presentation", "src\ProdSight.Api.Modules\IdentityModule\Presentation\ProdSight.Api.Modules.IdentityModule.Presentation.csproj", "{4FE1A20C-D420-4069-8BAB-B5E3E2BCAE38}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdSight.Api.Modules.IdentityModule.Composition", "src\ProdSight.Api.Modules\IdentityModule\Composition\ProdSight.Api.Modules.IdentityModule.Composition.csproj", "{4FE1A20C-D420-4069-8BAB-B5E3E2BCAE38}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdSight.Api.Modules.MeasurementModule.Domain", "src\ProdSight.Api.Modules\MeasurementModule\Domain\ProdSight.Api.Modules.MeasurementModule.Domain.csproj", "{6E88F61F-759B-4E04-B4FD-E3F758FB920C}"
 EndProject
@@ -28,7 +28,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdSight.Api.Modules.Measu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdSight.Api.Modules.MeasurementModule.Infrastructure", "src\ProdSight.Api.Modules\MeasurementModule\Infrastructure\ProdSight.Api.Modules.MeasurementModule.Infrastructure.csproj", "{BC208D24-4711-454B-B922-F1F5E0680576}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdSight.Api.Modules.MeasurementModule.Presentation", "src\ProdSight.Api.Modules\MeasurementModule\Presentation\ProdSight.Api.Modules.MeasurementModule.Presentation.csproj", "{97DD0557-BA2A-47DB-8177-06CE757AAE8C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdSight.Api.Modules.MeasurementModule.Composition", "src\ProdSight.Api.Modules\MeasurementModule\Composition\ProdSight.Api.Modules.MeasurementModule.Composition.csproj", "{97DD0557-BA2A-47DB-8177-06CE757AAE8C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdSight.Api.Shared.DTOs", "src\ProdSight.Api.Shared.DTOs\ProdSight.Api.Shared.DTOs.csproj", "{48C2AE58-5B82-4D40-A22D-725E6436EB75}"
 EndProject

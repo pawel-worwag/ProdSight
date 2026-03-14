@@ -10,11 +10,10 @@ public static class ModuleExtensions
         var logger = services.BuildServiceProvider().GetRequiredService<ILogger<ModuleRegistry>>();
         try
         {
-            var baseDir = AppContext.BaseDirectory ?? AppDomain.CurrentDomain.BaseDirectory;
-            var modulesDir = Path.Combine(baseDir, "modules");
+            var modulesDir = AppContext.BaseDirectory ?? AppDomain.CurrentDomain.BaseDirectory;
             if (Directory.Exists(modulesDir))
             {
-                var dlls = Directory.GetFiles(modulesDir, "*.dll", SearchOption.AllDirectories);
+                var dlls = Directory.GetFiles(modulesDir, "ProdSight.Api.Modules.*.dll", SearchOption.AllDirectories);
                 foreach (var dll in dlls)
                 {
                     try

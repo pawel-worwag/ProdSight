@@ -8,10 +8,10 @@ using ProdSight.Api.Shared.Modules;
 using ProdSight.Api.Shared.DTOs.IdentityModule.GetUsersList;
 using ProdSight.Api.Modules.IdentityModule.Application.Keycloak;
 using ProdSight.Api.Modules.IdentityModule.Infrastructure.Extensions;
-using ProdSight.Api.Modules.IdentityModule.Presentation.HealthChecks;
+using ProdSight.Api.Modules.IdentityModule.Composition.HealthChecks;
 using ProdSight.Api.Shared.DTOs.Errors;
 
-namespace ProdSight.Api.Modules.IdentityModule.Presentation;
+namespace ProdSight.Api.Modules.IdentityModule.Composition;
 
 public class IdentityModule : IModule
 {

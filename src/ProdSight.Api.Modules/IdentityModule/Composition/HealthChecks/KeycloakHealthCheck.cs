@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using ProdSight.Api.Modules.IdentityModule.Application.Keycloak;
 
-namespace ProdSight.Api.Modules.IdentityModule.Presentation.HealthChecks;
+namespace ProdSight.Api.Modules.IdentityModule.Composition.HealthChecks;
 
 public class KeycloakHealthCheck (IKeycloakApiBroker apiBroker)
     : IHealthCheck

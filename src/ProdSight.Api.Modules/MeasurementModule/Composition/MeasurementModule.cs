@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using ProdSight.Api.Shared.Modules;
 
-namespace ProdSight.Api.Modules.MeasurementModule.Presentation;
+namespace ProdSight.Api.Modules.MeasurementModule.Composition;
 
 public class MeasurementModule : IModule
 {
