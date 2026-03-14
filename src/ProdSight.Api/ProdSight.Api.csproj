@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <ItemGroup>
+    <ProjectReference Include="..\ProdSight.Api.Modules\DocumentsModule\Composition\ProdSight.Api.Modules.DocumentsModule.Composition.csproj" />
     <ProjectReference Include="..\ProdSight.Api.Modules\IdentityModule\Composition\ProdSight.Api.Modules.IdentityModule.Composition.csproj" />
     <ProjectReference Include="..\ProdSight.Api.Modules\MeasurementModule\Composition\ProdSight.Api.Modules.MeasurementModule.Composition.csproj" />
     <ProjectReference Include="..\ProdSight.Api.Shared\ProdSight.Api.Shared.csproj" />

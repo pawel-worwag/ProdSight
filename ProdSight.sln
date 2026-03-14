@@ -32,6 +32,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdSight.Api.Modules.Measu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdSight.Api.Shared.DTOs", "src\ProdSight.Api.Shared.DTOs\ProdSight.Api.Shared.DTOs.csproj", "{48C2AE58-5B82-4D40-A22D-725E6436EB75}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DocumentsModule", "DocumentsModule", "{D4F1A2B3-C6E7-4F88-9A1B-0C1D2E3F4A5B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdSight.Api.Modules.DocumentsModule.Domain", "src\ProdSight.Api.Modules\DocumentsModule\Domain\ProdSight.Api.Modules.DocumentsModule.Domain.csproj", "{AA111111-2222-3333-4444-555566667777}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdSight.Api.Modules.DocumentsModule.Application", "src\ProdSight.Api.Modules\DocumentsModule\Application\ProdSight.Api.Modules.DocumentsModule.Application.csproj", "{BB111111-2222-3333-4444-555566668888}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdSight.Api.Modules.DocumentsModule.Infrastructure", "src\ProdSight.Api.Modules\DocumentsModule\Infrastructure\ProdSight.Api.Modules.DocumentsModule.Infrastructure.csproj", "{CC111111-2222-3333-4444-555566669999}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProdSight.Api.Modules.DocumentsModule.Composition", "src\ProdSight.Api.Modules\DocumentsModule\Composition\ProdSight.Api.Modules.DocumentsModule.Composition.csproj", "{DD111111-2222-3333-4444-555566660000}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +51,55 @@ Global
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AA111111-2222-3333-4444-555566667777}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA111111-2222-3333-4444-555566667777}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA111111-2222-3333-4444-555566667777}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AA111111-2222-3333-4444-555566667777}.Debug|x64.Build.0 = Debug|Any CPU
+		{AA111111-2222-3333-4444-555566667777}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AA111111-2222-3333-4444-555566667777}.Debug|x86.Build.0 = Debug|Any CPU
+		{AA111111-2222-3333-4444-555566667777}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA111111-2222-3333-4444-555566667777}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA111111-2222-3333-4444-555566667777}.Release|x64.ActiveCfg = Release|Any CPU
+		{AA111111-2222-3333-4444-555566667777}.Release|x64.Build.0 = Release|Any CPU
+		{AA111111-2222-3333-4444-555566667777}.Release|x86.ActiveCfg = Release|Any CPU
+		{AA111111-2222-3333-4444-555566667777}.Release|x86.Build.0 = Release|Any CPU
+		{BB111111-2222-3333-4444-555566668888}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB111111-2222-3333-4444-555566668888}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB111111-2222-3333-4444-555566668888}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BB111111-2222-3333-4444-555566668888}.Debug|x64.Build.0 = Debug|Any CPU
+		{BB111111-2222-3333-4444-555566668888}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BB111111-2222-3333-4444-555566668888}.Debug|x86.Build.0 = Debug|Any CPU
+		{BB111111-2222-3333-4444-555566668888}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB111111-2222-3333-4444-555566668888}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB111111-2222-3333-4444-555566668888}.Release|x64.ActiveCfg = Release|Any CPU
+		{BB111111-2222-3333-4444-555566668888}.Release|x64.Build.0 = Release|Any CPU
+		{BB111111-2222-3333-4444-555566668888}.Release|x86.ActiveCfg = Release|Any CPU
+		{BB111111-2222-3333-4444-555566668888}.Release|x86.Build.0 = Release|Any CPU
+		{CC111111-2222-3333-4444-555566669999}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC111111-2222-3333-4444-555566669999}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC111111-2222-3333-4444-555566669999}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CC111111-2222-3333-4444-555566669999}.Debug|x64.Build.0 = Debug|Any CPU
+		{CC111111-2222-3333-4444-555566669999}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CC111111-2222-3333-4444-555566669999}.Debug|x86.Build.0 = Debug|Any CPU
+		{CC111111-2222-3333-4444-555566669999}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC111111-2222-3333-4444-555566669999}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC111111-2222-3333-4444-555566669999}.Release|x64.ActiveCfg = Release|Any CPU
+		{CC111111-2222-3333-4444-555566669999}.Release|x64.Build.0 = Release|Any CPU
+		{CC111111-2222-3333-4444-555566669999}.Release|x86.ActiveCfg = Release|Any CPU
+		{CC111111-2222-3333-4444-555566669999}.Release|x86.Build.0 = Release|Any CPU
+		{DD111111-2222-3333-4444-555566660000}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD111111-2222-3333-4444-555566660000}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD111111-2222-3333-4444-555566660000}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DD111111-2222-3333-4444-555566660000}.Debug|x64.Build.0 = Debug|Any CPU
+		{DD111111-2222-3333-4444-555566660000}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DD111111-2222-3333-4444-555566660000}.Debug|x86.Build.0 = Debug|Any CPU
+		{DD111111-2222-3333-4444-555566660000}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD111111-2222-3333-4444-555566660000}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD111111-2222-3333-4444-555566660000}.Release|x64.ActiveCfg = Release|Any CPU
+		{DD111111-2222-3333-4444-555566660000}.Release|x64.Build.0 = Release|Any CPU
+		{DD111111-2222-3333-4444-555566660000}.Release|x86.ActiveCfg = Release|Any CPU
+		{DD111111-2222-3333-4444-555566660000}.Release|x86.Build.0 = Release|Any CPU
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{E6E59394-6330-463B-A5B7-AB5E764E7F28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E6E59394-6330-463B-A5B7-AB5E764E7F28}.Debug|Any CPU.Build.0 = Debug|Any CPU
@@ -206,5 +265,10 @@ Global
 		{BC208D24-4711-454B-B922-F1F5E0680576} = {2D026F92-D9F9-4DD9-8458-DB7D5BB1ED1F}
 		{97DD0557-BA2A-47DB-8177-06CE757AAE8C} = {2D026F92-D9F9-4DD9-8458-DB7D5BB1ED1F}
 		{48C2AE58-5B82-4D40-A22D-725E6436EB75} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+		{AA111111-2222-3333-4444-555566667777} = {D4F1A2B3-C6E7-4F88-9A1B-0C1D2E3F4A5B}
+		{BB111111-2222-3333-4444-555566668888} = {D4F1A2B3-C6E7-4F88-9A1B-0C1D2E3F4A5B}
+		{CC111111-2222-3333-4444-555566669999} = {D4F1A2B3-C6E7-4F88-9A1B-0C1D2E3F4A5B}
+		{DD111111-2222-3333-4444-555566660000} = {D4F1A2B3-C6E7-4F88-9A1B-0C1D2E3F4A5B}
+		{D4F1A2B3-C6E7-4F88-9A1B-0C1D2E3F4A5B} = {8C0F9154-B847-4FC2-9FE7-EA650460F34D}
 	EndGlobalSection
 EndGlobal

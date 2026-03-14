@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +22,7 @@ public class MeasurementModule : IModule
     public void ConfigureEndpoints(IEndpointRouteBuilder endpoints)
     {
         // Configure measurement endpoints here
-        endpoints.MapGet("/measurement", () => "Measurement module endpoint");
+        endpoints.MapGet("/measurement", () => "Measurement module endpoint")
+            .WithTags("Measurement Module");
     }
 }
