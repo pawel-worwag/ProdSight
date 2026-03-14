@@ -9,10 +9,12 @@ public class Document
     public Guid FolderId { get; private set; }
     public string FileName { get; private set; } = "";
     private readonly Dictionary<string, string?> _metadata = new(StringComparer.OrdinalIgnoreCase);
+    public Guid? PartnerId { get; private set; }
     public IReadOnlyDictionary<string, string?> Metadata => _metadata;
     public DateTimeOffset CreatedAt { get; private set; }
 
     private readonly List<DocumentVersion> _versions = [];
+    public IReadOnlyList<DocumentVersion> Versions => _versions;
 
     public int? CurrentVersionNo => _versions.Count == 0 ? null : _versions.Max(p => p.VersionNo);
 
@@ -24,7 +26,7 @@ public class Document
     /// Creates a new <see cref="Document"/> while validating inputs.
     /// </summary>
     /// <exception cref="ArgumentException">If <paramref name="folderId"/> is empty or <paramref name="fileName"/> is null/whitespace.</exception>
-    public static Document Create(Guid folderId, string fileName, IDictionary<string, string?>? metadata)
+    public static Document Create(Guid folderId, string fileName, Guid? partnerId, IDictionary<string, string?>? metadata)
     {
         if (folderId == Guid.Empty)
             throw new ArgumentException("FolderId is required.");
@@ -35,6 +37,7 @@ public class Document
             Id = Guid.NewGuid(),
             FolderId = folderId,
             FileName = fileName.Trim(),
+            PartnerId = partnerId,
             CreatedAt = DateTimeOffset.UtcNow,
         };
         if (metadata != null)

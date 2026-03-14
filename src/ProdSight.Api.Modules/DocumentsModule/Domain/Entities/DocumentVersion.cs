@@ -1,7 +1,7 @@
 namespace ProdSight.Api.Modules.DocumentsModule.Domain.Entities;
 
 /// <summary>
-/// Aggregate root for document versions; instances are created via <see cref="Create"/>.
+/// Entity representing a single document version. Instances are created via <see cref="Create"/>.
 /// </summary>
 public class DocumentVersion
 {
