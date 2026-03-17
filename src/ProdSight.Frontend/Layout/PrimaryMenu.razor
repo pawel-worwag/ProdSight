@@ -46,7 +46,7 @@
     [Inject]
     public required NavigationManager Nav { get; set; }
 
-    private  ClaimsPrincipal User { get; set; }
+    private ClaimsPrincipal? User { get; set; }
     
     protected override async Task OnInitializedAsync()
     {
