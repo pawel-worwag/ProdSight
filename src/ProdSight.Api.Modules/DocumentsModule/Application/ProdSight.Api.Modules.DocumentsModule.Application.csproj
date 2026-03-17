@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
+    <ProjectReference Include="..\..\..\ProdSight.Api.Shared.DTOs\ProdSight.Api.Shared.DTOs.csproj" />
     <ProjectReference Include="..\Domain\ProdSight.Api.Modules.DocumentsModule.Domain.csproj" />
   </ItemGroup>
   <PropertyGroup>
