@@ -10,8 +10,20 @@ public partial class MainLayout : LayoutComponentBase, IAsyncDisposable
 {
     [Inject]
     private IJSRuntime Js { get; set; } = default!;
+    [Inject]
+    private NavigationManager Nav { get; set; } = default!;
     private ElementReference _offcanvasElement;
     private IJSObjectReference? _module;
+
+    private async Task NavigateAsync(string path)
+    {
+        if (string.IsNullOrWhiteSpace(path)) return;
+        if (_module is not null)
+        {
+            await CloseMenuAsync();
+        }
+        Nav.NavigateTo(path);
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

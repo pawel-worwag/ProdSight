@@ -4,19 +4,15 @@
     <AuthorizeView Context="auth">
         <Authorized>
             
-            <div class="btn menuButton text-start" role="button"
-                 data-bs-dismiss="offcanvas"
-                 aria-label="Close"
-                 @onclick="@(async () => { await NavigateToElement("/"); })">
+              <div class="btn menuButton text-start" role="button"
+                  @onclick="@(async () => { await OnNavigateAsync("/"); })">
                 <span class="bi bi-house me-2"></span> Home
             </div>
             
             @if (ClaimChecker.HasClaimValues(User, "identity-module-role", ["user", "admin"]))
-            {
+                {
                 <div class="btn menuButton text-start" role="button"
-                     data-bs-dismiss="offcanvas"
-                     aria-label="Close"
-                     @onclick="@(async () => { await NavigateToElement("/identity/users"); })">
+                     @onclick="@(async () => { await OnNavigateAsync("/identity/users"); })">
                     <span class="bi bi-people me-2"></span> Users
                 </div>
             }
@@ -31,48 +27,9 @@
         </Authorized>
         <NotAuthorized>
             <div class="btn text-start loginButton text-start" role="button"
-                 data-bs-dismiss="offcanvas" 
-                 aria-label="Close"
-                 @onclick="@(async () => { await NavigateToElement("/authentication/login"); })">
+                 @onclick="@(async () => { await OnNavigateAsync("/authentication/login"); })">
                 <span class="bi bi-box-arrow-in-right"></span> LogIn
             </div>
         </NotAuthorized>
     </AuthorizeView>
 </div>
-
-@inject AuthenticationStateProvider authStateProvider
-
-@code {
-    [Inject]
-    public required NavigationManager Nav { get; set; }
-
-    private ClaimsPrincipal? User { get; set; }
-    
-    protected override async Task OnInitializedAsync()
-    {
-        var state = await authStateProvider.GetAuthenticationStateAsync();
-        User = state.User;
-        authStateProvider.AuthenticationStateChanged  += OnAuthenticationStateChanged;
-    }
-
-    private async Task NavigateToElement(string path)
-    {
-        if (!string.IsNullOrWhiteSpace(path))
-        {
-            await Task.CompletedTask;
-            Nav.NavigateTo(path, true);
-        }
-    }
-    
-    private void OnAuthenticationStateChanged(Task<AuthenticationState> task)
-    {
-        _ = HandleStateChangeAsync(task);
-    }
-
-    private async Task HandleStateChangeAsync(Task<AuthenticationState> task)
-    {
-        var state = await authStateProvider.GetAuthenticationStateAsync();
-        User = state.User;
-        StateHasChanged();
-    }
-}
