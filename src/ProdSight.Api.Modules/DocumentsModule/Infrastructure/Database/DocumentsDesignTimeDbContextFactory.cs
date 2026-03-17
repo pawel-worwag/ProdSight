@@ -1,54 +1,36 @@
-using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using System.IO;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
 namespace ProdSight.Api.Modules.DocumentsModule.Infrastructure.Database;
 
-// Design-time factory ensures EF tools create the DbContext with the same
-// DatabaseOptions (including DatabaseSchema) as at runtime.
+// Simpler design-time factory: use ConfigurationBuilder + Get<T>() to load
+// `DocumentsModule:Database` section and construct the DbContext.
 public class DocumentsDesignTimeDbContextFactory : IDesignTimeDbContextFactory<DocumentsDbContext>
 {
     public DocumentsDbContext CreateDbContext(string[] args)
     {
         var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
-
         var basePath = AppContext.BaseDirectory;
-        var dbOptions = new DatabaseOptions();
 
-        // Try to read environment-specific appsettings first, fallback to appsettings.json
-        var envPath = Path.Combine(basePath, $"appsettings.{env}.json");
-        var defaultPath = Path.Combine(basePath, "appsettings.json");
-        var jsonPath = File.Exists(envPath) ? envPath : (File.Exists(defaultPath) ? defaultPath : null);
+        var config = new ConfigurationBuilder()
+            .SetBasePath(basePath)
+            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: false)
+            .AddJsonFile($"appsettings.{env}.json", optional: true, reloadOnChange: false)
+            .AddEnvironmentVariables()
+            .Build();
 
-        if (jsonPath != null)
+        var dbOptions = config.GetSection("DocumentsModule:Database").Get<DatabaseOptions>() ?? new DatabaseOptions();
+
+        if (string.IsNullOrWhiteSpace(dbOptions.DatabaseSchema) || string.IsNullOrWhiteSpace(dbOptions.ConnectionString))
         {
-            try
-            {
-                using var doc = System.Text.Json.JsonDocument.Parse(File.ReadAllText(jsonPath));
-                if (doc.RootElement.TryGetProperty("DocumentsModule", out var dm) && dm.ValueKind == System.Text.Json.JsonValueKind.Object)
-                {
-                    if (dm.TryGetProperty("Database", out var db) && db.ValueKind == System.Text.Json.JsonValueKind.Object)
-                    {
-                        if (db.TryGetProperty("ConnectionString", out var cs)) dbOptions.ConnectionString = cs.GetString();
-                        if (db.TryGetProperty("DatabaseSchema", out var ds)) dbOptions.DatabaseSchema = ds.GetString();
-                    }
-                }
-            }
-            catch
-            {
-                // ignore parse errors and fall back to defaults
-            }
+            throw new InvalidOperationException("Configuration error: ConnectionString and DatabaseSchema must be set for design-time operations and migrations.");
         }
 
         var optionsBuilder = new DbContextOptionsBuilder<DocumentsDbContext>();
-        optionsBuilder.UseNpgsql(dbOptions.ConnectionString ?? string.Empty, npgsql =>
-        {
-            var schema = dbOptions.DatabaseSchema ?? "public";
-            npgsql.MigrationsHistoryTable("__EFMigrationsHistory", schema);
-        });
+        optionsBuilder.UseNpgsql(dbOptions.ConnectionString, npgsql =>
+            npgsql.MigrationsHistoryTable("__EFMigrationsHistory", dbOptions.DatabaseSchema));
 
         var options = Options.Create(dbOptions);
         return new DocumentsDbContext(optionsBuilder.Options, options);
