@@ -10,11 +10,15 @@ public static class AuthExtension
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
-                options.MetadataAddress = config["Oidc:MetadataAddress"]; 
+                var metadata = config["Oidc:MetadataAddress"] ?? throw new InvalidOperationException("Configuration 'Oidc:MetadataAddress' is not set.");
+                var authority = config["Oidc:Authority"] ?? throw new InvalidOperationException("Configuration 'Oidc:Authority' is not set.");
+                var audience = config["Oidc:Audience"] ?? throw new InvalidOperationException("Configuration 'Oidc:Audience' is not set.");
+
+                options.MetadataAddress = metadata;
                 options.RequireHttpsMetadata = true;
                 options.MapInboundClaims = true;
-                options.Authority = config["Oidc:Authority"];
-                options.Audience = config["Oidc:Audience"];
+                options.Authority = authority;
+                options.Audience = audience;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
