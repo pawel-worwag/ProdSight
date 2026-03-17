@@ -13,7 +13,7 @@ public class FolderConfiguration: IEntityTypeConfiguration<Folder>
         b.Property(x => x.CreatedAt).IsRequired();
 
         b.HasOne<Folder>()
-            .WithMany()
+            .WithMany(p=>p.Children)
             .HasForeignKey(x => x.ParentId)
             .IsRequired(false);
 
