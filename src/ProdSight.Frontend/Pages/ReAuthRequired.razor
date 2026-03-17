@@ -19,7 +19,7 @@
     
     protected override void OnInitialized()
     {
-        url = Uri.EscapeDataString(returnUrl);
+        url = Uri.EscapeDataString(returnUrl ?? "/");
     }
     
     void StartLogin()
