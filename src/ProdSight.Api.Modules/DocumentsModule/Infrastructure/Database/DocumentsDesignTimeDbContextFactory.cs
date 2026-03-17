@@ -21,11 +21,11 @@ public class DocumentsDesignTimeDbContextFactory : IDesignTimeDbContextFactory<D
             .AddEnvironmentVariables()
             .Build();
 
-        var dbOptions = config.GetSection("DocumentsModule:Database").Get<DatabaseOptions>() ?? new DatabaseOptions();
+        var dbOptions = config.GetSection("DocumentsModule:Database").Get<DatabaseOptions>();
 
-        if (string.IsNullOrWhiteSpace(dbOptions.DatabaseSchema) || string.IsNullOrWhiteSpace(dbOptions.ConnectionString))
+        if (dbOptions is null || string.IsNullOrWhiteSpace(dbOptions.DatabaseSchema) || string.IsNullOrWhiteSpace(dbOptions.ConnectionString))
         {
-            throw new InvalidOperationException("Configuration error: ConnectionString and DatabaseSchema must be set for design-time operations and migrations.");
+            throw new InvalidOperationException("Appsettings error: ConnectionString and DatabaseSchema must be set for design-time operations and migrations.");
         }
 
         var optionsBuilder = new DbContextOptionsBuilder<DocumentsDbContext>();
