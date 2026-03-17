@@ -9,4 +9,10 @@ public class ErrorResponse
 
     [JsonPropertyName("message")]
     public required string Message { get; set; }
+    
+    [JsonPropertyName("details")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Details { get; set; }
+    
+    
 }

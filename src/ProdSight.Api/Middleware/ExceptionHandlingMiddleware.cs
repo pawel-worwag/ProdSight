@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using Npgsql;
 using ProdSight.Api.Shared.DTOs.Errors;
 using ProdSight.Api.Shared.Exceptions;
 
@@ -24,6 +26,20 @@ public class ExceptionHandlingMiddleware(ILogger<ExceptionHandlingMiddleware> lo
             };
             await context.Response.WriteAsJsonAsync(response);
         }
+        catch (DbUpdateException ex) when (ex.InnerException is PostgresException pg)
+        {
+            logger.LogError(ex, "Unhandled exception occurred");
+            context.Response.StatusCode = 400;
+            context.Response.ContentType = "application/json";
+            var (message, details) = MapPgExceptionToMessage(pg);
+            var response = new ErrorResponse
+            {
+                Error = "DbUpdateException",
+                Message = message,
+                Details = details
+            };
+            await context.Response.WriteAsJsonAsync(response);
+        }
         catch (Exception ex)
         {
             logger.LogError(ex, "Unhandled exception occurred");
@@ -36,5 +52,17 @@ public class ExceptionHandlingMiddleware(ILogger<ExceptionHandlingMiddleware> lo
             };
             await context.Response.WriteAsJsonAsync(response);
         }
+    }
+
+    private (string message, string? details) MapPgExceptionToMessage(PostgresException ex)
+    {
+        switch (ex.SqlState)
+        {
+            case "23503":
+                return ("Foreign key constraint violation", 
+                    $"Table: {ex.TableName}, Constraint: {ex.ConstraintName}");
+        }
+
+        return (ex.MessageText, null);
     }
 }
