@@ -1,0 +1,9 @@
+@page "/documents"
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+
+<ClaimRequire ClaimType="documents-module-role" AllowedValues="@(["user", "admin"])" />
+
+<PageTitle>ProdSight - Documents</PageTitle>
+
+<h3>Documents</h3>
