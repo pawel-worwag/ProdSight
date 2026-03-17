@@ -22,4 +22,11 @@ public class FoldersRepository (DocumentsDbContext dbc)
             .OrderBy(f => f.Name)
             .ToListAsync(ct);
     }
+    
+    public async Task<Folder> CreateAsync(Folder folder, CancellationToken ct = default)
+    {
+        var entry = await dbc.Folders.AddAsync(folder, ct);
+        await dbc.SaveChangesAsync(ct);
+        return entry.Entity;
+    }
 }

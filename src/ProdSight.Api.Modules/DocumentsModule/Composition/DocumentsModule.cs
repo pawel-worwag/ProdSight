@@ -21,6 +21,7 @@ public class DocumentsModule : IModule
     {
         services.AddDocumentsDatabase(config);
         services.AddScoped<GetRootFoldersHandler>();
+        services.AddScoped<CreateFolderHandler>();
         services.AddScoped<IFoldersRepository, FoldersRepository>();
         
         services.AddHealthChecks()
@@ -36,6 +37,13 @@ public class DocumentsModule : IModule
 
         v1.MapGet("/documents/folders/root", async (GetRootFoldersHandler handler, CancellationToken ct) =>
                 Results.Ok(await handler.HandleAsync(ct)))
+            .WithTags("Documents Module");
+
+        v1.MapPost("/documents/folders", async (CreateFolderHandler handler, ProdSight.Api.Shared.DTOs.DocumentsModule.CreateFolder.CreateFolderRequest req, CancellationToken ct) =>
+                {
+                    var created = await handler.HandleAsync(req, ct);
+                    return Results.Created($"/v1/documents/folders/{created.Id}", created);
+                })
             .WithTags("Documents Module");
     }
 }

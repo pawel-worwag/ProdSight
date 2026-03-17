@@ -6,4 +6,5 @@ public interface IFoldersRepository
 {
     Task<IReadOnlyList<Folder>> GetRootAsync(CancellationToken ct = default);
     Task<IReadOnlyList<Folder>> GetChildrenAsync(Guid parentId, CancellationToken ct = default);
+    Task<Folder> CreateAsync(Folder folder, CancellationToken ct = default);
 }
