@@ -7,10 +7,7 @@
 	<div class="container">
 		<div>
 			<button class="navbar-toggler" type="button"
-			        data-bs-toggle="offcanvas"
-			        data-bs-target="#offcanvasMainMenu"
-			        aria-controls="offcanvasMainMenu"
-			        aria-label="Toggle navigation">
+			        @onclick="OpenMenuAsync">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<span class="navbar-brand ms-4 mb-0 h1">{{ <span style="color: #da27da;">Prod</span>Sight }}</span>
@@ -22,8 +19,7 @@
 </nav>
 
 <div class="offcanvas offcanvas-start"
-     tabindex="-1" id="offcanvasMainMenu"
-     aria-labelledby="offcanvasMainMenuLabel" >
+     tabindex="-1" @ref="_offcanvasElement">
 	<div class="offcanvas-header">
 		<h5 class="offcanvas-title" id="offcanvasMainMenuLabel">{{ <span style="color: #da27da;">Health</span> Report }}</h5>
 		<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
