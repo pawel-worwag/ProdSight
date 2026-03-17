@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ProdSight.Api.Modules.DocumentsModule.Composition.HealthChecks;
+using ProdSight.Api.Modules.DocumentsModule.Infrastructure.Extensions;
 using ProdSight.Api.Shared.Modules;
 
 namespace ProdSight.Api.Modules.DocumentsModule.Composition;
@@ -14,7 +16,10 @@ public class DocumentsModule : IModule
 
     public void RegisterServices(IServiceCollection services, IConfiguration config)
     {
-        // minimal: no services to register
+        services.AddDocumentsDatabase(config);
+        
+        services.AddHealthChecks()
+            .AddCheck<DatabaseHealthCheck>("documents-module-database-check", tags: ["documents-module"]);
     }
 
     public void ConfigureEndpoints(IEndpointRouteBuilder endpoints)
