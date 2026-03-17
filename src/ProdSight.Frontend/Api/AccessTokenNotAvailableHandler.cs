@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 
 namespace ProdSight.Frontend.Api;
 
+// TODO: Refactor this class
 public class AccessTokenNotAvailableHandler(NavigationManager nav) : DelegatingHandler
 {
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
@@ -11,7 +12,7 @@ public class AccessTokenNotAvailableHandler(NavigationManager nav) : DelegatingH
         {
             return await base.SendAsync(request, cancellationToken);
         }
-        catch (AccessTokenNotAvailableException ex)
+        catch (AccessTokenNotAvailableException)
         {
             var relative = nav.ToBaseRelativePath(nav.Uri);
             var returnUrl = string.IsNullOrEmpty(relative) ? "/" : "/" + relative; // upewnij się, że ma leading slash
