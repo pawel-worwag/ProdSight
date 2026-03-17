@@ -15,7 +15,7 @@ public partial class Health(IApiBroker api) : ComponentBase, IAsyncDisposable
     private Task? _pollingTask;
     private readonly TimeSpan _pollInterval = TimeSpan.FromSeconds(5);
     
-    private string Error { get; set; }
+    private string Error { get; set; } = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
