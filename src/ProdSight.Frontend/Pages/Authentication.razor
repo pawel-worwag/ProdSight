@@ -3,13 +3,70 @@
 @inject NavigationManager Nav
 @inject ILogger<Authentication> Logger
 
-<RemoteAuthenticatorView Action="@Action"/>
+@if (!string.IsNullOrEmpty(Error))
+{
+    <div class="alert alert-danger">
+        <strong>Logowanie nie powiodło się.</strong>
+        <div class="mt-2">Kod błędu: <em>@Error</em></div>
+        @if (!string.IsNullOrEmpty(ErrorDescription))
+        {
+            <div class="mt-1">Szczegóły: @ErrorDescription</div>
+        }
+        <div class="mt-2 text-muted small">Wyświetlony kod i opis pomogą zdiagnozować problem.</div>
+    </div>
+}
+else
+{
+    <RemoteAuthenticatorView Action="@Action" />
+}
 
 @code{
     [Parameter] public string? Action { get; set; }
-    
+
+    private string? Error { get; set; }
+    private string? ErrorDescription { get; set; }
+
     protected override void OnParametersSet()
     {
         Logger.LogInformation("Authentication page loaded. Action={Action} Uri={Uri}", Action, Nav.Uri);
+
+        // Parse query string for OIDC error params (if any) and show clearer message
+        var uri = Nav.Uri;
+        var qIndex = uri.IndexOf('?');
+        if (qIndex >= 0 && qIndex + 1 < uri.Length)
+        {
+            var qs = uri.Substring(qIndex + 1);
+            var dict = ParseQueryString(qs);
+            if (dict.TryGetValue("error", out var err)) Error = err;
+            if (dict.TryGetValue("error_description", out var desc)) ErrorDescription = desc;
+            if (!string.IsNullOrEmpty(Error))
+            {
+                Logger.LogWarning("Authentication error detected: {Error} {Description}", Error, ErrorDescription);
+            }
+        }
+    }
+
+    // No retry button — this page only reports the error details for diagnosis.
+
+    private static System.Collections.Generic.Dictionary<string, string> ParseQueryString(string qs)
+    {
+        var dict = new System.Collections.Generic.Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        var parts = qs.Split('&', StringSplitOptions.RemoveEmptyEntries);
+        foreach (var p in parts)
+        {
+            var idx = p.IndexOf('=');
+            if (idx >= 0)
+            {
+                var k = Uri.UnescapeDataString(p.Substring(0, idx));
+                var v = Uri.UnescapeDataString(p.Substring(idx + 1));
+                dict[k] = v;
+            }
+            else
+            {
+                var k = Uri.UnescapeDataString(p);
+                dict[k] = string.Empty;
+            }
+        }
+        return dict;
     }
 }
