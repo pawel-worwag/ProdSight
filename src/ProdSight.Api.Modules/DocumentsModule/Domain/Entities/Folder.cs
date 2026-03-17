@@ -10,6 +10,8 @@ public class Folder
     public string? Description { get; private set; }
     public Guid? ParentId { get; private set; }
     public DateTimeOffset CreatedAt { get; private set; }
+
+    public IReadOnlyList<Folder> Children { get; private set; } = new List<Folder>();
     
     private Folder() { }
     
