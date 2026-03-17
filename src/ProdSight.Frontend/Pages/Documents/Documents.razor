@@ -10,8 +10,22 @@
 
 @if (_rootFolders is not null)
 {
-    @foreach (var f in _rootFolders)
-    {
-        <div>@f.Name</div>
-    }
+    <div class="d-flex flex-wrap gap-3 align-items-start">
+        @foreach (var f in _rootFolders)
+        {
+            <div class="d-flex">
+                <div class="folder d-flex flex-column justify-content-between flex-fill p-3" tabindex="0">
+                    <div class="d-flex flex-column w-100 align-items-start">
+                        <i class="bi bi-folder-fill folder-icon me-2" aria-hidden="true"></i>
+                            <div class="folder-name">@f.Name</div>
+                            <div class="folder-meta d-flex align-items-center gap-2 mt-2 small text-muted">
+                                <i class="bi bi-calendar3" aria-hidden="true"></i>
+                                <div class="ms-1">@f.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</div>
+                            </div>
+                            <div class="folder-desc text-muted small mt-1">@f.Description</div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 }
