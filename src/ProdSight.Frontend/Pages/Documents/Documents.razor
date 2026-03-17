@@ -7,3 +7,11 @@
 <PageTitle>ProdSight - Documents</PageTitle>
 
 <h3>Documents</h3>
+
+@if (_rootFolders is not null)
+{
+    @foreach (var f in _rootFolders)
+    {
+        <div>@f.Name</div>
+    }
+}
