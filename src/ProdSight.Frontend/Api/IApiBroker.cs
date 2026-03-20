@@ -10,6 +10,9 @@ public interface IApiBroker
     Task<ICollection<User>> GetAllUsersAsync(CancellationToken cancellationToken = default);
 
     Task<ICollection<ProdSight.Api.Shared.DTOs.DocumentsModule.GetRootFolders.Folder>> GetRootFoldersAsync(CancellationToken cancellationToken = default);
+
+    Task<ProdSight.Api.Shared.DTOs.DocumentsModule.GetFolderDetails.FolderDetails> GetFolderDetailsAsync(Guid id,
+        CancellationToken cancellationToken = default);
     Task<ICollection<ProdSight.Api.Shared.DTOs.DocumentsModule.GetChildren.Folder>> GetChildrenFoldersAsync(Guid parentId, CancellationToken cancellationToken = default);
     Task<ProdSight.Api.Shared.DTOs.DocumentsModule.CreateFolder.Folder> CreateFolderAsync(ProdSight.Api.Shared.DTOs.DocumentsModule.CreateFolder.CreateFolderRequest request, CancellationToken cancellationToken = default);
 }

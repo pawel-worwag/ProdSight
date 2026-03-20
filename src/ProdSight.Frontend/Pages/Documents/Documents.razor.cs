@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using ProdSight.Api.Shared.DTOs.DocumentsModule.GetFolderDetails;
 using ProdSight.Frontend.Api;
 
 namespace ProdSight.Frontend.Pages.Documents;
@@ -8,7 +9,8 @@ public partial class Documents(IApiBroker api, NavigationManager nav) : Componen
     [Parameter]
     public Guid? Id { get; init; }
     
-    private ICollection<ViewItem>? _items;
+    private List<ViewItem>? _items;
+    private FolderDetails? _folderDetails;
 
     protected override async Task OnParametersSetAsync()
     {
@@ -17,10 +19,23 @@ public partial class Documents(IApiBroker api, NavigationManager nav) : Componen
         {
             if (Id is not null)
             {
-                _items = MapItems(await api.GetChildrenFoldersAsync(Id.Value));
+                _folderDetails = await api.GetFolderDetailsAsync(Id.Value);
+                _items =
+                [
+                    new ViewItem()
+                    {
+                        Id = _folderDetails.ParentId,
+                        IsFolder = true,
+                        Name = "[..]"
+                    }
+
+                ];
+                _items.AddRange( MapItems(await api.GetChildrenFoldersAsync(Id.Value)));
+                
             }
             else
             {
+                _folderDetails = null;
                 _items = MapItems(await api.GetRootFoldersAsync());
             }
         }
@@ -30,19 +45,27 @@ public partial class Documents(IApiBroker api, NavigationManager nav) : Componen
         }
     }
 
-    private void OnItemClick(bool isFolder, Guid id)
+    private void OnItemClick(bool isFolder, Guid? id)
     {
         if (isFolder)
         {
-            nav.NavigateTo($"/documents/{id}");
+            if (id is null)
+            {
+                nav.NavigateTo($"/documents"); 
+            }
+            else
+            {
+                nav.NavigateTo($"/documents/{id}");
+            }
+            
         }
     }
     
     private record ViewItem
     {
-        public Guid Id { get; init; }
+        public Guid? Id { get; init; }
         public bool IsFolder { get; init; } = true;
-        public string Name { get; init; }
+        public string Name { get; init; } = string.Empty;
         public string? Description { get; init; }
         public DateTimeOffset? CreatedAt  { get; init; }
     }

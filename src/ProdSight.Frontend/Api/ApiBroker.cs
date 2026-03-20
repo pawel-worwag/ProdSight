@@ -39,6 +39,15 @@ public class ApiBroker(IHttpClientFactory httpFactory) : IApiBroker
              ?? throw new InvalidOperationException("Empty or invalid response.");
     }
 
+    public async Task<ProdSight.Api.Shared.DTOs.DocumentsModule.GetFolderDetails.FolderDetails> GetFolderDetailsAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        var url = $"api/v1/documents/folders/{id}/details";
+        var res = await GetClient(true).GetAsync(url, cancellationToken);
+        res.EnsureSuccessStatusCode();
+         return await res.Content.ReadFromJsonAsync<ProdSight.Api.Shared.DTOs.DocumentsModule.GetFolderDetails.FolderDetails>(JsonOptions, cancellationToken)
+               ?? throw new InvalidOperationException("Empty or invalid response.");
+    }
+
     public async Task<ICollection<ProdSight.Api.Shared.DTOs.DocumentsModule.GetChildren.Folder>> GetChildrenFoldersAsync(Guid parentId, CancellationToken cancellationToken = default)
     {
         var url = $"api/v1/documents/folders/{parentId}/children";

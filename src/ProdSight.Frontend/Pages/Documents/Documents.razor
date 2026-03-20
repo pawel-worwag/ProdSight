@@ -10,6 +10,25 @@
 
 <div class="container">
     <h3 class="mb-3">Documents</h3>
+    @if (_folderDetails is not null)
+    {
+        <div class="mb-3 p-2 border rounded">
+            <table>
+                <tr>
+                    <td class="pe-3">Folder: </td>
+                    <td class="mono">@_folderDetails.Name</td>
+                </tr>
+                <tr>
+                    <td class="pe-3">Description: </td>
+                    <td class="mono">@_folderDetails.Description</td>
+                </tr>
+                <tr>
+                    <td class="pe-3">Creation date: </td>
+                    <td class="mono">@_folderDetails.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</td>
+                </tr>
+            </table>
+        </div>
+    }
         <table class="table">
             <thead>
             <tr>
@@ -24,7 +43,7 @@
                 @foreach (var f in _items)
                 {
                     <tr>
-                        <th scope="row" class="fit clickable" @onclick="() => { OnItemClick(f.IsFolder, f.Id); }">
+                        <th scope="row" class="fit clickable" style="width:4em;" @onclick="() => { OnItemClick(f.IsFolder, f.Id); }">
                             <span class="bi bi-folder-fill"></span>
                         </th>
                         <td class="align-top mono clickable" @onclick="() => { OnItemClick(f.IsFolder, f.Id); }">
@@ -34,12 +53,12 @@
                                 <div class="text-muted">@f.Description</div>
                             }
                         </td>
-                        <td class="align-top mono clickable" @onclick="() => { OnItemClick(f.IsFolder, f.Id); }">
+                        <td class="align-top mono clickable"  style="width:12em;" @onclick="() => { OnItemClick(f.IsFolder, f.Id); }">
                             <span class="text-muted ">
                                 @f.CreatedAt?.ToLocalTime().ToString("yyyy-MM-dd HH:mm")
                             </span>
                         </td>
-                        <td class="text-end align-top text-muted">
+                        <td class="text-end align-top text-muted"  style="width:2em;">
                             <button class="btn btn-sm btn-dark p-0 px-1"><span class="bi bi-three-dots-vertical"></span></button>
                         </td>
                     </tr>
