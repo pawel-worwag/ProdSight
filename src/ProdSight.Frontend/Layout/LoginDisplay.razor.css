@@ -1,0 +1,14 @@
+.user-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #0f172a;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.2em;
+    border: 0;
+    padding: .5em;
+}
+
+.dropdown-toggle::after{display:none}

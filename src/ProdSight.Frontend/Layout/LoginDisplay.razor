@@ -6,14 +6,40 @@
 
 <AuthorizeView>
     <Authorized>
+        <div class="dropdown-center">
+            <a href="#"
+               class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
+               data-bs-toggle="dropdown" aria-expanded="false">
+                <div class="user-btn">
+                    <span class="user-initials">@GetInitials(context.User.Identity?.Name)</span>
+                </div>
+            </a>
+            <ul class="dropdown-menu text-small mt-3">
+                <li><a class="dropdown-item" href="#">Profile</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><button class="dropdown-item" @onclick="BeginLogOut">Sign out</button></li>
+            </ul>
+        </div>
+        <!--
+        <div class="d-flex align-items-center ms-auto">
+            <details class="user-widget">
+                <summary class="user-btn" title="Konto">
+                    <span class="user-initials">PW</span>
+                </summary>
+                <div class="user-menu">
+                    <a href="/profile" class="user-link">Profil</a>
+                    <a href="/logout" class="user-link">Wyloguj</a>
+                </div>
+            </details>
+        </div>
         <div class="d-flex">
-            <span class="px-3">@context.User.Identity?.Name</span>
+            <span class="px-3">@GetInitials(context.User.Identity?.Name)</span>
             <button class="nav-link btn btn-outline-danger px-2" @onclick="BeginLogOut">Log out</button>
         </div>
+        -->
     </Authorized>
-    <NotAuthorized>
-        <a href="authentication/login">Log in</a>
-    </NotAuthorized>
 </AuthorizeView>
 
 @code{
@@ -22,24 +48,32 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        Monitor.OnTick +=MonitorOnOnTick;
+        Monitor.OnTick += MonitorOnOnTick;
+    }
+
+    private static string GetInitials(string? fullName)
+    {
+        if (string.IsNullOrWhiteSpace(fullName)) return string.Empty;
+        var parts = fullName.Trim().Split((char[])null, StringSplitOptions.RemoveEmptyEntries);
+        if (parts.Length == 0) return string.Empty;
+        if (parts.Length == 1) return parts[0].Substring(0, 1).ToUpperInvariant();
+        var first = parts[0][0].ToString().ToUpperInvariant();
+        var last = parts[parts.Length - 1][0].ToString().ToUpperInvariant();
+        return first + last;
     }
 
     private async void MonitorOnOnTick()
     {
-
-            var state = await AuthProvider.GetAuthenticationStateAsync();
-            if (state.User?.Identity?.IsAuthenticated==true)
+        var state = await AuthProvider.GetAuthenticationStateAsync();
+        if (state.User?.Identity?.IsAuthenticated == true)
+        {
+            if (Monitor.Left.HasValue && Monitor.Left.Value <= TimeSpan.Zero && !_loggedOut)
             {
-                if(Monitor.Left.HasValue && Monitor.Left.Value <= TimeSpan.Zero && !_loggedOut)
-                {
-                    _loggedOut = true;
-                    BeginLogOut();
-                }
+                _loggedOut = true;
+                BeginLogOut();
             }
-
+        }
     }
-
 
     public void BeginLogOut()
     {
