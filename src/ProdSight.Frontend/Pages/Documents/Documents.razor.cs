@@ -3,20 +3,72 @@ using ProdSight.Frontend.Api;
 
 namespace ProdSight.Frontend.Pages.Documents;
 
-public partial class Documents(IApiBroker api) : ComponentBase
+public partial class Documents(IApiBroker api, NavigationManager nav) : ComponentBase
 {
-    private ICollection<ProdSight.Api.Shared.DTOs.DocumentsModule.GetRootFolders.Folder>? _rootFolders;
+    [Parameter]
+    public Guid? Id { get; init; }
     
-    protected async override Task OnInitializedAsync()
+    private ICollection<ViewItem>? _items;
+
+    protected override async Task OnParametersSetAsync()
     {
-        await  base.OnInitializedAsync();
+        await base.OnParametersSetAsync();
         try
         {
-            _rootFolders = await api.GetRootFoldersAsync();
+            if (Id is not null)
+            {
+                _items = MapItems(await api.GetChildrenFoldersAsync(Id.Value));
+            }
+            else
+            {
+                _items = MapItems(await api.GetRootFoldersAsync());
+            }
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex);
         }
+    }
+
+    private void OnItemClick(bool isFolder, Guid id)
+    {
+        if (isFolder)
+        {
+            nav.NavigateTo($"/documents/{id}");
+        }
+    }
+    
+    private record ViewItem
+    {
+        public Guid Id { get; init; }
+        public bool IsFolder { get; init; } = true;
+        public string Name { get; init; }
+        public string? Description { get; init; }
+        public DateTimeOffset? CreatedAt  { get; init; }
+    }
+
+    private static List<ViewItem> MapItems(
+        ICollection<ProdSight.Api.Shared.DTOs.DocumentsModule.GetRootFolders.Folder> folders)
+    {
+        return folders.Select(p=>new ViewItem()
+        {
+            Id = p.Id,
+            IsFolder = true,
+            Name = p.Name,
+            Description = p.Description,
+            CreatedAt = p.CreatedAt
+        }).ToList();
+    }
+    private static List<ViewItem> MapItems(
+        ICollection<ProdSight.Api.Shared.DTOs.DocumentsModule.GetChildren.Folder> folders)
+    {
+        return folders.Select(p=>new ViewItem()
+        {
+            Id = p.Id,
+            IsFolder = true,
+            Name = p.Name,
+            Description = p.Description,
+            CreatedAt = p.CreatedAt
+        }).ToList();
     }
 }

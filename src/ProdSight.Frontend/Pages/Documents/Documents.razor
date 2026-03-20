@@ -1,4 +1,6 @@
 @page "/documents"
+@page "/documents/{Id:guid}"
+
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize]
 
@@ -8,9 +10,6 @@
 
 <div class="container">
     <h3 class="mb-3">Documents</h3>
-
-    @if (_rootFolders is not null)
-    {
         <table class="table">
             <thead>
             <tr>
@@ -20,29 +19,32 @@
             </tr>
             </thead>
             <tbody>
-            @foreach (var f in _rootFolders)
+            @if (_items is not null && _items.Count > 0)
             {
-                <tr>
-                    <th scope="row" class="fit"><span class="bi bi-folder-fill"></span></th>
-                    <td class="align-top mono">
-                        @f.Name
-                        @if (!string.IsNullOrWhiteSpace(f.Description))
-                        {
-                            <div class="text-muted">@f.Description</div>
-                        }
-                    </td>
-                    <td class="align-top mono">
-                        <span class="text-muted ">
-                            @f.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm")
-                        </span>
-                    </td>
-                    <td  class="text-end align-top text-muted">
-                        <button class="btn btn-sm btn-dark p-0 px-1"><span class="bi bi-three-dots-vertical"></span></button>
-                    </td>
-                </tr>
+                @foreach (var f in _items)
+                {
+                    <tr>
+                        <th scope="row" class="fit clickable" @onclick="() => { OnItemClick(f.IsFolder, f.Id); }">
+                            <span class="bi bi-folder-fill"></span>
+                        </th>
+                        <td class="align-top mono clickable" @onclick="() => { OnItemClick(f.IsFolder, f.Id); }">
+                            @f.Name
+                            @if (!string.IsNullOrWhiteSpace(f.Description))
+                            {
+                                <div class="text-muted">@f.Description</div>
+                            }
+                        </td>
+                        <td class="align-top mono clickable" @onclick="() => { OnItemClick(f.IsFolder, f.Id); }">
+                            <span class="text-muted ">
+                                @f.CreatedAt?.ToLocalTime().ToString("yyyy-MM-dd HH:mm")
+                            </span>
+                        </td>
+                        <td class="text-end align-top text-muted">
+                            <button class="btn btn-sm btn-dark p-0 px-1"><span class="bi bi-three-dots-vertical"></span></button>
+                        </td>
+                    </tr>
+                }
             }
             </tbody>
         </table>
-    }
-
 </div>
