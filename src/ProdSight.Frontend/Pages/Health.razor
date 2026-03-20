@@ -4,30 +4,31 @@
 
 <PageTitle>ProdSight - Health</PageTitle>
 
-<table class="table table-hover table-borderless my-3">
-    <tbody>
-    <tr>
-        <td class="text-end">Status:</td>
-        <td colspan="3"><span
-                class="badge @(HealthStatus?.Status == "Healthy" ? "bg-success" : "bg-danger")">@(HealthStatus?.Status ?? "Unhealthy")</span>
-        </td>
-    </tr>
-    @if (HealthStatus is not null)
-    {
+<div class="container">
+    <table class="table table-hover table-borderless my-3">
+        <tbody>
         <tr>
-            <td class="text-end">Last check:</td>
-            <td colspan="3">@HealthStatus?.LastChecked (UTC)</td>
+            <td class="text-end">Status:</td>
+            <td colspan="3"><span
+                                class="badge @(HealthStatus?.Status == "Healthy" ? "bg-success" : "bg-danger")">@(HealthStatus?.Status ?? "Unhealthy")</span>
+            </td>
         </tr>
-    }
-    else
-    {
-        <tr>
-            <td class="text-end">Error:</td>
-            <td colspan="3">@Error</td>
-        </tr>
-    }
-    </tbody>
-</table>
+        @if (HealthStatus is not null)
+        {
+            <tr>
+                <td class="text-end">Last check:</td>
+                <td colspan="3">@HealthStatus?.LastChecked (UTC)</td>
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <td class="text-end">Error:</td>
+                <td colspan="3">@Error</td>
+            </tr>
+        }
+        </tbody>
+    </table>
 
 
     <table class="table table-hover mt-5">
@@ -92,3 +93,4 @@
         }
         </tbody>
     </table>
+</div>
