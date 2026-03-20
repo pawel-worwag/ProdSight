@@ -3,8 +3,6 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background: #0f172a;
-    color: #fff;
     font-weight: 600;
     font-size: 1.2em;
     border: 0;
@@ -12,3 +10,10 @@
 }
 
 .dropdown-toggle::after{display:none}
+.dropdown-toggle::before{display:none}
+
+
+.dropdown-toggle:focus-visible{
+    outline: none;
+    box-shadow: none;
+}

@@ -6,39 +6,24 @@
 
 <AuthorizeView>
     <Authorized>
-        <div class="dropdown-center">
+        <div class="dropstart">
             <a href="#"
                class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
                data-bs-toggle="dropdown" aria-expanded="false">
-                <div class="user-btn">
+                <div class="user-btn border">
                     <span class="user-initials">@GetInitials(context.User.Identity?.Name)</span>
                 </div>
             </a>
-            <ul class="dropdown-menu text-small mt-3">
-                <li><a class="dropdown-item" href="#">Profile</a></li>
+            <ul class="dropdown-menu text-small me-3">
+                <li class="text-center"><a class="dropdown-item" href="#">Profile</a></li>
                 <li>
                     <hr class="dropdown-divider">
                 </li>
-                <li><button class="dropdown-item" @onclick="BeginLogOut">Sign out</button></li>
+                <li class="text-center">
+                    <button class="dropdown-item" @onclick="BeginLogOut">Sign out</button>
+                </li>
             </ul>
         </div>
-        <!--
-        <div class="d-flex align-items-center ms-auto">
-            <details class="user-widget">
-                <summary class="user-btn" title="Konto">
-                    <span class="user-initials">PW</span>
-                </summary>
-                <div class="user-menu">
-                    <a href="/profile" class="user-link">Profil</a>
-                    <a href="/logout" class="user-link">Wyloguj</a>
-                </div>
-            </details>
-        </div>
-        <div class="d-flex">
-            <span class="px-3">@GetInitials(context.User.Identity?.Name)</span>
-            <button class="nav-link btn btn-outline-danger px-2" @onclick="BeginLogOut">Log out</button>
-        </div>
-        -->
     </Authorized>
 </AuthorizeView>
 
