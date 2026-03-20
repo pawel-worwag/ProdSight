@@ -2,30 +2,47 @@
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize]
 
-<ClaimRequire ClaimType="documents-module-role" AllowedValues="@(["user", "admin"])" />
+<ClaimRequire ClaimType="documents-module-role" AllowedValues="@(["user", "admin"])"/>
 
 <PageTitle>ProdSight - Documents</PageTitle>
 
-<h3>Documents</h3>
+<div class="container">
+    <h3 class="mb-3">Documents</h3>
 
-@if (_rootFolders is not null)
-{
-    <div class="d-flex flex-wrap gap-3 align-items-start">
-        @foreach (var f in _rootFolders)
-        {
-            <div class="d-flex">
-                <div class="folder d-flex flex-column justify-content-between flex-fill p-3" tabindex="0">
-                    <div class="d-flex flex-column w-100 align-items-start">
-                        <i class="bi bi-folder-fill folder-icon me-2" aria-hidden="true"></i>
-                            <div class="folder-name">@f.Name</div>
-                            <div class="folder-meta d-flex align-items-center gap-2 mt-2 small text-muted">
-                                <i class="bi bi-calendar3" aria-hidden="true"></i>
-                                <div class="ms-1">@f.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</div>
-                            </div>
-                            <div class="folder-desc text-muted small mt-1">@f.Description</div>
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
-}
+    @if (_rootFolders is not null)
+    {
+        <table class="table">
+            <thead>
+            <tr>
+                <th colspan="2">Name/Description</th>
+                <th>Creation date</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var f in _rootFolders)
+            {
+                <tr>
+                    <th scope="row" class="fit"><span class="bi bi-folder-fill"></span></th>
+                    <td class="align-top mono">
+                        @f.Name
+                        @if (!string.IsNullOrWhiteSpace(f.Description))
+                        {
+                            <div class="text-muted">@f.Description</div>
+                        }
+                    </td>
+                    <td class="align-top mono">
+                        <span class="text-muted ">
+                            @f.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm")
+                        </span>
+                    </td>
+                    <td  class="text-end align-top text-muted">
+                        <button class="btn btn-sm btn-dark p-0 px-1"><span class="bi bi-three-dots-vertical"></span></button>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+
+</div>
