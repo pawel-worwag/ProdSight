@@ -9,6 +9,7 @@ using ProdSight.Api.Shared.Modules;
 using ProdSight.Api.Modules.DocumentsModule.Application.Handlers;
 using ProdSight.Api.Modules.DocumentsModule.Application.Abstractions;
 using ProdSight.Api.Modules.DocumentsModule.Infrastructure.Database.Repositories;
+using ProdSight.Api.Shared.DTOs.DocumentsModule.GetFolderDetails;
 using ProdSight.Api.Shared.DTOs.Errors;
 using RootFolderDto = ProdSight.Api.Shared.DTOs.DocumentsModule.GetRootFolders.Folder;
 using CreateFolderDto = ProdSight.Api.Shared.DTOs.DocumentsModule.CreateFolder.Folder;
@@ -25,9 +26,12 @@ public class DocumentsModule : IModule
     public void RegisterServices(IServiceCollection services, IConfiguration config)
     {
         services.AddDocumentsDatabase(config);
+        
         services.AddScoped<GetRootFoldersHandler>();
         services.AddScoped<CreateFolderHandler>();
         services.AddScoped<GetChildrenFoldersHandler>();
+        services.AddScoped<GetFolderDetailsHandler>();
+        
         services.AddScoped<IFoldersRepository, FoldersRepository>();
 
         services.AddHealthChecks()
@@ -63,6 +67,14 @@ public class DocumentsModule : IModule
                 Results.Ok(await handler.HandleAsync(Guid.Parse(parentId), ct)))
             .WithTags("Documents Module")
             .Produces<IReadOnlyList<GetChildrenFolderDto>>(StatusCodes.Status200OK)
+            .Produces<ErrorResponse>(StatusCodes.Status400BadRequest, "application/json")
+            .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
+
+        v1.MapGet("/documents/folders/{id}/details",
+            async (GetFolderDetailsHandler handler, string id, CancellationToken ct) =>
+                Results.Ok(await handler.HandleAsync(Guid.Parse(id), ct)))
+            .WithTags("Documents Module")
+            .Produces<FolderDetails>(StatusCodes.Status200OK)
             .Produces<ErrorResponse>(StatusCodes.Status400BadRequest, "application/json")
             .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
     }

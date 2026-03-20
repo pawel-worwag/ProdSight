@@ -8,12 +8,19 @@ namespace ProdSight.Api.Modules.DocumentsModule.Infrastructure.Database.Reposito
 public class FoldersRepository(DocumentsDbContext dbc)
     : IFoldersRepository
 {
-    public async Task<IReadOnlyList<Folder>> GetRootAsync(CancellationToken ct = default)
+    public async Task<IReadOnlyList<Folder>> GetRootsAsync(CancellationToken ct = default)
     {
         return await dbc.Folders
             .Where(f => f.ParentId == null)
             .OrderBy(f => f.Name)
             .ToListAsync(ct);
+    }
+
+    public async Task<Folder> GetAsync(Guid id, CancellationToken ct = default)
+    {
+        var folder = await dbc.Folders.Include(p => p.Children)
+            .FirstOrDefaultAsync(p => p.Id == id, ct);
+        return  folder ?? throw new NotFoundException("Folder not found");
     }
 
     public async Task<IReadOnlyList<Folder>> GetChildrenAsync(Guid parentId, CancellationToken ct = default)
