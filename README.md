@@ -13,6 +13,25 @@ ProdSight is a modular application for visualizing production data related to fa
 - .NET (target framework: .NET 10)
 - Keycloak for authentication and authorization
 
+## Reverse Proxy Note (Keycloak + Chrome)
+
+This setting fixes issues with access token handling in Chrome (token not available after navigation between pages).
+
+Set this on the Nginx location that proxies to Keycloak: 
+
+```nginx 
+location / {
+
+  ...
+
+  # IMPORTANT
+  proxy_cookie_flags ~ secure samesite=none;
+
+  ...
+
+}
+```
+
 ## Project Structure
 
 - `src/ProdSight.Api/`: Main API application with endpoints, middleware, and module registration.
