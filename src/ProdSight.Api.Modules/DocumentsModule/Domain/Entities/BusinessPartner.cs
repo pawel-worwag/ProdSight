@@ -6,32 +6,34 @@ namespace ProdSight.Api.Modules.DocumentsModule.Domain.Entities;
 /// <remarks>
 /// This type acts as an aggregate root with a factory method <see cref="Create(string,string?)"/>.
 /// </remarks>
-public class Partner
+public class BusinessPartner
 {
     public Guid Id { get; private set; }
     public string Name { get; private set; } = string.Empty;
     public string? Address { get; private set; }
+    public string? Description { get; private set; }
     public DateTimeOffset CreatedAt { get; private set; }
     
-    private Partner() { }
+    private BusinessPartner() { }
     
     /// <summary>
-    /// Creates a new <see cref="Partner"/> instance after basic validation.
+    /// Creates a new <see cref="BusinessPartner"/> instance after basic validation.
     /// </summary>
-    /// <param name="name">Partner name; must not be null, empty or whitespace.</param>
+    /// <param name="name">BusinessPartner name; must not be null, empty or whitespace.</param>
     /// <param name="address">Optional address; trimmed if provided.</param>
-    /// <returns>A newly created <see cref="Partner"/> with generated Id and CreatedAt set to UTC now.</returns>
+    /// <returns>A newly created <see cref="BusinessPartner"/> with generated Id and CreatedAt set to UTC now.</returns>
     /// <exception cref="ArgumentException">Thrown when <paramref name="name"/> is null/empty/whitespace.</exception>
-    public static Partner Create(string name, string? address)
+    public static BusinessPartner Create(string name, string? address, string? description)
     {
         if (string.IsNullOrWhiteSpace(name))
             throw new ArgumentException(nameof(name));
 
-        return new Partner
+        return new BusinessPartner
         {
             Id = Guid.NewGuid(),
             Name = name.Trim(),
             Address = address?.Trim(),
+            Description = description?.Trim(),
             CreatedAt = DateTimeOffset.UtcNow
         };
     }
@@ -55,5 +57,14 @@ public class Partner
     public void ChangeAddress(string? newAddress)
     {
         Address = newAddress?.Trim();
+    }
+
+    /// <summary>
+    /// Updates the partner's description. Pass <c>null</c> to clear it.
+    /// </summary>
+    /// <param name="newDescription">New description or <c>null</c>.</param>
+    public void ChangeDescription(string? newDescription)
+    {
+        Description = newDescription?.Trim();   
     }
 }
