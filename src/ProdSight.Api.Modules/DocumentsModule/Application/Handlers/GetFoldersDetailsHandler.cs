@@ -3,7 +3,7 @@ using ProdSight.Api.Shared.DTOs.DocumentsModule.GetFolderDetails;
 
 namespace ProdSight.Api.Modules.DocumentsModule.Application.Handlers;
 
-public class GetFolderDetailsHandler(IFoldersRepository foldersRepository)
+public class GetFoldersDetailsHandler(IFoldersRepository foldersRepository)
 {
     public async Task<FolderDetails> HandleAsync(Guid folderId, CancellationToken ct = default)
     {

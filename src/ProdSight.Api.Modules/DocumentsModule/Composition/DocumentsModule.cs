@@ -11,10 +11,6 @@ using ProdSight.Api.Modules.DocumentsModule.Application.Abstractions;
 using ProdSight.Api.Modules.DocumentsModule.Infrastructure.Database.Repositories;
 using ProdSight.Api.Shared.DTOs.DocumentsModule.GetFolderDetails;
 using ProdSight.Api.Shared.DTOs.Errors;
-using RootFolderDto = ProdSight.Api.Shared.DTOs.DocumentsModule.GetRootFolders.Folder;
-using CreateFolderDto = ProdSight.Api.Shared.DTOs.DocumentsModule.CreateFolder.Folder;
-using CreateFolderRequestDto = ProdSight.Api.Shared.DTOs.DocumentsModule.CreateFolder.CreateFolderRequest;
-using GetChildrenFolderDto = ProdSight.Api.Shared.DTOs.DocumentsModule.GetChildren.Folder;
 
 namespace ProdSight.Api.Modules.DocumentsModule.Composition;
 
@@ -30,7 +26,8 @@ public class DocumentsModule : IModule
         services.AddScoped<GetRootFoldersHandler>();
         services.AddScoped<CreateFolderHandler>();
         services.AddScoped<GetChildrenFoldersHandler>();
-        services.AddScoped<GetFolderDetailsHandler>();
+        services.AddScoped<GetFoldersDetailsHandler>();
+        services.AddScoped<GetFoldersTreeHandler>();
         
         services.AddScoped<IFoldersRepository, FoldersRepository>();
 
@@ -48,17 +45,23 @@ public class DocumentsModule : IModule
         v1.MapGet("/documents/folders/root", async (GetRootFoldersHandler handler, CancellationToken ct) =>
                 Results.Ok(await handler.HandleAsync(ct)))
             .WithTags("Documents Module")
-            .Produces<IReadOnlyList<RootFolderDto>>(StatusCodes.Status200OK)
+            .Produces<IReadOnlyList<ProdSight.Api.Shared.DTOs.DocumentsModule.GetRootFolders.Folder>>(StatusCodes.Status200OK)
+            .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
+        
+        v1.MapGet("/documents/folders/tree", async (GetFoldersTreeHandler handler, CancellationToken ct)=>
+            Results.Ok(await handler.HandleAsync(ct)))
+            .WithTags("Documents Module")
+            .Produces<IReadOnlyList<ProdSight.Api.Shared.DTOs.DocumentsModule.GetFoldersTree.Folder>>(StatusCodes.Status200OK)
             .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
 
         v1.MapPost("/documents/folders", async (CreateFolderHandler handler,
-                CreateFolderRequestDto req, CancellationToken ct) =>
+                ProdSight.Api.Shared.DTOs.DocumentsModule.CreateFolder.CreateFolderRequest req, CancellationToken ct) =>
             {
                 var created = await handler.HandleAsync(req, ct);
                 return Results.Created($"/v1/documents/folders/{created.Id}", created);
             })
             .WithTags("Documents Module")
-            .Produces<CreateFolderDto>(StatusCodes.Status201Created)
+            .Produces<ProdSight.Api.Shared.DTOs.DocumentsModule.CreateFolder.Folder>(StatusCodes.Status201Created)
             .Produces<ErrorResponse>(StatusCodes.Status400BadRequest, "application/json")
             .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
 
@@ -66,12 +69,12 @@ public class DocumentsModule : IModule
             async (GetChildrenFoldersHandler handler, string parentId, CancellationToken ct) =>
                 Results.Ok(await handler.HandleAsync(Guid.Parse(parentId), ct)))
             .WithTags("Documents Module")
-            .Produces<IReadOnlyList<GetChildrenFolderDto>>(StatusCodes.Status200OK)
+            .Produces<IReadOnlyList<ProdSight.Api.Shared.DTOs.DocumentsModule.GetChildren.Folder>>(StatusCodes.Status200OK)
             .Produces<ErrorResponse>(StatusCodes.Status400BadRequest, "application/json")
             .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
 
         v1.MapGet("/documents/folders/{id}/details",
-            async (GetFolderDetailsHandler handler, string id, CancellationToken ct) =>
+            async (GetFoldersDetailsHandler handler, string id, CancellationToken ct) =>
                 Results.Ok(await handler.HandleAsync(Guid.Parse(id), ct)))
             .WithTags("Documents Module")
             .Produces<FolderDetails>(StatusCodes.Status200OK)
