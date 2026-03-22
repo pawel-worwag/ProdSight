@@ -11,6 +11,7 @@ public class FoldersRepository(DocumentsDbContext dbc)
     public async Task<IReadOnlyList<Folder>> GetRootsAsync(CancellationToken ct = default)
     {
         return await dbc.Folders
+            .AsNoTracking()
             .Where(f => f.ParentId == null)
             .OrderBy(f => f.Name)
             .ToListAsync(ct);
@@ -18,19 +19,23 @@ public class FoldersRepository(DocumentsDbContext dbc)
 
     public async Task<IReadOnlyList<Folder>> GetAllAsync(CancellationToken ct = default)
     {
-        return await dbc.Folders.ToListAsync(ct);
+        return await dbc.Folders
+            .AsNoTracking()
+            .ToListAsync(ct);
     }
 
     public async Task<Folder> GetAsync(Guid id, CancellationToken ct = default)
     {
-        var folder = await dbc.Folders.Include(p => p.Children)
+        var folder = await dbc.Folders
             .FirstOrDefaultAsync(p => p.Id == id, ct);
         return  folder ?? throw new NotFoundException("Folder not found");
     }
 
     public async Task<IReadOnlyList<Folder>> GetChildrenAsync(Guid parentId, CancellationToken ct = default)
     {
-        var parent = await dbc.Folders.Include(p => p.Children)
+        var parent = await dbc.Folders
+            .AsNoTracking()
+            .Include(p => p.Children)
             .FirstOrDefaultAsync(p => p.Id == parentId, ct);
         return parent is null
             ? throw new BadRequestException("Parent folder not found")
