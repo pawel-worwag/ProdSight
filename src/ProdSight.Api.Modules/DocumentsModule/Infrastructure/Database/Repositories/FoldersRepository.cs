@@ -43,4 +43,9 @@ public class FoldersRepository(DocumentsDbContext dbc)
         await dbc.SaveChangesAsync(ct);
         return entry.Entity;
     }
+
+    public async Task SaveChangesAsync(CancellationToken ct = default)
+    {
+        await dbc.SaveChangesAsync(ct);
+    }
 }
