@@ -6,8 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using ProdSight.Api.Modules.DocumentsModule.Composition.HealthChecks;
 using ProdSight.Api.Modules.DocumentsModule.Infrastructure.Extensions;
 using ProdSight.Api.Shared.Modules;
-using ProdSight.Api.Modules.DocumentsModule.Application.Handlers;
 using ProdSight.Api.Modules.DocumentsModule.Application.Abstractions;
+using ProdSight.Api.Modules.DocumentsModule.Application.Handlers.BusinessPartners;
 using ProdSight.Api.Modules.DocumentsModule.Application.Handlers.Folders;
 using ProdSight.Api.Modules.DocumentsModule.Infrastructure.Database.Repositories;
 using ProdSight.Api.Shared.DTOs.DocumentsModule.Folders.CreateFolder;
@@ -34,6 +34,8 @@ public class DocumentsModule : IModule
         services.AddScoped<GetFoldersTreeHandler>();
         services.AddScoped<UpdateFolderHandler>();
         
+        services.AddScoped<GetAllBusinessPartnersHandler>();
+        
         services.AddScoped<IFoldersRepository, FoldersRepository>();
         services.AddScoped<IBusinessPartnersRepository, BusinessPartnersRepository>();
 
@@ -46,7 +48,9 @@ public class DocumentsModule : IModule
         var v1 = endpoints.MapGroup("v1");
         v1.MapGet("/documents", () => "Documents module endpoint")
             .WithTags("Documents Module");
+        
         ConfigureFoldersEndpoints(v1);
+        ConfigureBusinessPartnersEndpoints(v1);
     }
     
     private void ConfigureFoldersEndpoints(IEndpointRouteBuilder endpoints)
@@ -99,6 +103,15 @@ public class DocumentsModule : IModule
             .WithTags(["Documents Module", "Documents Module - Folders"])
             .Produces<Shared.DTOs.DocumentsModule.Folders.UpdateFolder.Folder>()
             .Produces<ErrorResponse>(StatusCodes.Status400BadRequest, "application/json")
+            .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
+    }
+
+    private void ConfigureBusinessPartnersEndpoints(IEndpointRouteBuilder endpoints)
+    {
+        endpoints.MapGet("/documents/bp/root", async (GetAllBusinessPartnersHandler handler, CancellationToken ct) =>
+                Results.Ok(await handler.HandleAsync(ct)))
+            .WithTags(["Documents Module", "Documents Module - Business Partners"])
+            .Produces<IReadOnlyList<Shared.DTOs.DocumentsModule.BusinessPartners.GetAllBusinessPartners.BusinessPartner>>()
             .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
     }
 }
