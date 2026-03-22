@@ -16,6 +16,11 @@ public class FoldersRepository(DocumentsDbContext dbc)
             .ToListAsync(ct);
     }
 
+    public async Task<IReadOnlyList<Folder>> GetAllAsync(CancellationToken ct = default)
+    {
+        return await dbc.Folders.ToListAsync(ct);
+    }
+
     public async Task<Folder> GetAsync(Guid id, CancellationToken ct = default)
     {
         var folder = await dbc.Folders.Include(p => p.Children)
