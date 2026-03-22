@@ -59,4 +59,13 @@ public class Folder
     {
         Description = newDescription?.Trim();
     }
+
+    /// <summary>
+    /// Changes the parent folder reference (allows null to make this folder a root).
+    /// </summary>
+    /// <param name="newParentId">New parent folder id or null.</param>
+    public void ChangeParent(Guid? newParentId)
+    {
+        ParentId = newParentId;
+    }
 }
