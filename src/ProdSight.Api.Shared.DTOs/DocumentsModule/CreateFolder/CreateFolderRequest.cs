@@ -10,6 +10,6 @@ public record CreateFolderRequest
     [JsonPropertyName("description")]
     public string? Description { get; init; }
 
-    [JsonPropertyName("parentId")]
+    [JsonPropertyName("parent-id")]
     public Guid? ParentId { get; init; }
 }
