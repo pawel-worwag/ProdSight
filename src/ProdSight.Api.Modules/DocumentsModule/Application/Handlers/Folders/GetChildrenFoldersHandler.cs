@@ -8,6 +8,12 @@ public class GetChildrenFoldersHandler(IFoldersRepository foldersRepository)
     public async Task<IReadOnlyList<Folder>> HandleAsync(Guid parentId, CancellationToken ct = default)
     {
         var folders = await foldersRepository.GetChildrenAsync(parentId, ct);
-        return folders.Select(f => new Folder(f.Id, f.Name, f.Description, f.CreatedAt)).ToList();
+        return folders.Select(f => new Folder
+        {
+            Id = f.Id,
+            Name = f.Name,
+            Description = f.Description,
+            CreatedAt = f.CreatedAt
+        }).ToList();
     }
 }

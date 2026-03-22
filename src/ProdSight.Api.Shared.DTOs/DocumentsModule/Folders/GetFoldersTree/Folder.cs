@@ -8,6 +8,6 @@ public sealed record Folder
     [JsonPropertyName("parent-id")] public Guid? ParentId { get; init; }
     [JsonPropertyName("name")] public required string Name { get; init; }
     [JsonPropertyName("description")] public string? Description { get; init; }
-    [JsonPropertyName("createdAt")] public DateTimeOffset CreatedAt { get; init; }
+    [JsonPropertyName("created-at")] public DateTimeOffset CreatedAt { get; init; }
     [JsonPropertyName("children")] public ICollection<Folder> Children { get; init; } = new List<Folder>();
 }

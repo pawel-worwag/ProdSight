@@ -8,6 +8,11 @@ public class GetRootFoldersHandler(IFoldersRepository foldersRepository)
     public async Task<IReadOnlyList<Folder>> HandleAsync(CancellationToken ct = default)
     {
         var folders = await foldersRepository.GetRootsAsync(ct);
-        return folders.Select(f => new Folder(f.Id, f.Name, f.Description, f.CreatedAt)).ToList();
+        return folders.Select(f => new Folder
+        {
+            Id = f.Id,
+            Name = f.Name,
+            CreatedAt = f.CreatedAt
+        }).ToList();
     }
 }

@@ -13,6 +13,12 @@ public class CreateFolderHandler(IFoldersRepository foldersRepository)
         var domainFolder = Domain.Entities.Folder.Create(req.Name.Trim(), req.Description, req.ParentId);
         var created = await foldersRepository.CreateAsync(domainFolder, ct);
 
-        return new Folder(created.Id, created.Name, created.Description, created.CreatedAt);
+        return new Folder
+        {
+            Id = created.Id,
+            Name = created.Name,
+            Description = created.Description,
+            CreatedAt = created.CreatedAt
+        };
     }
 }

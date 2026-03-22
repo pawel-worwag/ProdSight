@@ -8,6 +8,13 @@ public class GetFoldersDetailsHandler(IFoldersRepository foldersRepository)
     public async Task<FolderDetails> HandleAsync(Guid folderId, CancellationToken ct = default)
     {
         var folder = await foldersRepository.GetAsync(folderId, ct);
-        return new FolderDetails(folder.Id, folder.Name, folder.Description, folder.CreatedAt, folder.ParentId);
+        return new FolderDetails
+        {
+            Id = folder.Id,
+            ParentId = folder.ParentId,
+            Name = folder.Name,
+            Description = folder.Description,
+            CreatedAt = folder.CreatedAt
+        };
     }
 }
