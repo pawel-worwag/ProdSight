@@ -14,4 +14,11 @@ public class BusinessPartnersRepository(DocumentsDbContext dbc)
             .OrderBy(x => x.Name)
             .ToListAsync(ct);
     }
+
+    public async Task<BusinessPartner> CreateAsync(BusinessPartner bp, CancellationToken ct = default)
+    {
+        var record = await dbc.BusinessPartners.AddAsync(bp, ct);
+        await dbc.SaveChangesAsync(ct);
+        return record.Entity;
+    }
 }
