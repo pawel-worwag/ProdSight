@@ -46,13 +46,13 @@ public class DocumentsModule : IModule
         v1.MapGet("/documents/folders/root", async (GetRootFoldersHandler handler, CancellationToken ct) =>
                 Results.Ok(await handler.HandleAsync(ct)))
             .WithTags("Documents Module")
-            .Produces<IReadOnlyList<ProdSight.Api.Shared.DTOs.DocumentsModule.GetRootFolders.Folder>>(StatusCodes.Status200OK)
+            .Produces<IReadOnlyList<ProdSight.Api.Shared.DTOs.DocumentsModule.GetRootFolders.Folder>>()
             .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
         
         v1.MapGet("/documents/folders/tree", async (GetFoldersTreeHandler handler, CancellationToken ct)=>
             Results.Ok(await handler.HandleAsync(ct)))
             .WithTags("Documents Module")
-            .Produces<IReadOnlyList<ProdSight.Api.Shared.DTOs.DocumentsModule.GetFoldersTree.Folder>>(StatusCodes.Status200OK)
+            .Produces<IReadOnlyList<ProdSight.Api.Shared.DTOs.DocumentsModule.GetFoldersTree.Folder>>()
             .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
 
         v1.MapPost("/documents/folders", async (CreateFolderHandler handler,
@@ -70,7 +70,7 @@ public class DocumentsModule : IModule
             async (GetChildrenFoldersHandler handler, string parentId, CancellationToken ct) =>
                 Results.Ok(await handler.HandleAsync(Guid.Parse(parentId), ct)))
             .WithTags("Documents Module")
-            .Produces<IReadOnlyList<ProdSight.Api.Shared.DTOs.DocumentsModule.GetChildren.Folder>>(StatusCodes.Status200OK)
+            .Produces<IReadOnlyList<ProdSight.Api.Shared.DTOs.DocumentsModule.GetChildren.Folder>>()
             .Produces<ErrorResponse>(StatusCodes.Status400BadRequest, "application/json")
             .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
 
@@ -78,7 +78,7 @@ public class DocumentsModule : IModule
             async (GetFoldersDetailsHandler handler, string id, CancellationToken ct) =>
                 Results.Ok(await handler.HandleAsync(Guid.Parse(id), ct)))
             .WithTags("Documents Module")
-            .Produces<FolderDetails>(StatusCodes.Status200OK)
+            .Produces<FolderDetails>()
             .Produces<ErrorResponse>(StatusCodes.Status400BadRequest, "application/json")
             .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
         
@@ -89,8 +89,8 @@ public class DocumentsModule : IModule
                 return Results.Ok(updated);
             })
             .WithTags("Documents Module")
-            .Produces<ProdSight.Api.Shared.DTOs.DocumentsModule.UpdateFolder.Folder>(StatusCodes.Status200OK)
+            .Produces<ProdSight.Api.Shared.DTOs.DocumentsModule.UpdateFolder.Folder>()
             .Produces<ErrorResponse>(StatusCodes.Status400BadRequest, "application/json")
-            .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");;
+            .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
     }
 }
