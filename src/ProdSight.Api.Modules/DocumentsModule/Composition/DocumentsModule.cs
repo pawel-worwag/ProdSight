@@ -28,6 +28,7 @@ public class DocumentsModule : IModule
         services.AddScoped<GetChildrenFoldersHandler>();
         services.AddScoped<GetFoldersDetailsHandler>();
         services.AddScoped<GetFoldersTreeHandler>();
+        services.AddScoped<UpdateFolderHandler>();
         
         services.AddScoped<IFoldersRepository, FoldersRepository>();
 
@@ -80,5 +81,16 @@ public class DocumentsModule : IModule
             .Produces<FolderDetails>(StatusCodes.Status200OK)
             .Produces<ErrorResponse>(StatusCodes.Status400BadRequest, "application/json")
             .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
+        
+        v1.MapPost("/documents/folders/{id}", async (UpdateFolderHandler handler, string id,
+            ProdSight.Api.Shared.DTOs.DocumentsModule.UpdateFolder.UpdateFolderRequest req, CancellationToken ct) =>
+            {
+                var updated = await handler.HandleAsync(Guid.Parse(id), req, ct);
+                return Results.Ok(updated);
+            })
+            .WithTags("Documents Module")
+            .Produces<ProdSight.Api.Shared.DTOs.DocumentsModule.UpdateFolder.Folder>(StatusCodes.Status200OK)
+            .Produces<ErrorResponse>(StatusCodes.Status400BadRequest, "application/json")
+            .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");;
     }
 }
