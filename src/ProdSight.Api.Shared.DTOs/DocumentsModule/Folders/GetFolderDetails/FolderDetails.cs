@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace ProdSight.Api.Shared.DTOs.DocumentsModule.GetFolderDetails;
+namespace ProdSight.Api.Shared.DTOs.DocumentsModule.Folders.GetFolderDetails;
 
 public sealed record FolderDetails(
     [property: JsonPropertyName("id")] Guid Id,

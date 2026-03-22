@@ -1,13 +1,11 @@
-using System.Text;
-using Microsoft.Extensions.Logging;
 using ProdSight.Api.Modules.DocumentsModule.Application.Abstractions;
-using ProdSight.Api.Shared.DTOs.DocumentsModule.GetFoldersTree;
+using ProdSight.Api.Shared.DTOs.DocumentsModule.Folders.GetFoldersTree;
 
-namespace ProdSight.Api.Modules.DocumentsModule.Application.Handlers;
+namespace ProdSight.Api.Modules.DocumentsModule.Application.Handlers.Folders;
 
 public class GetFoldersTreeHandler(IFoldersRepository foldersRepository)
 {
-    public async Task<ICollection<ProdSight.Api.Shared.DTOs.DocumentsModule.GetFoldersTree.Folder>> HandleAsync(
+    public async Task<ICollection<Folder>> HandleAsync(
         CancellationToken ct = default)
     {
         var records = await foldersRepository.GetAllAsync(ct);

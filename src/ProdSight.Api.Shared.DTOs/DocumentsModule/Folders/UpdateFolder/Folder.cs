@@ -1,4 +1,4 @@
-namespace ProdSight.Api.Shared.DTOs.DocumentsModule.UpdateFolder;
+namespace ProdSight.Api.Shared.DTOs.DocumentsModule.Folders.UpdateFolder;
 
 public class Folder
 {

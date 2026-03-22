@@ -1,8 +1,8 @@
 using ProdSight.Api.Modules.DocumentsModule.Application.Abstractions;
-using ProdSight.Api.Shared.DTOs.DocumentsModule.UpdateFolder;
+using ProdSight.Api.Shared.DTOs.DocumentsModule.Folders.UpdateFolder;
 using ProdSight.Api.Shared.Exceptions;
 
-namespace ProdSight.Api.Modules.DocumentsModule.Application.Handlers;
+namespace ProdSight.Api.Modules.DocumentsModule.Application.Handlers.Folders;
 
 public class UpdateFolderHandler(IFoldersRepository foldersRepository)
 {

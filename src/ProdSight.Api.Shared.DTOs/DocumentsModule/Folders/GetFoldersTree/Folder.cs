@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace ProdSight.Api.Shared.DTOs.DocumentsModule.GetFoldersTree;
+namespace ProdSight.Api.Shared.DTOs.DocumentsModule.Folders.GetFoldersTree;
 
 public sealed record Folder
 {

@@ -1,11 +1,10 @@
-using System;
 using System.Text.Json.Serialization;
 
-namespace ProdSight.Api.Shared.DTOs.DocumentsModule.GetRootFolders;
+namespace ProdSight.Api.Shared.DTOs.DocumentsModule.Folders.GetChildren;
 
-public record Folder(
+public sealed record Folder(
     [property: JsonPropertyName("id")] Guid Id,
     [property: JsonPropertyName("name")] string Name,
     [property: JsonPropertyName("description")] string? Description,
-    [property: JsonPropertyName("created-at")] DateTimeOffset CreatedAt
+    [property: JsonPropertyName("createdAt")] DateTimeOffset CreatedAt
 );

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
-using ProdSight.Api.Shared.DTOs.DocumentsModule.GetFolderDetails;
+using ProdSight.Api.Shared.DTOs.DocumentsModule.Folders.GetChildren;
+using ProdSight.Api.Shared.DTOs.DocumentsModule.Folders.GetFolderDetails;
 using ProdSight.Frontend.Api;
 
 namespace ProdSight.Frontend.Pages.Documents;
@@ -71,7 +72,7 @@ public partial class Documents(IApiBroker api, NavigationManager nav) : Componen
     }
 
     private static List<ViewItem> MapItems(
-        ICollection<ProdSight.Api.Shared.DTOs.DocumentsModule.GetRootFolders.Folder> folders)
+        ICollection<ProdSight.Api.Shared.DTOs.DocumentsModule.Folders.GetRootFolders.Folder> folders)
     {
         return folders.Select(p=>new ViewItem()
         {
@@ -83,7 +84,7 @@ public partial class Documents(IApiBroker api, NavigationManager nav) : Componen
         }).ToList();
     }
     private static List<ViewItem> MapItems(
-        ICollection<ProdSight.Api.Shared.DTOs.DocumentsModule.GetChildren.Folder> folders)
+        ICollection<Folder> folders)
     {
         return folders.Select(p=>new ViewItem()
         {

@@ -1,7 +1,7 @@
 using ProdSight.Api.Modules.DocumentsModule.Application.Abstractions;
-using ProdSight.Api.Shared.DTOs.DocumentsModule.GetRootFolders;
+using ProdSight.Api.Shared.DTOs.DocumentsModule.Folders.GetRootFolders;
 
-namespace ProdSight.Api.Modules.DocumentsModule.Application.Handlers;
+namespace ProdSight.Api.Modules.DocumentsModule.Application.Handlers.Folders;
 
 public class GetRootFoldersHandler(IFoldersRepository foldersRepository)
 {

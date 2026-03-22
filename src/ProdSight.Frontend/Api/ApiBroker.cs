@@ -1,5 +1,7 @@
 using System.Net.Http.Json;
 using System.Text.Json;
+using ProdSight.Api.Shared.DTOs.DocumentsModule.Folders.CreateFolder;
+using ProdSight.Api.Shared.DTOs.DocumentsModule.Folders.GetFolderDetails;
 using ProdSight.Api.Shared.DTOs.Health;
 using ProdSight.Api.Shared.DTOs.IdentityModule.GetUsersList;
 
@@ -30,39 +32,39 @@ public class ApiBroker(IHttpClientFactory httpFactory) : IApiBroker
                ?? throw new InvalidOperationException("Empty or invalid response.");
     }
 
-    public async Task<ICollection<ProdSight.Api.Shared.DTOs.DocumentsModule.GetRootFolders.Folder>> GetRootFoldersAsync(CancellationToken cancellationToken = default)
+    public async Task<ICollection<ProdSight.Api.Shared.DTOs.DocumentsModule.Folders.GetRootFolders.Folder>> GetRootFoldersAsync(CancellationToken cancellationToken = default)
     {
         const string url = $"api/v1/documents/folders/root";
         var res = await GetClient(true).GetAsync(url, cancellationToken);
         res.EnsureSuccessStatusCode();
-         return await res.Content.ReadFromJsonAsync<IList<ProdSight.Api.Shared.DTOs.DocumentsModule.GetRootFolders.Folder>>(JsonOptions, cancellationToken)
+         return await res.Content.ReadFromJsonAsync<IList<ProdSight.Api.Shared.DTOs.DocumentsModule.Folders.GetRootFolders.Folder>>(JsonOptions, cancellationToken)
              ?? throw new InvalidOperationException("Empty or invalid response.");
     }
 
-    public async Task<ProdSight.Api.Shared.DTOs.DocumentsModule.GetFolderDetails.FolderDetails> GetFolderDetailsAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<FolderDetails> GetFolderDetailsAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var url = $"api/v1/documents/folders/{id}/details";
         var res = await GetClient(true).GetAsync(url, cancellationToken);
         res.EnsureSuccessStatusCode();
-         return await res.Content.ReadFromJsonAsync<ProdSight.Api.Shared.DTOs.DocumentsModule.GetFolderDetails.FolderDetails>(JsonOptions, cancellationToken)
+         return await res.Content.ReadFromJsonAsync<FolderDetails>(JsonOptions, cancellationToken)
                ?? throw new InvalidOperationException("Empty or invalid response.");
     }
 
-    public async Task<ICollection<ProdSight.Api.Shared.DTOs.DocumentsModule.GetChildren.Folder>> GetChildrenFoldersAsync(Guid parentId, CancellationToken cancellationToken = default)
+    public async Task<ICollection<ProdSight.Api.Shared.DTOs.DocumentsModule.Folders.GetChildren.Folder>> GetChildrenFoldersAsync(Guid parentId, CancellationToken cancellationToken = default)
     {
         var url = $"api/v1/documents/folders/{parentId}/children";
         var res = await GetClient(true).GetAsync(url, cancellationToken);
         res.EnsureSuccessStatusCode();
-         return await res.Content.ReadFromJsonAsync<IList<ProdSight.Api.Shared.DTOs.DocumentsModule.GetChildren.Folder>>(JsonOptions, cancellationToken)
+         return await res.Content.ReadFromJsonAsync<IList<ProdSight.Api.Shared.DTOs.DocumentsModule.Folders.GetChildren.Folder>>(JsonOptions, cancellationToken)
              ?? throw new InvalidOperationException("Empty or invalid response.");
     }
 
-    public async Task<ProdSight.Api.Shared.DTOs.DocumentsModule.CreateFolder.Folder> CreateFolderAsync(ProdSight.Api.Shared.DTOs.DocumentsModule.CreateFolder.CreateFolderRequest request, CancellationToken cancellationToken = default)
+    public async Task<Folder> CreateFolderAsync(CreateFolderRequest request, CancellationToken cancellationToken = default)
     {
         const string url = $"api/v1/documents/folders";
         var res = await GetClient(true).PostAsJsonAsync(url, request, JsonOptions, cancellationToken);
         res.EnsureSuccessStatusCode();
-        return await res.Content.ReadFromJsonAsync<ProdSight.Api.Shared.DTOs.DocumentsModule.CreateFolder.Folder>(JsonOptions, cancellationToken)
+        return await res.Content.ReadFromJsonAsync<Folder>(JsonOptions, cancellationToken)
                ?? throw new InvalidOperationException("Empty or invalid response.");
     }
 }
