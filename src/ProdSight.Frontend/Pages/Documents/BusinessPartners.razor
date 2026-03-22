@@ -1,0 +1,49 @@
+@page "/business-partners"
+
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+
+<ClaimRequire ClaimType="documents-module-role" AllowedValues="@(["user", "admin"])"/>
+
+<PageTitle>ProdSight - Business Partners</PageTitle>
+
+<div class="container">
+    <h3 class="mb-3">Business Partners</h3>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th colspan="2">Name/Address</th>
+            <th>Creation date</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @if (_items is not null && _items.Count > 0)
+        {
+            @foreach (var f in _items)
+            {
+                <tr>
+                    <th scope="row" class="fit clickable" style="width:2em;">
+                        <span class="bi bi-building-fill"></span>
+                    </th>
+                    <td class="align-top clickable">
+                        @f.Name
+                        @if (!string.IsNullOrWhiteSpace(f.Address))
+                        {
+                            <div class="text-muted">@f.Address</div>
+                        }
+                    </td>
+                    <td class="align-top mono clickable" style="width:12em;">
+                    <span class="text-muted ">
+                        @f.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm")
+                    </span>
+                    </td>
+                    <td class="text-end align-top text-muted" style="width:2em;">
+                    </td>
+                </tr>
+            }
+        }
+        </tbody>
+    </table>
+</div>

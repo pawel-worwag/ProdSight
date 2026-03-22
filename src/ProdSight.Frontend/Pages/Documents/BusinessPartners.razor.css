@@ -1,0 +1,9 @@
+td.fit,
+th.fit {
+    white-space: nowrap;
+    width: 1%;
+}
+
+.clickable {
+    cursor: pointer;
+}
