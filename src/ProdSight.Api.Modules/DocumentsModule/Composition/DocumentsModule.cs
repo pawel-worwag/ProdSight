@@ -10,6 +10,7 @@ using ProdSight.Api.Modules.DocumentsModule.Application.Abstractions;
 using ProdSight.Api.Modules.DocumentsModule.Application.Handlers.BusinessPartners;
 using ProdSight.Api.Modules.DocumentsModule.Application.Handlers.Folders;
 using ProdSight.Api.Modules.DocumentsModule.Infrastructure.Database.Repositories;
+using ProdSight.Api.Shared.DTOs.DocumentsModule.BusinessPartners.CreateBusinessPartner;
 using ProdSight.Api.Shared.DTOs.DocumentsModule.Folders.CreateFolder;
 using ProdSight.Api.Shared.DTOs.DocumentsModule.Folders.GetFolderDetails;
 using ProdSight.Api.Shared.DTOs.DocumentsModule.Folders.UpdateFolder;
@@ -35,6 +36,7 @@ public class DocumentsModule : IModule
         services.AddScoped<UpdateFolderHandler>();
         
         services.AddScoped<GetAllBusinessPartnersHandler>();
+        services.AddScoped<CreateBusinessPartnerHandler>();
         
         services.AddScoped<IFoldersRepository, FoldersRepository>();
         services.AddScoped<IBusinessPartnersRepository, BusinessPartnersRepository>();
@@ -112,6 +114,17 @@ public class DocumentsModule : IModule
                 Results.Ok(await handler.HandleAsync(ct)))
             .WithTags(["Documents Module", "Documents Module - Business Partners"])
             .Produces<IReadOnlyList<Shared.DTOs.DocumentsModule.BusinessPartners.GetAllBusinessPartners.BusinessPartner>>()
+            .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
+        
+        endpoints.MapPost("/documents/business-partners", async (CreateBusinessPartnerHandler handler,
+                CreateBusinessPartnerRequest req, CancellationToken ct) =>
+            {
+                var created = await handler.HandleAsync(req, ct);
+                return Results.Created($"/documents/business-partners/{created.Id}", created);
+            })
+            .WithTags(["Documents Module", "Documents Module - Business Partners"])
+            .Produces<BusinessPartner>(StatusCodes.Status201Created)
+            .Produces<ErrorResponse>(StatusCodes.Status400BadRequest, "application/json")
             .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
     }
 }
