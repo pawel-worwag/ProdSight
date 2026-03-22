@@ -15,6 +15,7 @@ public class DocumentsDbContext : DbContext
     }
 
     public DbSet<Folder> Folders => Set<Folder>();
+    public DbSet<BusinessPartner> BusinessPartners => Set<BusinessPartner>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
