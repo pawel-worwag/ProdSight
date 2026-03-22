@@ -32,7 +32,7 @@ public class ApiBroker(IHttpClientFactory httpFactory) : IApiBroker
 
     public async Task<ICollection<ProdSight.Api.Shared.DTOs.DocumentsModule.GetRootFolders.Folder>> GetRootFoldersAsync(CancellationToken cancellationToken = default)
     {
-        const string url = $"api/v1/documents/folders";
+        const string url = $"api/v1/documents/folders/root";
         var res = await GetClient(true).GetAsync(url, cancellationToken);
         res.EnsureSuccessStatusCode();
          return await res.Content.ReadFromJsonAsync<IList<ProdSight.Api.Shared.DTOs.DocumentsModule.GetRootFolders.Folder>>(JsonOptions, cancellationToken)

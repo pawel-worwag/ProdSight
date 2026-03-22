@@ -45,7 +45,7 @@ public class DocumentsModule : IModule
         v1.MapGet("/documents", () => "Documents module endpoint")
             .WithTags("Documents Module");
 
-        v1.MapGet("/documents/folders", async (GetRootFoldersHandler handler, CancellationToken ct) =>
+        v1.MapGet("/documents/folders/root", async (GetRootFoldersHandler handler, CancellationToken ct) =>
                 Results.Ok(await handler.HandleAsync(ct)))
             .WithTags("Documents Module")
             .Produces<IReadOnlyList<RootFolderDto>>(StatusCodes.Status200OK)
