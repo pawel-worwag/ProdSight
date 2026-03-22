@@ -16,15 +16,15 @@
             <table>
                 <tr>
                     <td class="pe-3">Folder: </td>
-                    <td class="mono">@_folderDetails.Name</td>
+                    <td>@_folderDetails.Name</td>
                 </tr>
                 <tr>
                     <td class="pe-3">Description: </td>
-                    <td class="mono">@_folderDetails.Description</td>
+                    <td>@_folderDetails.Description</td>
                 </tr>
                 <tr>
                     <td class="pe-3">Creation date: </td>
-                    <td class="mono">@_folderDetails.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</td>
+                    <td>@_folderDetails.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</td>
                 </tr>
             </table>
         </div>
@@ -46,14 +46,14 @@
                         <th scope="row" class="fit clickable" style="width:4em;" @onclick="() => { OnItemClick(f.IsFolder, f.Id); }">
                             <span class="bi bi-folder-fill"></span>
                         </th>
-                        <td class="align-top mono clickable" @onclick="() => { OnItemClick(f.IsFolder, f.Id); }">
+                        <td class="align-top clickable" @onclick="() => { OnItemClick(f.IsFolder, f.Id); }">
                             @f.Name
                             @if (!string.IsNullOrWhiteSpace(f.Description))
                             {
                                 <div class="text-muted">@f.Description</div>
                             }
                         </td>
-                        <td class="align-top mono clickable"  style="width:12em;" @onclick="() => { OnItemClick(f.IsFolder, f.Id); }">
+                        <td class="align-top clickable"  style="width:12em;" @onclick="() => { OnItemClick(f.IsFolder, f.Id); }">
                             <span class="text-muted ">
                                 @f.CreatedAt?.ToLocalTime().ToString("yyyy-MM-dd HH:mm")
                             </span>
