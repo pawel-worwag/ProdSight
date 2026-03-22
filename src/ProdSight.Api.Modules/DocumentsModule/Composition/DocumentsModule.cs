@@ -108,7 +108,7 @@ public class DocumentsModule : IModule
 
     private void ConfigureBusinessPartnersEndpoints(IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapGet("/documents/bp/root", async (GetAllBusinessPartnersHandler handler, CancellationToken ct) =>
+        endpoints.MapGet("/documents/business-partners", async (GetAllBusinessPartnersHandler handler, CancellationToken ct) =>
                 Results.Ok(await handler.HandleAsync(ct)))
             .WithTags(["Documents Module", "Documents Module - Business Partners"])
             .Produces<IReadOnlyList<Shared.DTOs.DocumentsModule.BusinessPartners.GetAllBusinessPartners.BusinessPartner>>()

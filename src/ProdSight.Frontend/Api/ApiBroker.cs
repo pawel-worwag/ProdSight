@@ -1,5 +1,6 @@
 using System.Net.Http.Json;
 using System.Text.Json;
+using ProdSight.Api.Shared.DTOs.DocumentsModule.BusinessPartners.GetAllBusinessPartners;
 using ProdSight.Api.Shared.DTOs.DocumentsModule.Folders.CreateFolder;
 using ProdSight.Api.Shared.DTOs.DocumentsModule.Folders.GetFolderDetails;
 using ProdSight.Api.Shared.DTOs.Health;
@@ -65,6 +66,15 @@ public class ApiBroker(IHttpClientFactory httpFactory) : IApiBroker
         var res = await GetClient(true).PostAsJsonAsync(url, request, JsonOptions, cancellationToken);
         res.EnsureSuccessStatusCode();
         return await res.Content.ReadFromJsonAsync<Folder>(JsonOptions, cancellationToken)
+               ?? throw new InvalidOperationException("Empty or invalid response.");
+    }
+
+    public async Task<ICollection<BusinessPartner>> GetAllBusinessPartnersAsync(CancellationToken cancellationToken = default)
+    {
+        const string url = $"api/v1/documents/business-partners";
+        var res = await GetClient(true).GetAsync(url, cancellationToken);
+        res.EnsureSuccessStatusCode();
+        return await res.Content.ReadFromJsonAsync<IList<BusinessPartner>>(JsonOptions, cancellationToken) 
                ?? throw new InvalidOperationException("Empty or invalid response.");
     }
 }
