@@ -1,7 +1,7 @@
 namespace ProdSight.Api.Modules.DocumentsModule.Domain.Entities;
 
 /// <summary>
-/// Aggregate root representing a folder in the documents module.
+/// Aggregate root representing a folder in the 'documents' module.
 /// </summary>
 public class Folder
 {
