@@ -21,4 +21,14 @@ public class BusinessPartnersRepository(DocumentsDbContext dbc)
         await dbc.SaveChangesAsync(ct);
         return record.Entity;
     }
+
+    public async Task<BusinessPartner?> GetAsync(Guid id, CancellationToken ct = default)
+    {
+        return await dbc.BusinessPartners.FirstOrDefaultAsync(p => p.Id == id, ct);
+    }
+
+    public async Task SaveChangesAsync(CancellationToken ct = default)
+    {
+        await dbc.SaveChangesAsync(ct);
+    }
 }

@@ -6,4 +6,7 @@ public interface IBusinessPartnersRepository
 {
     Task<IReadOnlyCollection<BusinessPartner>> GetAllAsync(CancellationToken ct = default);
     Task<BusinessPartner> CreateAsync(BusinessPartner bp, CancellationToken ct = default);
+    Task<BusinessPartner?> GetAsync(Guid id, CancellationToken ct = default);
+    
+    Task SaveChangesAsync(CancellationToken ct = default);
 }

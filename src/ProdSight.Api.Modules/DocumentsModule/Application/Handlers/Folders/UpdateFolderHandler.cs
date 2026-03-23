@@ -9,8 +9,16 @@ public class UpdateFolderHandler(IFoldersRepository foldersRepository)
     public async Task<Folder> HandleAsync(Guid id, UpdateFolderRequest req, CancellationToken ct = default)
     {
         if (string.IsNullOrWhiteSpace(req.Name))
+        {
             throw new BadRequestException("Name is required");
+        }
+
         var folder = await foldersRepository.GetAsync(id, ct);
+
+        if (folder is null)
+        {
+            throw new BadRequestException("Not found");
+        }
         
         folder.Rename(req.Name);
         folder.ChangeDescription(req.Description);
