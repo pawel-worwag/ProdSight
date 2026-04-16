@@ -3,6 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 using ProdSight.Api.Modules.DocumentsModule.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using ProdSight.Api.Modules.DocumentsModule.Application.Abstractions;
+using ProdSight.Api.Modules.DocumentsModule.Infrastructure.Storage;
 
 namespace ProdSight.Api.Modules.DocumentsModule.Infrastructure.Extensions;
 
@@ -27,6 +29,9 @@ public static class ServiceCollectionExtensions
                 npgsqlOptions.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(30), errorCodesToAdd: null);
             });
         });
+
+        services.Configure<DiskTemporaryFileStorageOptions>(configuration.GetSection("DocumentsModule:DiskTemporaryFileStorage"));
+        services.AddScoped<ITemporaryFileStorage, DiskTemporaryFileStorage>();
         
         return services;
     }
