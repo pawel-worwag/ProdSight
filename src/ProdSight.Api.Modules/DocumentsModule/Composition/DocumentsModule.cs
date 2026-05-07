@@ -27,7 +27,6 @@ public class DocumentsModule : IModule
         services.AddDocumentsDatabase(config);
         services.AddRequestHandlersFromAssembly(ProdSight.Api.Modules.DocumentsModule.Application.AssemblyMarker.Assembly);
         
-        services.AddScoped<GetChildrenFoldersHandler>();
         services.AddScoped<UpdateFolderHandler>();
 
         services.AddScoped<GetAllBusinessPartnersHandler>();
@@ -56,16 +55,6 @@ public class DocumentsModule : IModule
 
     private void ConfigureFoldersEndpoints(IEndpointRouteBuilder endpoints)
     {
-        
-
-        endpoints.MapGet("/documents/folders/{parentId}/children",
-                async (GetChildrenFoldersHandler handler, string parentId, CancellationToken ct) =>
-                    Results.Ok(await handler.HandleAsync(Guid.Parse(parentId), ct)))
-            .WithTags(["Documents Module", "Documents Module - Folders"])
-            .Produces<IReadOnlyList<Shared.DTOs.DocumentsModule.Folders.GetChildren.Folder>>()
-            .Produces<ErrorResponse>(StatusCodes.Status400BadRequest, "application/json")
-            .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
-
         endpoints.MapPost("/documents/folders/{id}",
                 async (UpdateFolderHandler handler, string id,
                     ProdSight.Api.Shared.DTOs.DocumentsModule.Folders.UpdateFolder.UpdateFolderRequest req,
