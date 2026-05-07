@@ -32,11 +32,11 @@ public static class DependencyInjection
             foreach (var serviceType in registration.ServiceTypes)
             {
                 services.AddScoped(serviceType, registration.ImplementationType);
-                log.AppendLine($"\t- {serviceType.FullName?.Split(',')[0]?.Split('[')[2]}");
+                log.AppendLine($"\t- Feature {serviceType.FullName?.Split(',')[0]?.Split('[')[2]?.Split('+')[0]}");
             }
         }
 
-        logger.LogInformation(log.ToString().Trim());
+        logger.LogDebug(log.ToString().Trim());
         return services;
     }
 }
