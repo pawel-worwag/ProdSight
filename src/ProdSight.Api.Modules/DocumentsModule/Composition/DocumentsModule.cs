@@ -29,7 +29,6 @@ public class DocumentsModule : IModule
         
         services.AddScoped<CreateFolderHandler>();
         services.AddScoped<GetChildrenFoldersHandler>();
-        services.AddScoped<GetFoldersDetailsHandler>();
         services.AddScoped<UpdateFolderHandler>();
 
         services.AddScoped<GetAllBusinessPartnersHandler>();
@@ -77,14 +76,6 @@ public class DocumentsModule : IModule
                     Results.Ok(await handler.HandleAsync(Guid.Parse(parentId), ct)))
             .WithTags(["Documents Module", "Documents Module - Folders"])
             .Produces<IReadOnlyList<Shared.DTOs.DocumentsModule.Folders.GetChildren.Folder>>()
-            .Produces<ErrorResponse>(StatusCodes.Status400BadRequest, "application/json")
-            .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
-
-        endpoints.MapGet("/documents/folders/{id}/details",
-                async (GetFoldersDetailsHandler handler, string id, CancellationToken ct) =>
-                    Results.Ok(await handler.HandleAsync(Guid.Parse(id), ct)))
-            .WithTags(["Documents Module", "Documents Module - Folders"])
-            .Produces<ProdSight.Api.Shared.DTOs.DocumentsModule.Folders.GetFolderDetails.FolderDetails>()
             .Produces<ErrorResponse>(StatusCodes.Status400BadRequest, "application/json")
             .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
 
