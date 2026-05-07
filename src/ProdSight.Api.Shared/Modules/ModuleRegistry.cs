@@ -1,3 +1,4 @@
+using System.Text;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,15 +25,21 @@ public class ModuleRegistry
     
     public void LoadModules(IServiceCollection services, IConfiguration config)
     {
+        var log = new StringBuilder();
+        log.AppendLine("Modules:");
         foreach (var module in _moduleStates.Keys)
         {
             var enabled = config.GetValue($"Modules:{module.Name}:Enabled", false);
+            log.AppendLine($"\t- {module.Name}: {(enabled?"loaded":"disabled")}");
             if (enabled)
             {
-                _logger.LogInformation("Loading module: {ModuleName}", module.Name);
-                module.RegisterServices(services, config);
                 _moduleStates[module] = true;
             }
+        }
+        _logger.LogInformation(log.ToString().Trim());
+        foreach (var module in _moduleStates.Where(p=>p.Value==true))
+        {
+            module.Key.RegisterServices(services, config);
         }
     }
     
