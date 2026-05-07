@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -9,8 +10,9 @@ public static class DependencyInjection
     private class HandlerRegistration;
     public static IServiceCollection AddRequestHandlersFromAssembly(this IServiceCollection services, Assembly assembly)
     {
+        var log = new StringBuilder();
         var logger = services.BuildServiceProvider().GetRequiredService<ILogger<HandlerRegistration>>();
-        logger.LogInformation("Registering handlers from assembly {Assembly}", assembly.FullName?.Split(',')[0]);
+        log.AppendLine($"Registering handlers from assembly {assembly.FullName?.Split(',')[0]}:");
         var handlerInterfaceType = typeof(IRequestHandler<,>);
         var registrations = assembly
             .DefinedTypes
@@ -30,9 +32,11 @@ public static class DependencyInjection
             foreach (var serviceType in registration.ServiceTypes)
             {
                 services.AddScoped(serviceType, registration.ImplementationType);
-                logger.LogInformation("Registered handler for {ServiceType}", serviceType.FullName?.Split(',')[0]?.Split('[')[2]);
+                log.AppendLine($"\t- {serviceType.FullName?.Split(',')[0]?.Split('[')[2]}");
             }
         }
+
+        logger.LogInformation(log.ToString().Trim());
         return services;
     }
 }
