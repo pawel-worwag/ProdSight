@@ -30,7 +30,7 @@ public static class DependencyInjection
             foreach (var serviceType in registration.ServiceTypes)
             {
                 services.AddScoped(serviceType, registration.ImplementationType);
-                logger.LogInformation("Registered handler {HandlerType} for {ServiceType}", registration.ImplementationType, serviceType);
+                logger.LogInformation("Registered handler {ServiceType}", serviceType.FullName?.Split(',')[0]?.Split('[')[2]);
             }
         }
         return services;
