@@ -30,7 +30,6 @@ public class DocumentsModule : IModule
         services.AddScoped<CreateFolderHandler>();
         services.AddScoped<GetChildrenFoldersHandler>();
         services.AddScoped<GetFoldersDetailsHandler>();
-        services.AddScoped<GetFoldersTreeHandler>();
         services.AddScoped<UpdateFolderHandler>();
 
         services.AddScoped<GetAllBusinessPartnersHandler>();
@@ -59,13 +58,6 @@ public class DocumentsModule : IModule
 
     private void ConfigureFoldersEndpoints(IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapGet("/documents/folders/tree",
-                async (GetFoldersTreeHandler handler, CancellationToken ct) =>
-                    Results.Ok(await handler.HandleAsync(ct)))
-            .WithTags(["Documents Module", "Documents Module - Folders"])
-            .Produces<IReadOnlyList<Shared.DTOs.DocumentsModule.Folders.GetFoldersTree.Folder>>()
-            .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
-
         endpoints.MapPost("/documents/folders",
                 async (CreateFolderHandler handler,
                     ProdSight.Api.Shared.DTOs.DocumentsModule.Folders.CreateFolder.CreateFolderRequest req,
