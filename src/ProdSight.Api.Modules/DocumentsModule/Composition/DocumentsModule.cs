@@ -26,8 +26,6 @@ public class DocumentsModule : IModule
     {
         services.AddDocumentsDatabase(config);
         services.AddRequestHandlersFromAssembly(ProdSight.Api.Modules.DocumentsModule.Application.AssemblyMarker.Assembly);
-        
-        services.AddScoped<UpdateFolderHandler>();
 
         services.AddScoped<GetAllBusinessPartnersHandler>();
         services.AddScoped<CreateBusinessPartnerHandler>();
@@ -47,26 +45,9 @@ public class DocumentsModule : IModule
         v1.MapGet("/documents", () => "Documents module endpoint")
             .WithTags("Documents Module");
         
-        ConfigureFoldersEndpoints(v1);
         ConfigureBusinessPartnersEndpoints(v1);
 
         endpoints.MapApiEndpoints(ProdSight.Api.Modules.DocumentsModule.Application.AssemblyMarker.Assembly);
-    }
-
-    private void ConfigureFoldersEndpoints(IEndpointRouteBuilder endpoints)
-    {
-        endpoints.MapPost("/documents/folders/{id}",
-                async (UpdateFolderHandler handler, string id,
-                    ProdSight.Api.Shared.DTOs.DocumentsModule.Folders.UpdateFolder.UpdateFolderRequest req,
-                    CancellationToken ct) =>
-                {
-                    var updated = await handler.HandleAsync(Guid.Parse(id), req, ct);
-                    return Results.Ok(updated);
-                })
-            .WithTags(["Documents Module", "Documents Module - Folders"])
-            .Produces<Shared.DTOs.DocumentsModule.Folders.UpdateFolder.Folder>()
-            .Produces<ErrorResponse>(StatusCodes.Status400BadRequest, "application/json")
-            .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
     }
 
     private void ConfigureBusinessPartnersEndpoints(IEndpointRouteBuilder endpoints)
