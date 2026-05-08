@@ -35,7 +35,8 @@ public static class GetFoldersDetails
         {
             endpoints.MapGet("/documents/folders/{d}/details",ExecuteAsync)
                 .WithTags(["Documents Module", "Documents Module - Folders"])
-                .Produces<ProdSight.Api.Shared.DTOs.DocumentsModule.Folders.GetFolderDetails.FolderDetails>()
+                .WithSummary("Get folder details")
+                .Produces<FolderDetails>()
                 .Produces<ErrorResponse>(StatusCodes.Status400BadRequest, "application/json")
                 .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
         }

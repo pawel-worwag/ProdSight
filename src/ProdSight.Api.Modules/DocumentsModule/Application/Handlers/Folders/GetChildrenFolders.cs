@@ -36,6 +36,7 @@ public static class GetChildrenFolders
         {
             endpoints.MapGet("/documents/folders/{parentId}/children",ExecuteAsync)
                 .WithTags(["Documents Module", "Documents Module - Folders"])
+                .WithSummary("Get children folders")
                 .Produces<IReadOnlyList<Shared.DTOs.DocumentsModule.Folders.GetChildren.Folder>>()
                 .Produces<ErrorResponse>(StatusCodes.Status400BadRequest, "application/json")
                 .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");

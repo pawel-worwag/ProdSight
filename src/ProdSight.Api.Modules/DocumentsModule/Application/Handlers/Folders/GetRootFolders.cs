@@ -32,9 +32,9 @@ public static class GetRootFolders
         public void MapEndpoint(IEndpointRouteBuilder endpoints)
         {
             endpoints.MapGet("/documents/folders/root/", GetAllAsync)
-                .WithDisplayName("Get root folders")
                 .WithTags(["Documents Module", "Documents Module - Folders"])
-                .Produces<IReadOnlyList<Shared.DTOs.DocumentsModule.Folders.GetRootFolders.Folder>>()
+                .WithSummary("Get root folders")
+                .Produces<IReadOnlyList<Folder>>()
                 .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
         }
         

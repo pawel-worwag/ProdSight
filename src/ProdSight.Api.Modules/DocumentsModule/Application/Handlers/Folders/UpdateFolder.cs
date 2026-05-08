@@ -52,6 +52,7 @@ public static class UpdateFolder
         {
             endpoints.MapPost("/documents/folders/{id}",ExecuteAsync)
                 .WithTags(["Documents Module", "Documents Module - Folders"])
+                .WithSummary("Update a folder")
                 .Produces<Shared.DTOs.DocumentsModule.Folders.UpdateFolder.Folder>()
                 .Produces<ErrorResponse>(StatusCodes.Status400BadRequest, "application/json")
                 .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");

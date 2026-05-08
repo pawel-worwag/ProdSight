@@ -49,6 +49,7 @@ public static class GetFoldersTree
         {
             endpoints.MapGet("/documents/folders/tree",ExecuteAsync)
                 .WithTags(["Documents Module", "Documents Module - Folders"])
+                .WithSummary("Get folders tree")
                 .Produces<IReadOnlyList<Shared.DTOs.DocumentsModule.Folders.GetFoldersTree.Folder>>()
                 .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
         }
