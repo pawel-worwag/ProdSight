@@ -31,7 +31,7 @@ public static class GetRootFolders
     {
         public void MapEndpoint(IEndpointRouteBuilder endpoints)
         {
-            endpoints.MapGet("/documents/folders/root/", GetAllAsync)
+            endpoints.MapGet("/v1/documents/folders/root/", GetAllAsync)
                 .WithTags(["Documents Module", "Documents Module - Folders"])
                 .WithSummary("Get root folders")
                 .Produces<IReadOnlyList<Folder>>()

@@ -47,7 +47,7 @@ public static class GetFoldersTree
     {
         public void MapEndpoint(IEndpointRouteBuilder endpoints)
         {
-            endpoints.MapGet("/documents/folders/tree",ExecuteAsync)
+            endpoints.MapGet("/v1/documents/folders/tree",ExecuteAsync)
                 .WithTags(["Documents Module", "Documents Module - Folders"])
                 .WithSummary("Get folders tree")
                 .Produces<IReadOnlyList<Shared.DTOs.DocumentsModule.Folders.GetFoldersTree.Folder>>()

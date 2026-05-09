@@ -50,7 +50,7 @@ public static class UpdateFolder
     {
         public void MapEndpoint(IEndpointRouteBuilder endpoints)
         {
-            endpoints.MapPost("/documents/folders/{id}",ExecuteAsync)
+            endpoints.MapPost("/v1/documents/folders/{id}",ExecuteAsync)
                 .WithTags(["Documents Module", "Documents Module - Folders"])
                 .WithSummary("Update a folder")
                 .Produces<Shared.DTOs.DocumentsModule.Folders.UpdateFolder.Folder>()

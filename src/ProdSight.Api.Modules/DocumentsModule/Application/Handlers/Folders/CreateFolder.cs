@@ -37,7 +37,7 @@ public static class CreateFolder
     {
         public void MapEndpoint(IEndpointRouteBuilder endpoints)
         {
-            endpoints.MapPost("/documents/folders",ExecuteAsync)
+            endpoints.MapPost("/v1/documents/folders",ExecuteAsync)
                 .WithTags(["Documents Module", "Documents Module - Folders"])
                 .WithSummary("Create a new folder")
                 .Produces<Folder>(StatusCodes

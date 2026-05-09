@@ -40,7 +40,7 @@ public static class GetBusinessPartnerDetails
     {
         public void MapEndpoint(IEndpointRouteBuilder endpoints)
         {
-            endpoints.MapGet("/documents/business-partners/{id}/details",ExecuteAsync)
+            endpoints.MapGet("/v1/documents/business-partners/{id}/details",ExecuteAsync)
                 .WithTags(["Documents Module", "Documents Module - Business Partners"])
                 .WithSummary("Get business partner details")
                 .Produces<BusinessPartnerDetails>(

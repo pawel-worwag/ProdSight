@@ -50,7 +50,7 @@ public static class UpdateBusinessPartner
     {
         public void MapEndpoint(IEndpointRouteBuilder endpoints)
         {
-            endpoints.MapPost("/documents/business-partners/{id}",ExecuteAsync)
+            endpoints.MapPost("/v1/documents/business-partners/{id}",ExecuteAsync)
                 .WithTags(["Documents Module", "Documents Module - Business Partners"])
                 .WithSummary("Update a business partner")
                 .Produces<Shared.DTOs.DocumentsModule.BusinessPartners.UpdateBusinessPartner.BusinessPartner>(StatusCodes.Status201Created)

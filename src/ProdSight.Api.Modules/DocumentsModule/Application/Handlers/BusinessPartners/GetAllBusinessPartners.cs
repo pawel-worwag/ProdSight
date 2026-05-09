@@ -32,7 +32,7 @@ public static class GetAllBusinessPartners
     {
         public void MapEndpoint(IEndpointRouteBuilder endpoints)
         {
-            endpoints.MapGet("/documents/business-partners",ExecuteAsync)
+            endpoints.MapGet("/v1/documents/business-partners",ExecuteAsync)
                 .WithTags(["Documents Module", "Documents Module - Business Partners"])
                 .WithSummary("Get all business partners")
                 .Produces<IReadOnlyList<Shared.DTOs.DocumentsModule.BusinessPartners.GetAllBusinessPartners.BusinessPartner>>()

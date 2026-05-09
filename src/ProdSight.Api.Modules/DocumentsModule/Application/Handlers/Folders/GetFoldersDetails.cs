@@ -33,7 +33,7 @@ public static class GetFoldersDetails
     {
         public void MapEndpoint(IEndpointRouteBuilder endpoints)
         {
-            endpoints.MapGet("/documents/folders/{d}/details",ExecuteAsync)
+            endpoints.MapGet("/v1/documents/folders/{d}/details",ExecuteAsync)
                 .WithTags(["Documents Module", "Documents Module - Folders"])
                 .WithSummary("Get folder details")
                 .Produces<FolderDetails>()

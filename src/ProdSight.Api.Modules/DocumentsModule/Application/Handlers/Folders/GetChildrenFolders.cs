@@ -34,7 +34,7 @@ public static class GetChildrenFolders
     {
         public void MapEndpoint(IEndpointRouteBuilder endpoints)
         {
-            endpoints.MapGet("/documents/folders/{parentId}/children",ExecuteAsync)
+            endpoints.MapGet("/v1/documents/folders/{parentId}/children",ExecuteAsync)
                 .WithTags(["Documents Module", "Documents Module - Folders"])
                 .WithSummary("Get children folders")
                 .Produces<IReadOnlyList<Shared.DTOs.DocumentsModule.Folders.GetChildren.Folder>>()
