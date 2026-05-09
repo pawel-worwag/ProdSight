@@ -3,13 +3,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using ProdSight.Api.Modules.DocumentsModule.Application;
 using ProdSight.Api.Modules.DocumentsModule.Composition.HealthChecks;
 using ProdSight.Api.Modules.DocumentsModule.Infrastructure.Extensions;
 using ProdSight.Api.Shared.Modules;
 using ProdSight.Api.Modules.DocumentsModule.Application.Abstractions;
 using ProdSight.Api.Modules.DocumentsModule.Application.Handlers.BusinessPartners;
-using ProdSight.Api.Modules.DocumentsModule.Application.Handlers.Folders;
 using ProdSight.Api.Modules.DocumentsModule.Infrastructure.Database.Repositories;
 using ProdSight.Api.Shared.Api;
 using ProdSight.Api.Shared.DTOs.Errors;
@@ -26,10 +24,8 @@ public class DocumentsModule : IModule
     {
         services.AddDocumentsDatabase(config);
         services.AddRequestHandlersFromAssembly(ProdSight.Api.Modules.DocumentsModule.Application.AssemblyMarker.Assembly);
-
-        services.AddScoped<GetAllBusinessPartnersHandler>();
+        
         services.AddScoped<CreateBusinessPartnerHandler>();
-        services.AddScoped<GetBusinessPartnerDetailsHandler>();
 
         services.AddScoped<IFoldersRepository, FoldersRepository>();
         services.AddScoped<IBusinessPartnersRepository, BusinessPartnersRepository>();
@@ -51,13 +47,6 @@ public class DocumentsModule : IModule
 
     private void ConfigureBusinessPartnersEndpoints(IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapGet("/documents/business-partners",
-                async (GetAllBusinessPartnersHandler handler, CancellationToken ct) =>
-                    Results.Ok(await handler.HandleAsync(ct)))
-            .WithTags(["Documents Module", "Documents Module - Business Partners"])
-            .Produces<IReadOnlyList<Shared.DTOs.DocumentsModule.BusinessPartners.GetAllBusinessPartners.BusinessPartner>>()
-            .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
-
         endpoints.MapPost("/documents/business-partners",
                 async (CreateBusinessPartnerHandler handler,
                     ProdSight.Api.Shared.DTOs.DocumentsModule.BusinessPartners.CreateBusinessPartner.
@@ -68,14 +57,6 @@ public class DocumentsModule : IModule
                 })
             .WithTags(["Documents Module", "Documents Module - Business Partners"])
             .Produces<Shared.DTOs.DocumentsModule.BusinessPartners.CreateBusinessPartner.BusinessPartner>(StatusCodes.Status201Created)
-            .Produces<ErrorResponse>(StatusCodes.Status400BadRequest, "application/json")
-            .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
-        
-        endpoints.MapGet("/documents/business-partners/{id}/details",
-                async (Guid id, GetBusinessPartnerDetailsHandler handler, CancellationToken ct) => Results.Ok(await handler.HandleAsync(id, ct)))
-            .WithTags(["Documents Module", "Documents Module - Business Partners"])
-            .Produces<Shared.DTOs.DocumentsModule.BusinessPartners.GetBusinessPartnerDetails.BusinessPartnerDetails>(
-                StatusCodes.Status201Created)
             .Produces<ErrorResponse>(StatusCodes.Status400BadRequest, "application/json")
             .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
     }
