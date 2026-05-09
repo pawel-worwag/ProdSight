@@ -9,10 +9,16 @@ using ProdSight.Api.Shared.Messaging;
 
 namespace ProdSight.Api.Modules.DocumentsModule.Application.Features.Folders;
 
+/// <summary>
+/// Feature slice responsible for loading folder details.
+/// </summary>
 public static class GetFoldersDetails
 {
     public sealed record Request(Guid Id):IRequest<DTOs.FolderDetails>;
 
+    /// <summary>
+    /// Handles the business logic for retrieving folder details.
+    /// </summary>
     public sealed class Handler(IFoldersRepository foldersRepository) : IRequestHandler<Request, DTOs.FolderDetails>
     {
         public async Task<DTOs.FolderDetails> HandleAsync(Request query, CancellationToken ct = default)
@@ -29,6 +35,9 @@ public static class GetFoldersDetails
         }
     }
 
+    /// <summary>
+    /// Exposes the HTTP endpoint for retrieving folder details.
+    /// </summary>
     public sealed class Endpoint : IApiEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder endpoints)

@@ -10,11 +10,17 @@ using ProdSight.Api.Shared.Messaging;
 
 namespace ProdSight.Api.Modules.DocumentsModule.Application.Features.Folders;
 
+/// <summary>
+/// Feature slice responsible for creating folders.
+/// </summary>
 public static class CreateFolder
 {
     public sealed record Request(string Name, string? Description, Guid? ParentId) 
         : IRequest<DTOs.Folder>;
 
+    /// <summary>
+    /// Handles the business logic for creating a folder.
+    /// </summary>
     public sealed class Handler(IFoldersRepository foldersRepository) : IRequestHandler<Request, DTOs.Folder>
     {
         public async Task<DTOs.Folder> HandleAsync(Request query, CancellationToken ct = default)
@@ -33,6 +39,9 @@ public static class CreateFolder
         }
     }
 
+    /// <summary>
+    /// Exposes the HTTP endpoint for creating folders.
+    /// </summary>
     public sealed class Endpoint : IApiEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder endpoints)
@@ -53,4 +62,3 @@ public static class CreateFolder
         }
     }
 }
-

@@ -10,10 +10,16 @@ using ProdSight.Api.Shared.Messaging;
 
 namespace ProdSight.Api.Modules.DocumentsModule.Application.Features.Folders;
 
+/// <summary>
+/// Feature slice responsible for updating an existing folder.
+/// </summary>
 public static class UpdateFolder
 {
     public sealed record Request(Guid Id,DTOs.UpdateFolderRequest Req) : IRequest<DTOs.Folder>;
 
+    /// <summary>
+    /// Handles the business logic for updating a folder.
+    /// </summary>
     public sealed class Handler(IFoldersRepository foldersRepository) :IRequestHandler<Request, DTOs.Folder>
     {
         public async Task<DTOs.Folder> HandleAsync(Request query, CancellationToken ct = default)
@@ -46,6 +52,9 @@ public static class UpdateFolder
         }
     }
 
+    /// <summary>
+    /// Exposes the HTTP endpoint for updating a folder.
+    /// </summary>
     public sealed class Endpoint : IApiEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder endpoints)

@@ -9,10 +9,16 @@ using ProdSight.Api.Shared.Messaging;
 
 namespace ProdSight.Api.Modules.DocumentsModule.Application.Features.Folders;
 
+/// <summary>
+/// Feature slice responsible for listing child folders for a given parent.
+/// </summary>
 public static class GetChildrenFolders
 {
     public sealed record Request(Guid ParentId) : IRequest<IReadOnlyList<DTOs.Folder>>;
 
+    /// <summary>
+    /// Handles the business logic for retrieving child folders.
+    /// </summary>
     public sealed class Handler(IFoldersRepository foldersRepository)
         : IRequestHandler<Request, IReadOnlyList<DTOs.Folder>>
     {
@@ -30,6 +36,9 @@ public static class GetChildrenFolders
         }
     }
 
+    /// <summary>
+    /// Exposes the HTTP endpoint for listing child folders.
+    /// </summary>
     public sealed class Endpoint : IApiEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder endpoints)
@@ -49,4 +58,3 @@ public static class GetChildrenFolders
         }
     }
 }
-

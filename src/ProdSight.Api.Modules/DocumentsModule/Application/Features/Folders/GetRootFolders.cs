@@ -9,10 +9,16 @@ using ProdSight.Api.Shared.Messaging;
 
 namespace ProdSight.Api.Modules.DocumentsModule.Application.Features.Folders;
 
+/// <summary>
+/// Feature slice responsible for listing root folders.
+/// </summary>
 public static class GetRootFolders
 {
     public sealed record Request:IRequest<IReadOnlyList<DTOs.Folder>>;
 
+    /// <summary>
+    /// Handles the business logic for retrieving root folders.
+    /// </summary>
     public sealed class Handler(IFoldersRepository foldersRepository) : IRequestHandler<Request, IReadOnlyList<DTOs.Folder>>
     {
         public async Task<IReadOnlyList<DTOs.Folder>> HandleAsync(Request query, CancellationToken ct = default)
@@ -27,6 +33,9 @@ public static class GetRootFolders
         }
     }
 
+    /// <summary>
+    /// Exposes the HTTP endpoint for listing root folders.
+    /// </summary>
     public sealed class Endpoint : IApiEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder endpoints)

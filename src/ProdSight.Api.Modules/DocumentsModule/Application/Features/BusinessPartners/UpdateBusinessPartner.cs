@@ -10,10 +10,16 @@ using ProdSight.Api.Shared.Messaging;
 
 namespace ProdSight.Api.Modules.DocumentsModule.Application.Features.BusinessPartners;
 
+/// <summary>
+/// Feature slice responsible for updating an existing business partner.
+/// </summary>
 public static class UpdateBusinessPartner
 {
     public sealed record Request(Guid Id, DTOs.UpdateBusinessPartnerRequest Req):IRequest<DTOs.BusinessPartner>;
 
+    /// <summary>
+    /// Handles the business logic for updating a business partner.
+    /// </summary>
     public sealed class Handler(IBusinessPartnersRepository repo) : IRequestHandler<Request, DTOs.BusinessPartner>
     {
         public async Task<DTOs.BusinessPartner> HandleAsync(Request query, CancellationToken ct = default)
@@ -46,6 +52,9 @@ public static class UpdateBusinessPartner
         }
     }
 
+    /// <summary>
+    /// Exposes the HTTP endpoint for updating a business partner.
+    /// </summary>
     public sealed class Endpoint : IApiEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder endpoints)

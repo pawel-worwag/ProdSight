@@ -9,10 +9,16 @@ using ProdSight.Api.Shared.Messaging;
 
 namespace ProdSight.Api.Modules.DocumentsModule.Application.Features.Folders;
 
+/// <summary>
+/// Feature slice responsible for returning the full folder tree.
+/// </summary>
 public static class GetFoldersTree
 {
     public sealed record Request : IRequest<ICollection<DTOs.Folder>>;
 
+    /// <summary>
+    /// Handles the business logic for building the folder tree.
+    /// </summary>
     public sealed class Handler(IFoldersRepository foldersRepository): IRequestHandler<Request, ICollection<DTOs.Folder>>
     {
         public async Task<ICollection<DTOs.Folder>> HandleAsync(Request query, CancellationToken ct = default)
@@ -43,6 +49,9 @@ public static class GetFoldersTree
         }
     }
 
+    /// <summary>
+    /// Exposes the HTTP endpoint for retrieving the folder tree.
+    /// </summary>
     public sealed class Endpoint : IApiEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder endpoints)

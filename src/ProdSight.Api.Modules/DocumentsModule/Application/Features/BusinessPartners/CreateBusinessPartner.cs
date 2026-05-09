@@ -10,10 +10,16 @@ using DTOs = ProdSight.Api.Shared.DTOs.DocumentsModule.BusinessPartners.CreateBu
 
 namespace ProdSight.Api.Modules.DocumentsModule.Application.Features.BusinessPartners;
 
+/// <summary>
+/// Feature slice responsible for creating a business partner.
+/// </summary>
 public static class CreateBusinessPartner
 {
     public sealed record Request(DTOs.CreateBusinessPartnerRequest Req):IRequest<DTOs.BusinessPartner>;
 
+    /// <summary>
+    /// Handles the business logic for creating a business partner.
+    /// </summary>
     public sealed class Handler(IBusinessPartnersRepository repo) : IRequestHandler<Request, DTOs.BusinessPartner>
     {
         public async Task<DTOs.BusinessPartner> HandleAsync(Request query, CancellationToken ct = default)
@@ -34,6 +40,9 @@ public static class CreateBusinessPartner
         }
     }
 
+    /// <summary>
+    /// Exposes the HTTP endpoint for creating a business partner.
+    /// </summary>
     public sealed class Endpoint : IApiEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder endpoints)

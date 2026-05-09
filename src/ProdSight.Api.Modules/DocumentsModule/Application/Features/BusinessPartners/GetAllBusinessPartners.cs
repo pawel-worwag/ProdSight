@@ -9,10 +9,16 @@ using DTOs = ProdSight.Api.Shared.DTOs.DocumentsModule.BusinessPartners.GetAllBu
 
 namespace ProdSight.Api.Modules.DocumentsModule.Application.Features.BusinessPartners;
 
+/// <summary>
+/// Feature slice responsible for listing all business partners.
+/// </summary>
 public static class GetAllBusinessPartners
 {
     public sealed record Request:IRequest<IReadOnlyCollection<DTOs.BusinessPartner>>;
 
+    /// <summary>
+    /// Handles the business logic for retrieving business partners.
+    /// </summary>
     public sealed class Handler(IBusinessPartnersRepository repo) : IRequestHandler<Request, IReadOnlyCollection<DTOs.BusinessPartner>>
     {
         public async Task<IReadOnlyCollection<DTOs.BusinessPartner>> HandleAsync(Request query, CancellationToken ct = default)
@@ -28,6 +34,9 @@ public static class GetAllBusinessPartners
         }
     }
 
+    /// <summary>
+    /// Exposes the HTTP endpoint for listing business partners.
+    /// </summary>
     public sealed class Endpoint : IApiEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder endpoints)
