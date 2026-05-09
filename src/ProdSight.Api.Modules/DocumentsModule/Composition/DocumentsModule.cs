@@ -29,7 +29,6 @@ public class DocumentsModule : IModule
 
         services.AddScoped<GetAllBusinessPartnersHandler>();
         services.AddScoped<CreateBusinessPartnerHandler>();
-        services.AddScoped<UpdateBusinessPartnerHandler>();
         services.AddScoped<GetBusinessPartnerDetailsHandler>();
 
         services.AddScoped<IFoldersRepository, FoldersRepository>();
@@ -71,20 +70,7 @@ public class DocumentsModule : IModule
             .Produces<Shared.DTOs.DocumentsModule.BusinessPartners.CreateBusinessPartner.BusinessPartner>(StatusCodes.Status201Created)
             .Produces<ErrorResponse>(StatusCodes.Status400BadRequest, "application/json")
             .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
-
-        endpoints.MapPost("/documents/business-partners/{id}",
-                async (Guid id,
-                    ProdSight.Api.Shared.DTOs.DocumentsModule.BusinessPartners.UpdateBusinessPartner.
-                        UpdateBusinessPartnerRequest req, UpdateBusinessPartnerHandler handler, CancellationToken ct) =>
-                {
-                    var bp = await handler.HandleAsync(id, req, ct);
-                    return Results.Ok(bp);
-                })
-            .WithTags(["Documents Module", "Documents Module - Business Partners"])
-            .Produces<Shared.DTOs.DocumentsModule.BusinessPartners.UpdateBusinessPartner.BusinessPartner>(StatusCodes.Status201Created)
-            .Produces<ErrorResponse>(StatusCodes.Status400BadRequest, "application/json")
-            .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
-
+        
         endpoints.MapGet("/documents/business-partners/{id}/details",
                 async (Guid id, GetBusinessPartnerDetailsHandler handler, CancellationToken ct) => Results.Ok(await handler.HandleAsync(id, ct)))
             .WithTags(["Documents Module", "Documents Module - Business Partners"])
