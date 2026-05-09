@@ -8,7 +8,7 @@ using ProdSight.Api.Shared.DTOs.Errors;
 using ProdSight.Api.Shared.Exceptions;
 using ProdSight.Api.Shared.Messaging;
 
-namespace ProdSight.Api.Modules.DocumentsModule.Application.Handlers.Folders;
+namespace ProdSight.Api.Modules.DocumentsModule.Application.Features.Folders;
 
 public static class UpdateFolder
 {

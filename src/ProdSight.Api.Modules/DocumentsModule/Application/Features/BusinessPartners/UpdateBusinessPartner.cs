@@ -8,7 +8,7 @@ using ProdSight.Api.Shared.DTOs.Errors;
 using ProdSight.Api.Shared.Exceptions;
 using ProdSight.Api.Shared.Messaging;
 
-namespace ProdSight.Api.Modules.DocumentsModule.Application.Handlers.BusinessPartners;
+namespace ProdSight.Api.Modules.DocumentsModule.Application.Features.BusinessPartners;
 
 public static class UpdateBusinessPartner
 {
@@ -53,7 +53,7 @@ public static class UpdateBusinessPartner
             endpoints.MapPost("/v1/documents/business-partners/{id}",ExecuteAsync)
                 .WithTags(["Documents Module", "Documents Module - Business Partners"])
                 .WithSummary("Update a business partner")
-                .Produces<Shared.DTOs.DocumentsModule.BusinessPartners.UpdateBusinessPartner.BusinessPartner>(StatusCodes.Status201Created)
+                .Produces<BusinessPartner>(StatusCodes.Status201Created)
                 .Produces<ErrorResponse>(StatusCodes.Status400BadRequest, "application/json")
                 .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
         }

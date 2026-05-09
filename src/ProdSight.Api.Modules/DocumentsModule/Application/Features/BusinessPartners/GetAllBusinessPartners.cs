@@ -7,7 +7,7 @@ using ProdSight.Api.Shared.DTOs.Errors;
 using ProdSight.Api.Shared.Messaging;
 using DTOs = ProdSight.Api.Shared.DTOs.DocumentsModule.BusinessPartners.GetAllBusinessPartners;
 
-namespace ProdSight.Api.Modules.DocumentsModule.Application.Handlers.BusinessPartners;
+namespace ProdSight.Api.Modules.DocumentsModule.Application.Features.BusinessPartners;
 
 public static class GetAllBusinessPartners
 {

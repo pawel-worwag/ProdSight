@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Routing;
 using ProdSight.Api.Modules.DocumentsModule.Application.Abstractions;
 using ProdSight.Api.Shared.Api;
 using ProdSight.Api.Shared.DTOs.Errors;
-using DTOs = ProdSight.Api.Shared.DTOs.DocumentsModule.BusinessPartners.CreateBusinessPartner;
 using ProdSight.Api.Shared.Exceptions;
 using ProdSight.Api.Shared.Messaging;
+using DTOs = ProdSight.Api.Shared.DTOs.DocumentsModule.BusinessPartners.CreateBusinessPartner;
 
-namespace ProdSight.Api.Modules.DocumentsModule.Application.Handlers.BusinessPartners;
+namespace ProdSight.Api.Modules.DocumentsModule.Application.Features.BusinessPartners;
 
 public static class CreateBusinessPartner
 {

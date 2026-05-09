@@ -7,7 +7,6 @@ using ProdSight.Api.Modules.DocumentsModule.Composition.HealthChecks;
 using ProdSight.Api.Modules.DocumentsModule.Infrastructure.Extensions;
 using ProdSight.Api.Shared.Modules;
 using ProdSight.Api.Modules.DocumentsModule.Application.Abstractions;
-using ProdSight.Api.Modules.DocumentsModule.Application.Handlers.BusinessPartners;
 using ProdSight.Api.Modules.DocumentsModule.Infrastructure.Database.Repositories;
 using ProdSight.Api.Shared.Api;
 using ProdSight.Api.Shared.DTOs.Errors;
