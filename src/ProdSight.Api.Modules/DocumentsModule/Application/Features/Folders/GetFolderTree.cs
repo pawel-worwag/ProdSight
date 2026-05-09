@@ -1,0 +1,72 @@
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
+using ProdSight.Api.Modules.DocumentsModule.Application.Abstractions;
+using ProdSight.Api.Shared.Api;
+using DTOs = ProdSight.Api.Shared.DTOs.DocumentsModule.Folders.GetFoldersTree;
+using ProdSight.Api.Shared.DTOs.Errors;
+using ProdSight.Api.Shared.Messaging;
+
+namespace ProdSight.Api.Modules.DocumentsModule.Application.Features.Folders;
+
+/// <summary>
+/// Feature slice responsible for returning the full folder tree.
+/// </summary>
+public static class GetFoldersTree
+{
+    public sealed record Request : IRequest<ICollection<DTOs.Folder>>;
+
+    /// <summary>
+    /// Handles the business logic for building the folder tree.
+    /// </summary>
+    public sealed class Handler(IFoldersRepository foldersRepository): IRequestHandler<Request, ICollection<DTOs.Folder>>
+    {
+        public async Task<ICollection<DTOs.Folder>> HandleAsync(Request query, CancellationToken ct = default)
+        {
+            var records = await foldersRepository.GetAllAsync(ct);
+            
+            var tree = records.ToDictionary(r => r.Id, r => new DTOs.Folder()
+            {
+                Id = r.Id,
+                ParentId = r.ParentId,
+                Name = r.Name,
+                Description = r.Description,
+                CreatedAt = r.CreatedAt,
+                Children = new List<DTOs.Folder>()
+            });
+            
+            foreach (var t in tree)
+            {
+                if (t.Value.ParentId != null)
+                {
+                    var pId = t.Value.ParentId.Value;
+                    tree[pId].Children.Add(t.Value);
+                }
+            }
+        
+            return tree.Where(f=>f.Value.ParentId == null)
+                .Select(f => f.Value).ToList();
+        }
+    }
+
+    /// <summary>
+    /// Exposes the HTTP endpoint for retrieving the folder tree.
+    /// </summary>
+    public sealed class Endpoint : IApiEndpoint
+    {
+        public void MapEndpoint(IEndpointRouteBuilder endpoints)
+        {
+            endpoints.MapGet("/v1/documents/folders/tree",ExecuteAsync)
+                .WithTags(["Documents Module", "Documents Module - Folders"])
+                .WithSummary("Get folders tree")
+                .Produces<IReadOnlyList<DTOs.Folder>>()
+                .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
+        }
+
+        private static async Task<IResult> ExecuteAsync(IRequestHandler<Request, ICollection<DTOs.Folder>> handler,CancellationToken ct)
+        {
+            var result = await handler.HandleAsync(new Request(), ct);
+            return Results.Ok(result);
+        }
+    }
+}
