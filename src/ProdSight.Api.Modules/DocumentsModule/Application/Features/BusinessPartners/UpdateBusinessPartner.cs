@@ -67,9 +67,9 @@ public static class UpdateBusinessPartner
                 .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
         }
 
-        private static async Task<IResult> ExecuteAsync(IRequestHandler<Request, DTOs.BusinessPartner> handler,Request query, CancellationToken ct)
+        private static async Task<IResult> ExecuteAsync(IRequestHandler<Request, DTOs.BusinessPartner> handler, string id, DTOs.UpdateBusinessPartnerRequest req, CancellationToken ct)
         {
-            var result = await handler.HandleAsync(query, ct);
+            var result = await handler.HandleAsync(new Request(Guid.Parse(id),req), ct);
             return Results.Ok(result);
         }
     }
