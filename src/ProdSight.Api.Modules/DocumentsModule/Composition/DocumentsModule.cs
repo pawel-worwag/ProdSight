@@ -24,8 +24,6 @@ public class DocumentsModule : IModule
     {
         services.AddDocumentsDatabase(config);
         services.AddRequestHandlersFromAssembly(ProdSight.Api.Modules.DocumentsModule.Application.AssemblyMarker.Assembly);
-        
-        services.AddScoped<CreateBusinessPartnerHandler>();
 
         services.AddScoped<IFoldersRepository, FoldersRepository>();
         services.AddScoped<IBusinessPartnersRepository, BusinessPartnersRepository>();
@@ -36,28 +34,7 @@ public class DocumentsModule : IModule
 
     public void ConfigureEndpoints(IEndpointRouteBuilder endpoints)
     {
-        var v1 = endpoints.MapGroup("v1");
-        v1.MapGet("/documents", () => "Documents module endpoint")
-            .WithTags("Documents Module");
-        
-        ConfigureBusinessPartnersEndpoints(v1);
-
         endpoints.MapApiEndpoints(ProdSight.Api.Modules.DocumentsModule.Application.AssemblyMarker.Assembly);
     }
-
-    private void ConfigureBusinessPartnersEndpoints(IEndpointRouteBuilder endpoints)
-    {
-        endpoints.MapPost("/documents/business-partners",
-                async (CreateBusinessPartnerHandler handler,
-                    ProdSight.Api.Shared.DTOs.DocumentsModule.BusinessPartners.CreateBusinessPartner.
-                        CreateBusinessPartnerRequest req, CancellationToken ct) =>
-                {
-                    var created = await handler.HandleAsync(req, ct);
-                    return Results.Created($"/documents/business-partners/{created.Id}", created);
-                })
-            .WithTags(["Documents Module", "Documents Module - Business Partners"])
-            .Produces<Shared.DTOs.DocumentsModule.BusinessPartners.CreateBusinessPartner.BusinessPartner>(StatusCodes.Status201Created)
-            .Produces<ErrorResponse>(StatusCodes.Status400BadRequest, "application/json")
-            .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
-    }
+    
 }
