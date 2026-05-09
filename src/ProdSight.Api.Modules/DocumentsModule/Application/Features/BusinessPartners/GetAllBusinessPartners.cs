@@ -11,7 +11,7 @@ namespace ProdSight.Api.Modules.DocumentsModule.Application.Features.BusinessPar
 
 public static class GetAllBusinessPartners
 {
-    public sealed record Request():IRequest<IReadOnlyCollection<DTOs.BusinessPartner>>;
+    public sealed record Request:IRequest<IReadOnlyCollection<DTOs.BusinessPartner>>;
 
     public sealed class Handler(IBusinessPartnersRepository repo) : IRequestHandler<Request, IReadOnlyCollection<DTOs.BusinessPartner>>
     {
@@ -35,7 +35,7 @@ public static class GetAllBusinessPartners
             endpoints.MapGet("/v1/documents/business-partners",ExecuteAsync)
                 .WithTags(["Documents Module", "Documents Module - Business Partners"])
                 .WithSummary("Get all business partners")
-                .Produces<IReadOnlyList<Shared.DTOs.DocumentsModule.BusinessPartners.GetAllBusinessPartners.BusinessPartner>>()
+                .Produces<IReadOnlyList<DTOs.BusinessPartner>>()
                 .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
         }
 

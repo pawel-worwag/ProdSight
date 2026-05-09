@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using ProdSight.Api.Modules.DocumentsModule.Application.Abstractions;
 using ProdSight.Api.Shared.Api;
-using ProdSight.Api.Shared.DTOs.DocumentsModule.Folders.UpdateFolder;
+using DTOs = ProdSight.Api.Shared.DTOs.DocumentsModule.Folders.UpdateFolder;
 using ProdSight.Api.Shared.DTOs.Errors;
 using ProdSight.Api.Shared.Exceptions;
 using ProdSight.Api.Shared.Messaging;
@@ -12,11 +12,11 @@ namespace ProdSight.Api.Modules.DocumentsModule.Application.Features.Folders;
 
 public static class UpdateFolder
 {
-    public sealed record Request(Guid Id,UpdateFolderRequest Req) : IRequest<Folder>;
+    public sealed record Request(Guid Id,DTOs.UpdateFolderRequest Req) : IRequest<DTOs.Folder>;
 
-    public sealed class Handler(IFoldersRepository foldersRepository) :IRequestHandler<Request, Folder>
+    public sealed class Handler(IFoldersRepository foldersRepository) :IRequestHandler<Request, DTOs.Folder>
     {
-        public async Task<Folder> HandleAsync(Request query, CancellationToken ct = default)
+        public async Task<DTOs.Folder> HandleAsync(Request query, CancellationToken ct = default)
         {
             if (string.IsNullOrWhiteSpace(query.Req.Name))
             {
@@ -35,7 +35,7 @@ public static class UpdateFolder
             folder.ChangeParent(query.Req.ParentId);
             await foldersRepository.SaveChangesAsync(ct);
 
-            return new Folder()
+            return new DTOs.Folder()
             {
                 Id = folder.Id,
                 ParentId = folder.ParentId,
@@ -53,13 +53,13 @@ public static class UpdateFolder
             endpoints.MapPost("/v1/documents/folders/{id}",ExecuteAsync)
                 .WithTags(["Documents Module", "Documents Module - Folders"])
                 .WithSummary("Update a folder")
-                .Produces<Shared.DTOs.DocumentsModule.Folders.UpdateFolder.Folder>()
+                .Produces<DTOs.Folder>()
                 .Produces<ErrorResponse>(StatusCodes.Status400BadRequest, "application/json")
                 .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
         }
 
-        private static async Task<IResult> ExecuteAsync(IRequestHandler<Request, Folder> handler, Guid id,
-            UpdateFolderRequest req, CancellationToken ct)
+        private static async Task<IResult> ExecuteAsync(IRequestHandler<Request, DTOs.Folder> handler, Guid id,
+            DTOs.UpdateFolderRequest req, CancellationToken ct)
         {
             var result = await handler.HandleAsync(new Request(id,req), ct);
             return Results.Ok(result);

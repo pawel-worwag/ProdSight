@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using ProdSight.Api.Modules.DocumentsModule.Application.Abstractions;
 using ProdSight.Api.Shared.Api;
-using ProdSight.Api.Shared.DTOs.DocumentsModule.Folders.GetFoldersTree;
+using DTOs = ProdSight.Api.Shared.DTOs.DocumentsModule.Folders.GetFoldersTree;
 using ProdSight.Api.Shared.DTOs.Errors;
 using ProdSight.Api.Shared.Messaging;
 
@@ -11,22 +11,22 @@ namespace ProdSight.Api.Modules.DocumentsModule.Application.Features.Folders;
 
 public static class GetFoldersTree
 {
-    public sealed record Request : IRequest<ICollection<Folder>>;
+    public sealed record Request : IRequest<ICollection<DTOs.Folder>>;
 
-    public sealed class Handler(IFoldersRepository foldersRepository): IRequestHandler<Request, ICollection<Folder>>
+    public sealed class Handler(IFoldersRepository foldersRepository): IRequestHandler<Request, ICollection<DTOs.Folder>>
     {
-        public async Task<ICollection<Folder>> HandleAsync(Request query, CancellationToken ct = default)
+        public async Task<ICollection<DTOs.Folder>> HandleAsync(Request query, CancellationToken ct = default)
         {
             var records = await foldersRepository.GetAllAsync(ct);
             
-            var tree = records.ToDictionary(r => r.Id, r => new Folder()
+            var tree = records.ToDictionary(r => r.Id, r => new DTOs.Folder()
             {
                 Id = r.Id,
                 ParentId = r.ParentId,
                 Name = r.Name,
                 Description = r.Description,
                 CreatedAt = r.CreatedAt,
-                Children = new List<Folder>()
+                Children = new List<DTOs.Folder>()
             });
             
             foreach (var t in tree)
@@ -50,11 +50,11 @@ public static class GetFoldersTree
             endpoints.MapGet("/v1/documents/folders/tree",ExecuteAsync)
                 .WithTags(["Documents Module", "Documents Module - Folders"])
                 .WithSummary("Get folders tree")
-                .Produces<IReadOnlyList<Shared.DTOs.DocumentsModule.Folders.GetFoldersTree.Folder>>()
+                .Produces<IReadOnlyList<DTOs.Folder>>()
                 .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
         }
 
-        private static async Task<IResult> ExecuteAsync(IRequestHandler<Request, ICollection<Folder>> handler,CancellationToken ct)
+        private static async Task<IResult> ExecuteAsync(IRequestHandler<Request, ICollection<DTOs.Folder>> handler,CancellationToken ct)
         {
             var result = await handler.HandleAsync(new Request(), ct);
             return Results.Ok(result);

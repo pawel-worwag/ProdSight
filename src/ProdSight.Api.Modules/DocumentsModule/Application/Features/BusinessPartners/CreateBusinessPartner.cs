@@ -41,7 +41,7 @@ public static class CreateBusinessPartner
             endpoints.MapPost("/v1/documents/business-partners",ExecuteAsync)
                 .WithTags(["Documents Module", "Documents Module - Business Partners"])
                 .WithSummary("Create a new business partner")
-                .Produces<Shared.DTOs.DocumentsModule.BusinessPartners.CreateBusinessPartner.BusinessPartner>(StatusCodes.Status201Created)
+                .Produces<DTOs.BusinessPartner>(StatusCodes.Status201Created)
                 .Produces<ErrorResponse>(StatusCodes.Status400BadRequest, "application/json")
                 .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
         }

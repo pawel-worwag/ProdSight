@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using ProdSight.Api.Modules.DocumentsModule.Application.Abstractions;
 using ProdSight.Api.Shared.Api;
-using ProdSight.Api.Shared.DTOs.DocumentsModule.BusinessPartners.UpdateBusinessPartner;
+using DTOs = ProdSight.Api.Shared.DTOs.DocumentsModule.BusinessPartners.UpdateBusinessPartner;
 using ProdSight.Api.Shared.DTOs.Errors;
 using ProdSight.Api.Shared.Exceptions;
 using ProdSight.Api.Shared.Messaging;
@@ -12,11 +12,11 @@ namespace ProdSight.Api.Modules.DocumentsModule.Application.Features.BusinessPar
 
 public static class UpdateBusinessPartner
 {
-    public sealed record Request(Guid Id, UpdateBusinessPartnerRequest Req):IRequest<BusinessPartner>;
+    public sealed record Request(Guid Id, DTOs.UpdateBusinessPartnerRequest Req):IRequest<DTOs.BusinessPartner>;
 
-    public sealed class Handler(IBusinessPartnersRepository repo) : IRequestHandler<Request, BusinessPartner>
+    public sealed class Handler(IBusinessPartnersRepository repo) : IRequestHandler<Request, DTOs.BusinessPartner>
     {
-        public async Task<BusinessPartner> HandleAsync(Request query, CancellationToken ct = default)
+        public async Task<DTOs.BusinessPartner> HandleAsync(Request query, CancellationToken ct = default)
         {
             if (string.IsNullOrWhiteSpace(query.Req.Name))
             {
@@ -35,7 +35,7 @@ public static class UpdateBusinessPartner
             bp.ChangeDescription(query.Req.Description);
 
             await repo.SaveChangesAsync(ct);
-            return new BusinessPartner()
+            return new DTOs.BusinessPartner()
             {
                 Id = bp.Id,
                 Name = bp.Name,
@@ -53,12 +53,12 @@ public static class UpdateBusinessPartner
             endpoints.MapPost("/v1/documents/business-partners/{id}",ExecuteAsync)
                 .WithTags(["Documents Module", "Documents Module - Business Partners"])
                 .WithSummary("Update a business partner")
-                .Produces<BusinessPartner>(StatusCodes.Status201Created)
+                .Produces<DTOs.BusinessPartner>(StatusCodes.Status201Created)
                 .Produces<ErrorResponse>(StatusCodes.Status400BadRequest, "application/json")
                 .Produces<ErrorResponse>(StatusCodes.Status500InternalServerError, "application/json");
         }
 
-        private static async Task<IResult> ExecuteAsync(IRequestHandler<Request, BusinessPartner> handler,Request query, CancellationToken ct)
+        private static async Task<IResult> ExecuteAsync(IRequestHandler<Request, DTOs.BusinessPartner> handler,Request query, CancellationToken ct)
         {
             var result = await handler.HandleAsync(query, ct);
             return Results.Ok(result);
