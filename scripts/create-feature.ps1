@@ -55,7 +55,7 @@ public static class $feature
     {
         public async Task</* ToDO */> HandleAsync(Request query, CancellationToken ct = default)
         {
-            /* ToDO */
+            throw new NotImplementedException();
         }
     }
     
