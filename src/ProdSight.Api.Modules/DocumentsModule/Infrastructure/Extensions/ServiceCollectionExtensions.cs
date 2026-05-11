@@ -31,7 +31,6 @@ public static class ServiceCollectionExtensions
         });
 
         services.Configure<DiskTemporaryFileStorageOptions>(configuration.GetSection("DocumentsModule:DiskTemporaryFileStorage"));
-        services.AddScoped<ITemporaryFileStorage, DiskTemporaryFileStorage>();
         
         return services;
     }
