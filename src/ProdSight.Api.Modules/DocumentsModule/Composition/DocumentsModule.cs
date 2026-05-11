@@ -26,6 +26,8 @@ public class DocumentsModule : IModule
 
         services.AddScoped<IFoldersRepository, FoldersRepository>();
         services.AddScoped<IBusinessPartnersRepository, BusinessPartnersRepository>();
+        services.AddScoped<IDocumentsRepository, DocumentsRepository>();
+        services.AddScoped<IDocumentQueryRepository, DocumentQueryRepository>();
 
         services.AddHealthChecks()
             .AddCheck<DatabaseHealthCheck>("documents-module-database-check", tags: ["documents-module"]);
