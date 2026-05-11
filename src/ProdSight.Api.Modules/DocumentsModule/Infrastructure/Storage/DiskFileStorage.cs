@@ -69,31 +69,13 @@ public class DiskFileStorage(IOptions<DiskFileStorageOptions> options) : IFileSt
 
     private string GetExistingFilePath(string path)
     {
-        if (string.IsNullOrWhiteSpace(path))
-            throw new ArgumentException("Path is required.", nameof(path));
-
-        var normalizedPath = NormalizeRelativePath(path);
+        var normalizedPath = DiskFileStoragePathValidator.NormalizeRelativePath(path);
         var fullPath = GetFullPath(normalizedPath);
 
         if (!File.Exists(fullPath))
             throw new FileNotFoundException("File does not exist.", normalizedPath);
 
         return fullPath;
-    }
-
-    private static string NormalizeRelativePath(string path)
-    {
-        var normalizedPath = path.Replace('\\', '/').Trim('/');
-
-        if (Path.IsPathRooted(path) || Path.IsPathRooted(normalizedPath))
-            throw new InvalidOperationException("Absolute paths are not allowed.");
-
-        var segments = normalizedPath.Split('/', StringSplitOptions.RemoveEmptyEntries);
-
-        if (segments.Any(segment => segment is "." or ".."))
-            throw new InvalidOperationException("Path traversal was detected.");
-
-        return normalizedPath;
     }
 
     private string GetFullPath(string relativePath)
