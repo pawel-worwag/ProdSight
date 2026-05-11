@@ -37,6 +37,7 @@ dotnet test ProdSight.sln --no-build
   
   See `DocumentsModule/Application/Features/*`. The scaffolding script `scripts/create-feature.ps1` generates this shape.
 - Shared request/response DTOs live under `src/ProdSight.Api.Shared.DTOs/<Module>/<Area>/<Feature>/...`, and feature code aliases them as `DTOs = ...`.
+- When a feature works with an aggregate root, keep application logic centered on the aggregate and its repository. Do not manipulate nested entities directly from handlers unless the change is purely persistence mapping.
 - Module composition classes are the only place that should register module services and module-specific health checks. The host should stay generic and load modules through `IModule`.
 - Authorization is claim-based and module-specific. Backend endpoints use explicit claim requirements such as `identity-module-role` / `documents-module-role`, and the frontend uses the same claims to drive menu visibility and route guards.
 - Prefer C# primary constructors for dependency-injected services, handlers, components, and exception types instead of classic constructor declarations.
