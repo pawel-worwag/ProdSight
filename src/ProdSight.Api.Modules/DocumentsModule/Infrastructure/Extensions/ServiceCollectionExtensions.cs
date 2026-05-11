@@ -30,7 +30,8 @@ public static class ServiceCollectionExtensions
             });
         });
 
-        services.Configure<DiskTemporaryFileStorageOptions>(configuration.GetSection("DocumentsModule:DiskTemporaryFileStorage"));
+        services.Configure<DiskFileStorageOptions>(configuration.GetSection("DocumentsModule:DiskFileStorage"));
+        services.AddSingleton<IFileStorage, DiskFileStorage>();
         
         return services;
     }
