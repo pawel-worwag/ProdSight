@@ -11,10 +11,18 @@ public interface IDocumentQueryRepository
     /// <summary>
     /// Returns lightweight document data for all documents assigned to the given folder.
     /// </summary>
-    Task<IReadOnlyList<DocumentListItem>> GetByFolderAsync(Guid folderId, CancellationToken ct = default);
+    Task<IReadOnlyList<DocumentListItem>> GetByFolderAsync(
+        Guid folderId,
+        DocumentQuerySortBy sortBy = DocumentQuerySortBy.FileName,
+        SortDirection sortDirection = SortDirection.Ascending,
+        CancellationToken ct = default);
 
     /// <summary>
     /// Returns lightweight document data for all documents assigned to the given business partner.
     /// </summary>
-    Task<IReadOnlyList<DocumentListItem>> GetByBusinessPartnerAsync(Guid businessPartnerId, CancellationToken ct = default);
+    Task<IReadOnlyList<DocumentListItem>> GetByBusinessPartnerAsync(
+        Guid businessPartnerId,
+        DocumentQuerySortBy sortBy = DocumentQuerySortBy.FileName,
+        SortDirection sortDirection = SortDirection.Ascending,
+        CancellationToken ct = default);
 }
