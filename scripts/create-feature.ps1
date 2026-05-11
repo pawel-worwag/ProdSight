@@ -45,7 +45,7 @@ using ProdSight.Api.Shared.DTOs.Errors;
 using ProdSight.Api.Shared.Messaging;
 using DTOs = ProdSight.Api.Shared.DTOs.$module.$area.$feature;
 
-namespace ProdSight.Api.Modules.$module.Application.Features.$feature;
+namespace ProdSight.Api.Modules.$module.Application.Features.$area;
 
 public static class $feature
 {
